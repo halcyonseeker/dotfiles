@@ -1,9 +1,0 @@
-[Desktop Entry]
-Name=St
-Comment=A simple terminal emulator for X
-Exec=st
-Type=Application
-Encoding=UTF-8
-Icon=st
-Categories=System;TerminalEmulator;
-Keywords=shell;prompt;command;commandline;cmd;
