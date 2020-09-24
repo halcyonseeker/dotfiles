@@ -1,0 +1,66 @@
+#!/bin/sh
+
+# symbokey: a customizable dmenu-based character selector for emojis and glyphs
+# Author:   Thalia Wright <vesperous@protonmail.com>
+# Website:  https://www.github.com/halcyonseeker/symbokey
+# License:  tbd
+
+# Options:
+# -u	Update the global list of characters.
+# -f	Use an additional character file.
+# -h	Print help message
+
+# Depedencies:
+# dmenu	<dmenu.suckless.org>
+# xclip <https://github.com/astrand/xclip>
+# libnotify
+# A notification daemon
+# A color emoji font
+
+# Variables:
+if [ "$(uname)" = Linux ] ; then
+	#char_file="/usr/share/symbokey/chars.txt"
+	char_file="$HOME"/.local/share/dotfiles/emojis.list
+else 
+	char_file="/usr/local/share/symbokey/chars.txt"
+fi
+
+help_msg="Usage:\n-u\tUpdate global list of characters\n-f\tUse an additional character file\n"
+
+# TODO fix syntax
+#cache_file=${$XDG_CACHE_HOME/symbokey:=$(HOME)/.cache/symbokey}
+cache_file="$XDG_CACHE_HOME"/symbokey
+
+# Update the global character list from Wikipedia
+update () {
+	echo "TODO Updating character list"
+}
+
+display () {
+	[ -f "$1" ] && cat "$1" > "$cache_file"
+		
+	cat "$cache_file" "$char_file" | \
+	grep -v "#" | \
+	dmenu -i -l 20 | \
+	cut -d " " -f 1 | \
+	tr -d "\n" | \
+	xclip -selection clipboard 
+		
+	[ -n "$(xclip -o -selection clipboard)" ] && \
+		notify-send -t 2000 "$(xclip -o -selection clipboard) copied to clipboard"
+}
+
+case $1 in 
+	"") display 
+		;; 
+	"-u") echo "Updating global character file..." 
+		update 
+		;;
+	"-f") [ -f "$2" ] || echo 2>&1 "$2: No such file or directory" 
+		display "$2" 
+		;;
+	"-h") printf "%s" "$help_msg" 
+		;;
+	*) printf "%s" "$help_msg" 
+		;;
+esac

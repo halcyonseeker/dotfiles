@@ -1,0 +1,17 @@
+#!/bin/sh
+# Record my screen
+# TODO how to elegantly kill this?
+# TODO this depends on alsa, how to abstract?
+
+if [ -f ~/videos/screencasts ] ; then
+    dir="$HOME"/videos/screencasts
+else
+    dir="$HOME"
+fi
+
+file=${1:-"$dir"/"$(date '+%F'-'%s')".mkv}
+
+echo "$file"
+
+notify-send "🎥 Recording Screen: $file"
+ffmpeg -f x11grab -s "$(xrandr | grep '*' | awk '{print $1}')" -i :0.0 -f alsa  -i default "$file"

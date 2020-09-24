@@ -1,0 +1,21 @@
+#!/bin/sh
+# Convert .aax files to freedom-respecting .flac files
+# Depends on ffmpeg
+# TODO flaac is not necissary for audiobooks, use mp3
+
+message_function () {
+    if [ -n "$(pgrep dunst)" ] ; then
+	notify-send "$1"
+    else
+	echo "$1"
+    fi
+}
+
+[ -f "$1" ] || message_function "$1 not found"
+flacname="$(echo "$1" | sed "s/aax/flac/")"
+bytes=7601152f
+if (ffmpeg -activation_bytes "$bytes" -i "$1" "$flacname") ; then
+    message_function "$flacname created"
+else
+    message_function "Unable to create $flacname"
+fi

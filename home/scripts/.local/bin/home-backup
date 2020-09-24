@@ -1,0 +1,41 @@
+#!/bin/sh
+# Backup home directory to storage partition with tar and rsync
+# Dependencies: rsync, dunst, libnotify
+# TODO: Check functionality with non-GNU tar
+
+message_function () {
+    if [ -n "$(pgrep dunst)" ] ; then
+	notify-send "$1"
+    else
+	echo "$1"
+    fi
+}
+
+# Configuration variables
+destination="/storage/backups"
+sync_destination="$destination/home_sync"
+tar_destination="$destination/home_tar"
+
+# Make tar ignore cache directories
+[ -d "$HOME"/.mozilla ] && echo "Signature: 8a477f597d28d172789f06886806bc55" > "$HOME"/.mozilla/CACHEDIR.TAG
+[ -d "$HOME"/.surf ] && echo "Signature: 8a477f597d28d172789f06886806bc55" > "$HOME"/.surf/CACHEDIR.TAG
+[ -d "$HOME"/.cache ] && echo "Signature: 8a477f597d28d172789f06886806bc55" > "$HOME"/.cache/CACHEDIR.TAG
+[ -d "$HOME"/.local/share ] && echo "Signature: 8a477f597d28d172789f06886806bc55" > "$HOME"/.local/CACHEDIR.TAG
+[ -d "$HOME"/.zoom ] && echo "Signature: 8a477f597d28d172789f06886806bc55" > "$HOME"/.zoom/CACHEDIR.TAG
+
+[ -d "$destination" ] || \
+	message_function "Backup Error: $destination unavailable"
+
+# Synchronise home directory to sync destination
+if ( rsync -axv --exclude ".cache" --exclude ".mozilla" --exclude ".local/share" --delete-after "$HOME"/ "$sync_destination" ) ; then
+    message_function "Home sync succeeded" 
+else
+    message_function "Backup Error: home sync failed"
+fi
+
+# Create differential backups with tar
+if ( tar --listed-incremental="$tar_destination"/snapshot.file --exclude-caches -cvzf "$tar_destination"/backup-$(date +'%F-%s').tar $HOME) ; then
+    message_function "Home tar backup succeeded"
+else
+    message_function "Backup Error: home tar backup failed"
+fi

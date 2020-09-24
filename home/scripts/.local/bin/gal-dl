@@ -1,0 +1,17 @@
+#!/bin/sh
+# Archive art with gallery-dl
+
+dest=/storage/media/gallery-dl
+archive="$dest"/archive.db
+unsupported="$dest"/unsuported.urls
+
+mkdir -p "$dest"
+touch "$archive"
+touch "$unsupported"
+
+gallery-dl --dest "$dest" \
+	--download-archive "$archive" \
+	--write-metadata \
+	--write-tags \
+	--write-unsupported "$unsupported" \
+	"$*"
