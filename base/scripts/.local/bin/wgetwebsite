@@ -1,0 +1,16 @@
+#!/bin/bash
+
+(($# < 2 )) && { echo "Usage: wgetwebsite.sh <URL> <DOMAIN>"; return;}
+URL=$1
+DOMAIN=$2
+#wget --recursive --no-clobber --page-requisites --html-extension --convert-links --domains $2 --no-parent $1 
+wget -rpEkD $2 -nc -np $1
+
+
+# recursive  download the entire Web site.
+# no-clobber  don't overwrite any existing files (used in case the download is interrupted and resumed).
+# page-requisites  get all the elements that compose the page (images, CSS and so on).
+# html-extension  save with html extension
+# convert-links  convert links so that they work locally, off-line.
+# domains website.org  don't follow links outside website.org.
+# no-parent  don't follow links outside the directory tutorials/html/.

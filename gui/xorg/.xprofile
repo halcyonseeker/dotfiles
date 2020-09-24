@@ -1,0 +1,30 @@
+# ~/.xprofile
+# Contains programs to be run when Xorg is started. 
+# I'm a pathological WM/DE hopper, so I moved `exec asdf` to ~/.xinitrc
+# Remember to add `[ -f ~/.xprofile ] && . ~/.xprofile` to xinitrc
+
+# Disable ThinkPad touchpad
+xinput --disable $( xinput --list | grep Synaptics | awk {' print $6 '} | tr -d 'id=' ) &
+
+# Scroll with ThinkPad middle button in OpenBSD
+xinput --set-prop "/dev/wsmouse" "WS Pointer Wheel Emulation" 1
+xinput --set-prop "/dev/wsmouse" "WS Pointer Wheel Emulation Button" 2
+xinput --set-prop "/dev/wsmouse" "WS Pointer Wheel Emulation Axes" 6 7 4 5
+
+# Start some programs
+compton &
+dunst &
+unclutter --timeout 3 &
+sxhkd &
+batdaemon &
+redshift-gtk &
+
+# Set wallpaper
+feh --no-fehbg --bg-fill ~/images/wallpapers/"$(ls ~/images/wallpapers | shuf | head -1)" || xsetroot -solid "#999999" &
+
+# Load Xresources
+xrdb -merge ~/.config/xresources/Xresources &
+
+# Customize keyboard
+setxkbmap -option caps:escape
+setxkbmap -option compose:ralt

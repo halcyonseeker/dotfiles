@@ -1,0 +1,16 @@
+#!/bin/sh
+# Set status bar and launch dwm
+
+while true; do
+
+    date="$(date +"%H:%M %a %Y-%b-%d")"
+    battery="$(cat /sys/class/power_supply/BAT0/capacity)%"
+    #corona="$(cat ~/.cache/corona.txt)"
+
+    #xsetroot -name "[ $corona ][ $date ][ $battery ]"
+    xsetroot -name "[ $date ][ $battery ]"
+
+    sleep 1m
+done &
+
+exec dwm

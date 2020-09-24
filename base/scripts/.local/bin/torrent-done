@@ -1,0 +1,8 @@
+#!/bin/sh
+# Run by transmission-daemon when a torrent is finished
+# Depends on libnotify and dunst
+
+# Add the following line to ~/.config/transmission-daemon/settings.json:
+#     "script-torrent-done-filename": "/home/thalia/.local/bin/torrent-done",
+
+notify-send "transmission-daemon:" "$TR_TORRENT_NAME has been downloaded to $TR_TORRENT_DIR"
