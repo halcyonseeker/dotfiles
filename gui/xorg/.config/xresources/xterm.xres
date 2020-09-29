@@ -1,0 +1,17 @@
+! XTerm configurations
+
+XTerm.termName: xterm-256color
+XTerm*faceName: DejaVu Sans Mono
+XTerm*faceSize: 10
+XTerm*saveLines: 16384
+
+! Double click to select urls
+XTerm*charClass: 33:48,36-47:48,58-59:48,61:48,63-64:48,95:48,126:48
+
+XTerm*srollBar: false
+XTerm*highlightSelection: true
+XTerm.vt100.metaSendsEscape: true
+
+! Keybindings
+!Ctrl Shift <Key>C: copy-selection(CLIPBOARD) \n\
+!Ctrl Shift <Key>V: insert-selection(CLIPBOARD)

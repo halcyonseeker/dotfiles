@@ -1,0 +1,4 @@
+! Xclock configurations
+
+XClock*foreground: #141c21
+XClock*background: #93a1a1

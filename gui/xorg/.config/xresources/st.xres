@@ -1,0 +1,7 @@
+! Configuratoins for st, the Suckless Terminal
+
+! Transparency (0-1)
+st.alpha: 0.9
+
+! Font
+st.font: Monospace:size=10
