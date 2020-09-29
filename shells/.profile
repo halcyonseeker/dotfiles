@@ -78,3 +78,7 @@ alias untar="tar -xzvf"
 alias lynx="lynx -vikeys"
 alias yta="youtube-dl --add-metadata -i -x -f bestaudio/best"
 alias ec="emacsclient -nw -c"
+# gopher://zaibatsu.circumlunar.space:70/0/~wangofett/random/git-fun.txt
+alias wow="git status"
+alias such="git" #commit
+alias very="git" #push
