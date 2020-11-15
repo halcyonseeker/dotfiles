@@ -5,6 +5,7 @@
 (require 'smtpmail)
 (setq mu4e-compose-signature
       "\nThalia Wright\nhttps://www.lagrangian.space\n")
+(setq message-default-headers (concat "\nX-Clacks-Overhead: GNU Terry Pratchet\n"))
 (setq message-send-mail-function 'smtpmail-send-it)
 (setq mu4e-get-mail-command "mbsync -c ~/.config/isync/mbsyncrc -a")
 ;; Don't leave a bunch of useless buffers
@@ -114,3 +115,4 @@
 							       "AND flag:unread "
 							       "AND NOT flag:trashed")
 						:key ?u)))))))
+

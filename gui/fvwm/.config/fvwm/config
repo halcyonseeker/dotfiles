@@ -1,0 +1,122 @@
+# Thalia's Custom Keybindings for FVWM
+
+#
+########## General
+#
+EdgeResistance 250 10
+EdgeScroll     100 100
+ClickTime      750
+
+# Fonts
+WindowFont "xft:Sans:Italic:size=10:antialias=True"
+IconFont   "xft:Sans:Bold:size=8:antialias=True"
+
+# Menu Styling
+MenuStyle #4d4d4d #bebebe #e7e7e7 "xft:Sans:Bold:size=12:antialias=True" fvwm
+
+#
+########## Mouse/Key Binding Functions
+#
+# Resize window
+DestroyFunc RaiseMove
+AddToFunc RaiseMove
++ I       Raise
++ M       $0
+
+#
+########## Mouse Bindings
+#
+# Syntax: Key Keyname Context Modifier Command Function
+# Super + Mouse 1/3 - move/resize window
+Mouse     1        W       4         RaiseMove Move
+Mouse     3        W       4         RaiseMove Resize
+
+# Root Window
+Mouse     1	   R       A         Menu RootMenu
+Mouse     2	   R       A         Menu WindowOps
+Mouse     3	   R       A         WindowList
+
+# Title Bar Buttons
+Mouse     0	   1       A         Menu WindowOps 
+Mouse     0	   4       A         Iconify
+Mouse     0	   2       A         Maximize 100 100
+
+# Click an icons to de-iconify
+Mouse     1        I       A         Iconify
+
+#
+########## Key Bindings
+#
+# Syntax: Key Keyname Context Modifier Command Function
+# Ignore Numlock and other modifiers for bindings
+IgnoreModifiers L25
+
+# Meta + Space - Show root menu from anywhere
+Key       Space    A       4         Menu RootMenu
+
+# Meta + Tab - Cycle through windows with WindowList
+Key       Tab      A       4         WindowList Root c c NoDeskSort, SelectOnRelease Meta_L
+
+# Super + Shift (h/j/k/l || Left/Down/Up/Right):
+# Move focused window left/down/up/right
+Key       h        A       4S        Move w-2 w+0
+Key       j        A       4S        Move w+0 w+2
+Key       k        A       4S        Move w+0 w-2
+Key       l        A       4S        Move w+2 w+0
+Key       Left     A       4S        Move w-2 w+0 
+Key       Down     A       4S        Move w+0 w+2
+Key       Up       A       4S        Move w+0 w-2
+Key       Right    A       4S        Move w+2 w+0
+
+# Meta + Control + (h/j/k/l || Left/Down/Up/Right):
+# Move focus to left/down/up/right page
+Key       h        A       MC        Scroll -100 0
+Key       j        A       MC        Scroll +0 +100
+Key       k        A       MC        Scroll +0 -100
+Key       l        A       MC        Scroll +100  +0
+Key       Left     A       MC        Scroll -100 0
+Key       Down     A       MC        Scroll +0 +100
+Key       Up       A       MC        Scroll +0 -100
+Key       Right    A       MC        Scroll +100  +0
+
+# Meta + Control + m/i/= - maximise/iconify/vertically mazimize focused window
+Key       m        A       MC        Maximize
+Key       i        A       MC        Iconify
+Key	  =	   A	   MC	     Maximize 50 100
+Key       f        A       MC        Exec FullscreenWindow
+
+#
+########## Menus
+#
+# Window operations menu
+DestroyMenu WindowOps
+AddToMenu   WindowOps
++ "Move"               Move
++ "Resize"             Resize
++ "(De)Iconify"        Iconify
++ "(Un)Maximize"       Maximize
++ "(Un)Shade"          WindowShade
++ "(Un)Sticky"	       Stick
++ "(No)TitleBar"       Pick (CirculateHit) ToggleTitle
++ ""                   Nop
++ "Close"              Close
++ "Destroy"            Destroy
++ ""                   Nop
++ "Raise"	       Raise
++ "Lower"              Lower
++ ""                   Nop
++ "StaysOnTop"         Pick (CirculateHit) Layer 0 6
++ "StaysPut"           Pick (CirculateHit) Layer 0 4
++ "StaysOnBottom"      Pick (CirculateHit) Layer 0 2
++ ""                   Nop
++ "Identify"           Module FvwmIdent
+
+# Root menu
+DestroyMenu RootMenu
+AddToMenu   RootMenu "FVWM Root" Title
++ "Terminal"           Exec alacritty
++ ""                   Nop
++ "FVWM Console"       Module FvwmConsole -terminal xterm
++ "Refresh Fvwm"       Refresh
++ "Restart Fvwm"       Restart
++ "Exit Fvwm"          Module FvwmScript FvwmScript-ConfirmQuit

@@ -1,5 +1,8 @@
-# More i3-like workspace behavior
+# Add new windows to current group
 sticky yes
+
+# Snap windows 4 pixels from the edge
+snapdist 4
 
 # Prevent conflict with Org-Mode
 unbind-key M-Return
@@ -17,5 +20,41 @@ bind-key CM-Up window-raise
 
 # Some pretty stuff
 borderwidth 4
-color activeborder Crimson
+color activeborder Olive
 color inactiveborder Black
+color menubg Olive
+color menufg Black
+color urgencyborder Crimson
+
+# CM for groups is tedious
+bind-key 4-1 group-only-1
+bind-key 4-2 group-only-2
+bind-key 4-3 group-only-3
+bind-key 4-4 group-only-4
+bind-key 4-5 group-only-5
+bind-key 4-6 group-only-6
+bind-key 4-7 group-only-7
+bind-key 4-8 group-only-8
+bind-key 4-9 group-only-9
+bind-key 4S-1 window-movetogroup-1
+bind-key 4S-2 window-movetogroup-2
+bind-key 4S-3 window-movetogroup-3
+bind-key 4S-4 window-movetogroup-4
+bind-key 4S-5 window-movetogroup-5
+bind-key 4S-6 window-movetogroup-6
+bind-key 4S-7 window-movetogroup-7
+bind-key 4S-8 window-movetogroup-8
+bind-key 4S-9 window-movetogroup-9
+
+# Toggle all groups
+bind-key 4-` group-toggle-all
+
+# Don't put these programs in groups
+ignore xclock
+ignore stalonetray
+ignore xload
+
+# mod + V = tile windows vertically, current window to the left
+bind-key 4-v window-vtile
+# mod + V = tile windows horizontally, current window to the top
+bind-key 4-c window-htile
