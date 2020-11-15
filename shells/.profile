@@ -48,7 +48,8 @@ export GOPATH="$HOME/.local/go"
 export MPV_HOME="$XDG_CONFIG_HOME/mpv"
 export HISTFILE="$XDG_CACHE_HOME/sh_history"
 export HISTSIZE=5000
-export FVWM_USERDIR="$XDG_CONFIG_HOME"/fvwm
+# This doesn't work
+#export FVWM_USERDIR="$XDG_CONFIG_HOME"/fvwm
 
 # NNN config
 # This requires trash-cli to be installed
