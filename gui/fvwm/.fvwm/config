@@ -12,7 +12,7 @@ WindowFont "xft:Sans:Italic:size=10:antialias=True"
 IconFont   "xft:Sans:Bold:size=8:antialias=True"
 
 # Menu Styling
-MenuStyle #4d4d4d #bebebe #e7e7e7 "xft:Sans:Bold:size=12:antialias=True" fvwm
+MenuStyle * Font "xft:Sans:Bold:size=10:antialias=True"
 
 #
 ########## Mouse/Key Binding Functions
