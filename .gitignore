@@ -1,5 +1,8 @@
 # Vim keeps making these.
 base/vim/.config/nvim/.netrwhist
 
+# FVWM makes these
+gui/fvwm/.fvwm/.FvwmConsole-History
+
 # Auto saved files
 \#*\#

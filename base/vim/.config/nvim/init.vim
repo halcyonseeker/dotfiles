@@ -15,7 +15,7 @@ set runtimepath=$XDG_CONFIG_HOME/vim,$VIMRUNTIME,$XDG_CONFIG_HOME/vim/after
 
 " Never mix tabs and spaces
 set tabstop=4
-set shiftwidth=3
+set shiftwidth=4
 set expandtab
 autocmd FileType make setlocal noexpandtab
 
