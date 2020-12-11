@@ -1,11 +1,30 @@
-# Thalia's Custom Keybindings for FVWM
+# Thalia's FVWM Configuration
 
 #
 ########## General
 #
+# Desktops
 EdgeResistance 250 10
+EdgeThickness  1
 EdgeScroll     100 100
 ClickTime      750
+DesktopName    0
+DesktopSize    3x3
+
+# Default terminal
+InfoStoreAdd terminal xterm -ti vt340
+
+# Startup
+AddToFunc StartFunction     "I" Module FvwmPager 0 0
+
+# FvwmPager
+Style FvwmPager !Title, Sticky, WindowListSkip, NeverFocus
+*FvwmPagerGeometry 80x60-1-1
+*FvwmPagerLabel    0 "Fvwm Pager"
+*FvwmPagerFont     "xft:Sans:Italic:size=8:antialias=True"
+*FvwmPagerBack     darkblue
+*FvwmPagerFore     white
+*FvwmPagerHilight  #2d2d2d
 
 # Fonts
 WindowFont "xft:Sans:Italic:size=10:antialias=True"
@@ -14,14 +33,25 @@ IconFont   "xft:Sans:Bold:size=8:antialias=True"
 # Menu Styling
 MenuStyle * Font "xft:Sans:Bold:size=10:antialias=True"
 
+# Transfer focus when switching pages
+* FvwmEvent: new_page "MoveFocus Currentpage NoWarp"
+
+# Transfer focus to most recently spawned window
+
 #
-########## Mouse/Key Binding Functions
+########## Functions
 #
 # Resize window
 DestroyFunc RaiseMove
-AddToFunc RaiseMove
+AddToFunc   RaiseMove
 + I       Raise
 + M       $0
+
+# Transfer focus when switching pages
+DestroyFunc MoveFocus
+AddToFunc   MoveFocus
++ I       All ($0, Focused) FlipFocus $1
++ I       TestRc (NoMatch) Prev ($0, AcceptsFocus) FlipFocus $1
 
 #
 ########## Mouse Bindings
@@ -32,14 +62,14 @@ Mouse     1        W       4         RaiseMove Move
 Mouse     3        W       4         RaiseMove Resize
 
 # Root Window
-Mouse     1	   R       A         Menu RootMenu
-Mouse     2	   R       A         Menu WindowOps
-Mouse     3	   R       A         WindowList
+Mouse     1        R       A         Menu RootMenu
+Mouse     2        R       A         Menu WindowOps
+Mouse     3        R       A         WindowList
 
 # Title Bar Buttons
-Mouse     0	   1       A         Menu WindowOps 
-Mouse     0	   4       A         Iconify
-Mouse     0	   2       A         Maximize 100 100
+Mouse     0        1       A         Menu WindowOps 
+Mouse     0        4       A         Iconify
+Mouse     0        2       A         Maximize 100 100
 
 # Click an icons to de-iconify
 Mouse     1        I       A         Iconify
@@ -80,10 +110,13 @@ Key       Up       A       MC        Scroll +0 -100
 Key       Right    A       MC        Scroll +100  +0
 
 # Meta + Control + m/i/= - maximise/iconify/vertically mazimize focused window
-Key       m        A       MC        Maximize
+Key       m        A       MC        Maximize 100 100
 Key       i        A       MC        Iconify
-Key	  =	   A	   MC	     Maximize 50 100
+Key       =        A       MC        Maximize 50 100
 Key       f        A       MC        Exec FullscreenWindow
+
+# Meta + Control + s - Make a window Sticky
+Key       s        A       MC        Stick
 
 #
 ########## Menus
@@ -96,13 +129,15 @@ AddToMenu   WindowOps
 + "(De)Iconify"        Iconify
 + "(Un)Maximize"       Maximize
 + "(Un)Shade"          WindowShade
-+ "(Un)Sticky"	       Stick
++ "(Un)Sticky"         Stick
 + "(No)TitleBar"       Pick (CirculateHit) ToggleTitle
++ ""                   Nop
++ "Send to Main"       MoveToDesk 0 0 # Required b/c firefox is weird
 + ""                   Nop
 + "Close"              Close
 + "Destroy"            Destroy
 + ""                   Nop
-+ "Raise"	       Raise
++ "Raise"              Raise
 + "Lower"              Lower
 + ""                   Nop
 + "StaysOnTop"         Pick (CirculateHit) Layer 0 6
@@ -114,9 +149,19 @@ AddToMenu   WindowOps
 # Root menu
 DestroyMenu RootMenu
 AddToMenu   RootMenu "FVWM Root" Title
-+ "Terminal"           Exec alacritty
++ "Terminal"           Exec $[infostore.terminal]
++ "Emacs"              Exec emacs
++ "Arandr"             Exec arandr
++ ""                   Nop
++ "Select Wallpaper"   Exec sxiv -t ~/images/wallpapers/*
 + ""                   Nop
 + "FVWM Console"       Module FvwmConsole -terminal xterm
 + "Refresh Fvwm"       Refresh
 + "Restart Fvwm"       Restart
-+ "Exit Fvwm"          Module FvwmScript FvwmScript-ConfirmQuit
++ "Exit Fvwm"          Popup QuitMenu
+
+# Quit Menu
+DestroyMenu QuitMenu
+AddToMenu   QuitMenu
++ "Don't Exit"         Nop
++ "Exit Fvwm"          Quit
