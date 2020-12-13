@@ -1,8 +1,8 @@
 ;;;;;;;
 ;; Mu4e
 ;;;;;;;
-(require 'mu4e)
-(require 'smtpmail)
+;; (require 'mu4e)
+;; (require 'smtpmail)
 (setq mu4e-compose-signature
       "\nThalia Wright\nhttps://www.lagrangian.space\n")
 (setq message-default-headers (concat "\nX-Clacks-Overhead: GNU Terry Pratchet\n"))
