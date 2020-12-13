@@ -1,4 +1,5 @@
 [Desktop Entry]
 Type=Application
-Name=Torrent
-Exec=/usr/bin/env torrent-add '%U'
+Name=Torrent Handler
+Exec=/usr/bin/env torrent-add "%U"
+Mime=x-scheme-handler/magnet
