@@ -10,11 +10,17 @@
 
 # TODO: make work with battery-less systems and OpenBSD's apm
 
+
 # Loop 4 ever
 while true ; do
 
     # Get battery status
-    bat_stat="$(cat /sys/class/power_supply/BAT0/capacity)"
+    if [ $(uname) = "OpenBSD" ] ; then
+        bat_stat="$(apm | head -1 | cut -d ' ' -f4 | tr -d '%')"
+    else 
+        bat_stat="$(cat /sys/class/power_supply/BAT0/capacity)" 
+    fi
+
 
     # Check if battery ≤ 30%
     if [ "$bat_stat" -le 30 ] ; then
@@ -28,7 +34,7 @@ while true ; do
     fi
 
     # Don't be a resource hog
-    sleep 5m
+    sleep 300
 done
 
     
