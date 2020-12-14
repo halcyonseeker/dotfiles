@@ -22,13 +22,13 @@ export WORDCHARS='*?_[]~=&;!#$%^(){}'
 # Set a simple, portable prompt
 if [ -n "$SSH_CONNECTION" ] ; then
     case "$UID" in 
-        0) export PS1="[$(hostname): $(basename $PWD)]# " ;;
-        *) export PS1="[$(hostname): $(basename $PWD)]$ " ;; 
+        0) export PS1='[$(hostname): $(basename $PWD)]# ' ;;
+        *) export PS1='[$(hostname): $(basename $PWD)]$ ' ;; 
     esac
 else
     case "$UID" in 
-        0) export PS1="[$(basename $PWD)]# " ;;
-        *) export PS1="[$(basename $PWD)]$ " ;; 
+        0) export PS1='[$(basename $PWD)]# ' ;;
+        *) export PS1='[$(basename $PWD)]$ ' ;; 
     esac
 fi
 
@@ -36,6 +36,7 @@ fi
 export XDG_CONFIG_HOME="$HOME/.config"
 export XDG_CACHE_HOME="$HOME/.cache"
 export XDG_DATA_HOME="$HOME/.local/share"
+[ -z "$XDG_RUNTIME_DIR" ] && export XDG_RUNTIME_DIR="$XDG_CACHE_HOME"
 
 # Clean home directory
 export PASSWORD_STORE_DIR="$HOME/.local/password-store"
@@ -69,5 +70,5 @@ mkdir -p "$XDG_CONFIG_HOME"/emacs/org-timestamps/ >/dev/null 2>&1
 case "$(basename $SHELL)" in
     "bash") export BASH_ENV="$HOME"/.bashrc && source "$BASH_ENV" ;;
     "zsh") source "$HOME"/.zshrc ;;
-    "*") export ENV="$HOME"/.shrc && sh "$ENV" ;;
+    *) export ENV="$HOME/.shrc" && sh "$ENV" ;;
 esac

@@ -8,8 +8,6 @@
 # mark.
 # Run this file from your WM/Xorg startup file.
 
-# TODO: make work with battery-less systems and OpenBSD's apm
-
 
 # Loop 4 ever
 while true ; do
