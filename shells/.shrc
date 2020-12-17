@@ -61,7 +61,8 @@ if [ "$0" = "zsh" ] || [ "$0" = "-zsh" ] ; then
     fi
 
     # Load plugins
-    source "$plugins_dir"/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+    source "$plugins_dir"/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh \
+        2>/dev/null
 
     # Make keys work
     bindkey '^[[P' delete-char
@@ -92,7 +93,7 @@ fi
 #
 # Bashrc equivalent
 #
-if [ "$0" = "bash" ] ; then
+if [ "$0" = "bash" ] || [ "$0" = "-bash" ] ; then
 
     # Set a fancier prompt
     if [ -n "$SSH_CONNECTION" ] ; then
@@ -111,4 +112,21 @@ if [ "$0" = "bash" ] ; then
     complete -c man which
     complete -cf sudo doas
     
+fi
+
+#
+# Kshrc equivalent
+#
+if [ "$0" = "ksh" ] || [ "$0" = "-ksh" ] ; then
+    if [ -n "$SSH_CONNECTION" ] ; then
+        case "$UID" in
+            0) export PS1="\e[1;41m[\h: \w]\$\e[m " ;;
+            *) export PS1="\e[1;32m[\h: \w]\$\e[m " ;;
+        esac
+    else
+        case "$UID" in
+            0) export PS1="\e[1;41m[\w]\$\e[m " ;;
+            *) export PS1="\e[1;32m[\w]\$\e[m " ;;
+        esac
+    fi
 fi
