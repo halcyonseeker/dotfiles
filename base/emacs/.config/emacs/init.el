@@ -55,9 +55,9 @@
       backup-directory-alist '((".*" . "~/.config/emacs/backup")))
 
 ;; Decrypt GPG key with pinentry-emacs when running in tty/terminal
-(when (not (window-system))
-  (setenv "INSIDE_EMACS"(format "%s,comint" emacs-version))
-  (pinentry-start))
+;; (when (not (window-system))
+;;   (setenv "INSIDE_EMACS"(format "%s,comint" emacs-version))
+;;   (pinentry-start))
 
 ;;;;;;;;;;;;;;;;;;;;;
 ;; Packages and Modes
