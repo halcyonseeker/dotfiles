@@ -13,7 +13,8 @@ message_function () {
 
 [ -f "$1" ] || message_function "$1 not found"
 opusname="$(echo "$1" | sed "s/aax/opus/")"
-bytes=7601152f
+#bytes=7601152f                  # mine
+bytes=2bbd0f03
 if (ffmpeg -activation_bytes "$bytes" -i "$1" "$opusname") ; then
     message_function "$opusname created"
 else
