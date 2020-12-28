@@ -6,7 +6,6 @@ st.alpha: 0.9
 ! Font
 st.font: Monospace:size=10
 
-
 !!!!!!!!!! XTerm
 XTerm.termName: xterm-256color
 XTerm*faceName: DejaVu Sans Mono
@@ -32,7 +31,11 @@ XClock*background: #93a1a1
 !!!!!!!!!! Emacs
 
 !!!!!!!!!! Color Themes
-! There should be a better way of doing this
-#include "gruvbox-dark.xres"
-!#include "gruvbox-light.xres"
-!#include "parchment.xres"
+! export X_RES_COLOR="gruvbox-dark" && xrdb ~/.config/xresources/Xresources
+#if X_RES_COLOR == gruvbox-dark
+#  include "gruvbox-dark.xres"
+#elif X_RES_COLOR == gruvbox-light
+#  include "gruvbox-light.xres"
+#elif X_RES_COLOR == parchment
+#  include "parchment.xres"
+#endif
