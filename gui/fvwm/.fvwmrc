@@ -1,7 +1,7 @@
 # Thalia's FVWM Configuration
 
 #
-########## General
+################################################################ General
 #
 # Desktops
 EdgeResistance 250 10
@@ -9,37 +9,53 @@ EdgeThickness  1
 EdgeScroll     100 100
 ClickTime      750
 DesktopName    0
-DesktopSize    3x3
+DesktopSize    2x2
 
 # Default terminal
 InfoStoreAdd terminal xterm -ti vt340
 
 # Startup
-AddToFunc StartFunction     "I" Module FvwmPager 0 0
-
-# FvwmPager
-Style FvwmPager !Title, Sticky, WindowListSkip, NeverFocus
-*FvwmPagerGeometry 80x60-1-1
-*FvwmPagerLabel    0 "Fvwm Pager"
-*FvwmPagerFont     "xft:Sans:Italic:size=8:antialias=True"
-*FvwmPagerBack     darkblue
-*FvwmPagerFore     white
-*FvwmPagerHilight  #2d2d2d
+AddToFunc StartFunction "I" Module FvwmButtons Dock
 
 # Fonts
 WindowFont "xft:Sans:Italic:size=10:antialias=True"
 IconFont   "xft:Sans:Bold:size=8:antialias=True"
 
-# Menu Styling
-MenuStyle * Font "xft:Sans:Bold:size=10:antialias=True"
-
 # Transfer focus when switching pages
 * FvwmEvent: new_page "MoveFocus Currentpage NoWarp"
+
+# Don't use wire frames
+OpaqueMoveSize unlimited
+Style "*" ResizeOpaque
 
 # Transfer focus to most recently spawned window
 
 #
-########## Functions
+#
+##################################################### Modules and Things
+#
+# Virtual Desktop Pager
+*FvwmPagerLabel   FvwmPager
+*FvwmPagerFont    none
+*FvwmPagerBack    skyblue4
+*FvwmPagerFore    black
+*FvwmPagerHilight slategray
+*FvwmPager:       WindowLabelFormat ""
+*FvwmPager:       SolidSeparators
+
+Style Dock NoTitle, Sticky, WindowListSkip, CirculateSkip, \
+      StaysOnBottom, FixedPosition, FixedSize, !Iconifiable
+DestroyModuleConfig Dock: *                                   
+*Dock: Geometry 70x200-1+1
+*Dock: Rows     3
+*Dock: Columns  1
+*Dock: (2x1, Swallow "FvwmPager" `Module FvwmPager`)
+*Dock: (2x1, Swallow "wmCalClock" `Exec wmCalClock -24 || xclock`)
+*Dock: (2x1, Title "Wallpaper", Action(mouse 1) \
+       `Exec sxiv -t ~/images/wallpapers/* /storage/personal/Desktop/img/*`)
+
+#
+############################################################## Functions
 #
 # Resize window
 DestroyFunc RaiseMove
@@ -54,12 +70,12 @@ AddToFunc   MoveFocus
 + I       TestRc (NoMatch) Prev ($0, AcceptsFocus) FlipFocus $1
 
 #
-########## Mouse Bindings
+######################################################## Mouse Bindings
 #
-# Syntax: Key Keyname Context Modifier Command Function
+# Syntax: Mouse Keyname Context Modifier Command Function
 # Super + Mouse 1/3 - move/resize window
-Mouse     1        W       4         RaiseMove Move
-Mouse     3        W       4         RaiseMove Resize
+Mouse     1        W       M         RaiseMove Move
+Mouse     3        W       M         RaiseMove Resize
 
 # Root Window
 Mouse     1        R       A         Menu RootMenu
@@ -68,6 +84,7 @@ Mouse     3        R       A         WindowList
 
 # Title Bar Buttons
 Mouse     0        1       A         Menu WindowOps 
+Mouse     0        3       A         Close
 Mouse     0        4       A         Iconify
 Mouse     0        2       A         Maximize 100 100
 
@@ -75,7 +92,7 @@ Mouse     0        2       A         Maximize 100 100
 Mouse     1        I       A         Iconify
 
 #
-########## Key Bindings
+########################################################### Key Bindings
 #
 # Syntax: Key Keyname Context Modifier Command Function
 # Ignore Numlock and other modifiers for bindings
@@ -87,16 +104,16 @@ Key       Space    A       4         Menu RootMenu
 # Meta + Tab - Cycle through windows with WindowList
 Key       Tab      A       4         WindowList Root c c NoDeskSort, SelectOnRelease Meta_L
 
-# Super + Shift (h/j/k/l || Left/Down/Up/Right):
+# Meta + Shift (h/j/k/l || Left/Down/Up/Right):
 # Move focused window left/down/up/right
-Key       h        A       4S        Move w-2 w+0
-Key       j        A       4S        Move w+0 w+2
-Key       k        A       4S        Move w+0 w-2
-Key       l        A       4S        Move w+2 w+0
-Key       Left     A       4S        Move w-2 w+0 
-Key       Down     A       4S        Move w+0 w+2
-Key       Up       A       4S        Move w+0 w-2
-Key       Right    A       4S        Move w+2 w+0
+Key       h        A       MS        Move w-2 w+0
+Key       j        A       MS        Move w+0 w+2
+Key       k        A       MS        Move w+0 w-2
+Key       l        A       MS        Move w+2 w+0
+Key       Left     A       MS        Move w-2 w+0 
+Key       Down     A       MS        Move w+0 w+2
+Key       Up       A       MS        Move w+0 w-2
+Key       Right    A       MS        Move w+2 w+0
 
 # Meta + Control + (h/j/k/l || Left/Down/Up/Right):
 # Move focus to left/down/up/right page
@@ -109,7 +126,7 @@ Key       Down     A       MC        Scroll +0 +100
 Key       Up       A       MC        Scroll +0 -100
 Key       Right    A       MC        Scroll +100  +0
 
-# Meta + Control + m/i/= - maximise/iconify/vertically mazimize focused window
+# Meta + Control + m/i/= - maximise/iconify/vertically mazimize window
 Key       m        A       MC        Maximize 100 100
 Key       i        A       MC        Iconify
 Key       =        A       MC        Maximize 50 100
@@ -119,8 +136,11 @@ Key       f        A       MC        Exec FullscreenWindow
 Key       s        A       MC        Stick
 
 #
-########## Menus
+################################################################## Menus
 #
+# Menu Styling
+MenuStyle * Font "xft:Sans:Bold:size=10:antialias=True"
+
 # Window operations menu
 DestroyMenu WindowOps
 AddToMenu   WindowOps
@@ -153,7 +173,7 @@ AddToMenu   RootMenu "FVWM Root" Title
 + "Emacs"              Exec emacs
 + "Arandr"             Exec arandr
 + ""                   Nop
-+ "Select Wallpaper"   Exec sxiv -t ~/images/wallpapers/*
++ "Select Wallpaper"   Exec sxiv -t ~/images/wallpapers/* /storage/personal/Desktop/img/*
 + ""                   Nop
 + "FVWM Console"       Module FvwmConsole -terminal xterm
 + "Refresh Fvwm"       Refresh
