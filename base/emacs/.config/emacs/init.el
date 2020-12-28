@@ -217,7 +217,7 @@
  '(org-drill-mature-count-color "#005500")
  '(org-drill-new-count-color "#004488")
  '(package-selected-packages
-   '(evil-collection ereader evil-magit magit dired-git-info persist cider clojure-mode elpher parchment-theme evil-mu4e peep-dired rust-mode haskell-mode counsel ivy nov evil markdown-mode dictionary latex-math-preview auctex writeroom-mode htmlize)))
+   '(gemini-mode evil-collection ereader evil-magit magit dired-git-info persist cider clojure-mode elpher parchment-theme evil-mu4e peep-dired rust-mode haskell-mode counsel ivy nov evil markdown-mode dictionary latex-math-preview auctex writeroom-mode htmlize)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
