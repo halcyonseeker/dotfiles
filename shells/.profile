@@ -5,15 +5,25 @@
 # depending on the name of the symlink and the value of $SHELL
 #
 
-# Set editor in order of preference
+# Set preferred applications for use in scripts. With the exception of
+# $EDITOR and $VISUAL, none of thses variables are respected. Other
+# programs use the XDG specification to determine default applications.
+# The XDG default application handler should reflect the preferences
+# defined here.
 export EDITOR="vi"
 which vim >/dev/null 2>&1 && export EDITOR="vim"
 which nvim >/dev/null 2>&1 && export EDITOR="nvim"
 export VISUAL="$EDITOR"
 
-# Set terminal emulator in order of preference
 export TERMINAL="xterm"
 which st >/dev/null 2>&1 && export TERMINAL="st"
+
+export FILE="$(xdg-mime query default inode/directory | tr -d '.desktop')"
+which nnn >/dev/null 2>&1 && export FILE="nnn"
+which ranger >/dev/null 2>&1 && export FILE="ranger"
+
+# Tell emacsclient to run emacs --daemon if it can't connect
+export ALTERNATE_EDITOR=""
 
 # Important variables
 export PATH="$HOME/.local/bin:$GOPATH/bin:$PATH"

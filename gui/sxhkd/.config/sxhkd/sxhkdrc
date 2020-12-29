@@ -49,7 +49,7 @@ super + u
 super + p
 	dmenu_run
 super + z 
-	$TERMINAL -e nnn
+	$TERMINAL -e $FILE
 super + x
 	$TERMINAL -e neomutt
 super + c 
