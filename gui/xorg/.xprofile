@@ -4,7 +4,7 @@
 # Remember to add `[ -f ~/.xprofile ] && . ~/.xprofile` to xinitrc
 
 # Disable ThinkPad touchpad
-xinput --disable "$(xinput --list | grep Synaptics | cut -d' ' -f6 | tr -d 'id=')" &
+xinput --disable "$(xinput --list | grep Synaptics | awk '{print $6}' | tr -d 'id=')"
 
 # Scroll with ThinkPad middle button in OpenBSD
 xinput --set-prop "/dev/wsmouse" "WS Pointer Wheel Emulation" 1
@@ -12,21 +12,22 @@ xinput --set-prop "/dev/wsmouse" "WS Pointer Wheel Emulation Button" 2
 xinput --set-prop "/dev/wsmouse" "WS Pointer Wheel Emulation Axes" 6 7 4 5
 
 # Start some programs
-picom &
+picom -e 1 --inactive-opacity-override -i 1 --inactive-dim 0.2 &
 dunst &
 unclutter --timeout 3 &
 sxhkd &
 batdaemon &
-redshift &
+redshift-gtk &
 
 # Set wallpaper
-feh --no-fehbg --bg-fill \
-    ~/images/wallpapers/"$(find ~/images/wallpapers -name "*" | shuf | head -1)" || \
-    xsetroot -solid "#999999" &
+feh --no-fehbg --bg-fill "$(find ~/images/wallpapers -name "*" | shuf | head -1)" \ 
+    || xsetroot -solid "#999999"
 
 # Load Xresources
-export X_RES_COLOR="gruvbox-dark" && \
-    xrdb -merge -I"$XDG_CONFIG_HOME"/xresources "$XDG_CONFIG_HOME"/xresources/Xresources
+xrdb -merge ~/.config/xresources/Xresources
+export X_RES_COLOR="gruvbox-dark"
+xrdb -merge ~/.config/xresources/"$X_RES_COLOR".xres
+
 
 # Customize keyboard
 setxkbmap -option caps:escape

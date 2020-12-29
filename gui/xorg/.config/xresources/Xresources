@@ -1,4 +1,6 @@
 ! Root XResources file
+! Color themes are loaded seperately in ~/.xprofile
+! $X_RES_COLOR is set to contain the current color scheme
 
 !!!!!!!!!! ST
 ! Transparency (0-1)
@@ -30,12 +32,3 @@ XClock*background: #93a1a1
 
 !!!!!!!!!! Emacs
 
-!!!!!!!!!! Color Themes
-! export X_RES_COLOR="gruvbox-dark" && xrdb ~/.config/xresources/Xresources
-#if X_RES_COLOR == gruvbox-dark
-#  include "gruvbox-dark.xres"
-#elif X_RES_COLOR == gruvbox-light
-#  include "gruvbox-light.xres"
-#elif X_RES_COLOR == parchment
-#  include "parchment.xres"
-#endif
