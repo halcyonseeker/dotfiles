@@ -32,6 +32,7 @@ alias untar="tar -xzvf"
 alias lynx="lynx -vikeys"
 alias yta="youtube-dl --add-metadata -i -x -f bestaudio/best"
 alias ec="emacsclient -nw -c"
+alias em="emacsclient -nw -e '(mu4e)'"
 alias ip="ip -c"
 
 set -o emacs
