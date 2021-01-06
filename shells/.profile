@@ -22,6 +22,8 @@ export FILE="$(xdg-mime query default inode/directory | tr -d '.desktop')"
 which nnn >/dev/null 2>&1 && export FILE="nnn"
 which ranger >/dev/null 2>&1 && export FILE="ranger"
 
+export PAGER="less"
+
 # Tell emacsclient to run emacs --daemon if it can't connect
 export ALTERNATE_EDITOR=""
 
