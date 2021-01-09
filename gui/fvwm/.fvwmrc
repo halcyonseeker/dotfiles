@@ -1,4 +1,6 @@
-# Thalia's FVWM Configuration
+#
+# FVWM Configuration
+#
 
 #
 ################################################################ General
@@ -8,8 +10,10 @@ EdgeResistance 250 10
 EdgeThickness  1
 EdgeScroll     100 100
 ClickTime      750
-DesktopName    0
-DesktopSize    2x2
+DesktopSize    1x4
+DesktopName    0 Primary
+DesktopName    1 Secondary
+DesktopName    2 Tertiary
 
 # Default terminal
 InfoStoreAdd terminal xterm -ti vt340
@@ -22,13 +26,21 @@ WindowFont "xft:Sans:Italic:size=10:antialias=True"
 IconFont   "xft:Sans:Bold:size=8:antialias=True"
 
 # Transfer focus when switching pages
-* FvwmEvent: new_page "MoveFocus Currentpage NoWarp"
+*FvwmEvent: new_page MoveFocus CurrentPage NoWarp
 
 # Don't use wire frames
 OpaqueMoveSize unlimited
 Style "*" ResizeOpaque
 
-# Transfer focus to most recently spawned window
+# Transfer focus to the most recently spawned window
+Style * FPGrabFocus
+
+# EwmhBaseStruts [left] [right] [top] [bottom]
+# Reserves space along the right edge of the screen for the Dock module
+EwmhBaseStruts 0 80 0 0
+
+# Prevent Xterm and Emacs from leaving gaps
+Style "*" ResizeHintOverride
 
 #
 #
@@ -46,13 +58,12 @@ Style "*" ResizeOpaque
 Style Dock NoTitle, Sticky, WindowListSkip, CirculateSkip, \
       StaysOnBottom, FixedPosition, FixedSize, !Iconifiable
 DestroyModuleConfig Dock: *                                   
-*Dock: Geometry 70x200-1+1
-*Dock: Rows     3
+*Dock: Geometry 65x270-1+1
+*Dock: Rows     4
 *Dock: Columns  1
-*Dock: (2x1, Swallow "FvwmPager" `Module FvwmPager`)
-*Dock: (2x1, Swallow "wmCalClock" `Exec wmCalClock -24 || xclock`)
-*Dock: (2x1, Title "Wallpaper", Action(mouse 1) \
-       `Exec sxiv -t ~/images/wallpapers/* /storage/personal/Desktop/img/*`)
+*Dock: (2x2, Swallow "FvwmPager" `Module FvwmPager`)
+*Dock: (2x1, Swallow "wmCalClock" `Exec wmCalClock -24`)
+*Dock: (2x1, Title "Root Menu", Action(mouse 1) Menu RootMenu)
 
 #
 ############################################################## Functions
@@ -68,6 +79,12 @@ DestroyFunc MoveFocus
 AddToFunc   MoveFocus
 + I       All ($0, Focused) FlipFocus $1
 + I       TestRc (NoMatch) Prev ($0, AcceptsFocus) FlipFocus $1
+
+# TODO Undecorate and fully maximize a window
+# DestroyFunc FullscreenWin
+# AddToFunc FullscreenWin
+# + I ThisWindow (HasHandles) WindowStyle !Title, !Borders
+# + I ThisWindow (!HasHandles) WindowStyle Title, Borders
 
 #
 ######################################################## Mouse Bindings
@@ -126,14 +143,22 @@ Key       Down     A       MC        Scroll +0 +100
 Key       Up       A       MC        Scroll +0 -100
 Key       Right    A       MC        Scroll +100  +0
 
-# Meta + Control + m/i/= - maximise/iconify/vertically mazimize window
+# Meta + Control + m - maximise window
+# TODO: Add vertical, horizontal and full screen maximization
 Key       m        A       MC        Maximize 100 100
-Key       i        A       MC        Iconify
-Key       =        A       MC        Maximize 50 100
-Key       f        A       MC        Exec FullscreenWindow
+# Key       =        A       MC        Maximize 50 100
+# Key       +        A       MC        Maximize 100 49
+# Key       f        A       MC        FullscreenWin
 
-# Meta + Control + s - Make a window Sticky
+# Meta + Control + i/s minimize/stick a window
+Key       i        A       MC        Iconify
 Key       s        A       MC        Stick
+
+# Super + 1/2/3 - Go to desk 1/2/3
+# TODO: add a few workspaces
+# key       1        A       4         GotoDesk 0 0
+# Key       2        A       4         GotoDesk 0 1
+# Key       3        A       4         GotoDesk 0 2
 
 #
 ################################################################## Menus
@@ -168,17 +193,45 @@ AddToMenu   WindowOps
 
 # Root menu
 DestroyMenu RootMenu
-AddToMenu   RootMenu "FVWM Root" Title
+AddToMenu   RootMenu "Root Menu" Title
 + "Terminal"           Exec $[infostore.terminal]
-+ "Emacs"              Exec emacs
-+ "Arandr"             Exec arandr
++ "Connect to Emacs"   Exec emacsclient -c
++ "Emacs E-Mail"       Exec emacsclient -c -e '(mu4e)'
 + ""                   Nop
-+ "Select Wallpaper"   Exec sxiv -t ~/images/wallpapers/* /storage/personal/Desktop/img/*
++ "Applications Menu"  Popup ApplicationsMenu
++ "Theme Menu"         Popup ThemesMenu
++ ""                   Nop
++ "Display Settings"   Exec arandr
++ "Kill X Program"     Exec xkill
 + ""                   Nop
 + "FVWM Console"       Module FvwmConsole -terminal xterm
 + "Refresh Fvwm"       Refresh
 + "Restart Fvwm"       Restart
 + "Exit Fvwm"          Popup QuitMenu
+
+# TODO: Use piperead to get listing of XDG Desktop programs
+DestroyMenu ApplicationsMenu
+AddToMenu   ApplicationsMenu "Applications Menu" Title
++ "TODO"               Nop
+
+DestroyMenu ThemesMenu
+AddToMenu   ThemesMenu "Select Themes" Title
++ "Select Wallpaper"   Exec sxiv -t ~/images/wallpapers/* /storage/personal/Desktop/img/*
++ "FVWM Themes"        Popup FVWMThemesMenu
++ "Xresources Themes"  Popup XresourcesMenu
+
+# TODO: Create some color and decoration themes for FVWm
+DestroyMenu FVWMThemesMenu
+AddToMenu   FVWMThemesMenu "FVWM Themes" Title
++ "TODO"               Nop
+
+DestroyMenu XresourcesMenu
+AddToMenu   XresourcesMenu "Xresources Themes" Title
++ "Clear Theme"        Exec xrdb -remove && xrdb -merge ~/.config/xresources/Xresources
++ ""                   Nop
++ "Gruvbox Dark"       Exec xrdb -merge ~/.config/xresources/gruvbox-dark.xres 
++ "Gruvbox Light"      Exec xrdb -merge ~/.config/xresources/gruvbox-light.xres 
++ "Parchment"          Exec xrdb -merge ~/.config/xresources/parchment.xres 
 
 # Quit Menu
 DestroyMenu QuitMenu

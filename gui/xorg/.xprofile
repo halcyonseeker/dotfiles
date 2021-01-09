@@ -20,15 +20,13 @@ batdaemon &
 redshift-gtk &
 
 # Set wallpaper
-feh --no-fehbg --bg-fill "$(find ~/images/wallpapers -name "*" | shuf | head -1)" \ 
-    || xsetroot -solid "#999999"
+feh --no-fehbg --bg-fill "$(find ~/images/wallpapers -name "*" | shuf | head -1)" || \
+    xsetroot -solid "#999999"
 
 # Load Xresources
 xrdb -merge ~/.config/xresources/Xresources
-export X_RES_COLOR="gruvbox-dark"
-xrdb -merge ~/.config/xresources/"$X_RES_COLOR".xres
-
+xrdb -merge ~/.config/xresources/gruvbox-dark.xres
 
 # Customize keyboard
-setxkbmap -option caps:escape
+setxkbmap -option caps:swapescape
 setxkbmap -option compose:ralt
