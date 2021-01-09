@@ -24,8 +24,6 @@ stow creates corresponding links in my home directory. For example:
 ## Contents
 I sometimes like to reorganise this repository for fun, so this might
 not be accurate:
-* **root/** Some minor files that could be symlinked to /. Linux only,
-  probably obsolete. I need to clean these out.
 * **shells/** A Rube-Goldberg shell configuration, see below. Why I
   didn't put this directory in base/ is a mystery to me.
 * **base/** Configurations that don't explicitly depend on a
