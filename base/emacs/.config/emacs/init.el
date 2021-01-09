@@ -13,16 +13,11 @@
 ;;;;;;;;;;;;;;;;;;;
 ;; Aesthetic Tweaks
 ;;;;;;;;;;;;;;;;;;;
-;; Fix emacs under X
-(when (window-system)
-  (tool-bar-mode 0)
-  (menu-bar-mode 0)
-  (scroll-bar-mode 0))
-
-;; Fix emacs in a terminal
-(when (not window-system)
-  (menu-bar-mode 0)
-  (xterm-mouse-mode 1))
+;; Fix general appearance and behavior
+(tool-bar-mode 0)
+(menu-bar-mode 0)
+(scroll-bar-mode 0)
+(xterm-mouse-mode 1)
 
 ;; Improve tab behavior
 (setq-default indent-tabs-mode nil)
@@ -39,7 +34,6 @@
 (column-number-mode 1)
 (line-number-mode 1)
 (save-place-mode 1)
-;; (global-visual-line-mode 1)
 
 ;; Suppress annoying things
 (setq inhibit-startup-message t)
@@ -212,12 +206,13 @@
    ["#242424" "#e5786d" "#95e454" "#cae682" "#8ac6f2" "#333366" "#ccaa8f" "#f6f3e8"])
  '(custom-enabled-themes nil)
  '(default-input-method "russian-computer")
+ '(evil-undo-system 'undo-redo)
  '(org-drill-done-count-color "#663311")
  '(org-drill-failed-count-color "#880000")
  '(org-drill-mature-count-color "#005500")
  '(org-drill-new-count-color "#004488")
  '(package-selected-packages
-   '(gemini-mode evil-collection ereader evil-magit magit dired-git-info persist cider clojure-mode elpher parchment-theme evil-mu4e peep-dired rust-mode haskell-mode counsel ivy nov evil markdown-mode dictionary latex-math-preview auctex writeroom-mode htmlize)))
+   '(gemini-mode ereader evil-magit magit dired-git-info persist cider clojure-mode elpher parchment-theme peep-dired rust-mode haskell-mode counsel ivy nov evil markdown-mode dictionary latex-math-preview auctex writeroom-mode htmlize)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
