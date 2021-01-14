@@ -2,13 +2,12 @@
 # Convert Audible .aax files into DRM-free ogg/opus
 # Depends on ffmpeg
 # TODO: determine which bytes to use
+# TODO: figure out how to embed cover image, ffmpeg doesn't support this with opus yet
 
-message_function () {
-    if [ -n "$(pgrep dunst)" ] ; then
-    	notify-send "$1"
-    else
-    	echo "$1"
-    fi
+message_function()
+{
+    notify-send "🎧 📕 aaxfree" "$1" 2>/dev/null
+    echo "$1"
 }
 
 [ -f "$1" ] || message_function "$1 not found"
