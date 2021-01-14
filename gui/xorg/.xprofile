@@ -3,6 +3,9 @@
 # I'm a pathological WM/DE hopper, so I moved `exec asdf` to ~/.xinitrc
 # Remember to add `[ -f ~/.xprofile ] && . ~/.xprofile` to xinitrc
 
+# Don't beep at me
+xset b off
+
 # Disable ThinkPad touchpad
 xinput --disable "$(xinput --list | grep Synaptics | awk '{print $6}' | tr -d 'id=')"
 
