@@ -1,37 +1,66 @@
-;;;;;;;
-;; Mu4e
-;;;;;;;
-;; (require 'mu4e)
-;; (require 'smtpmail)
-(setq mu4e-compose-signature
-      "\nThalia Wright\nhttps://www.lagrangian.space\n")
-(setq message-default-headers (concat "\nX-Clacks-Overhead: GNU Terry Pratchet\n"))
-(setq message-send-mail-function 'smtpmail-send-it)
-(setq mu4e-get-mail-command "mbsync -c ~/.config/isync/mbsyncrc -a")
-;; Don't leave a bunch of useless buffers
-(setq message-kill-buffer-on-exit t)
-;; Prevent Maildir error: duplicate UID error messages
-(setq mu4e-change-filenames-when-moving t) 
-;; Render html Messages and Open in Browser
-(setq mu4e-html2text-command 'my-html2text)
+;;; mu4e.el --- Configurations for the mu4e mail client
+
+;;; Commentary:
+;; This depends on the external programs
+;; - mu (to index mail,
+;; - mbsync/isync (to download mail from the server),
+;; - pass (for password information),
+;; - gnupg (for encryption), and
+;; - protonmail-bridge to download protonmail emails.
+;;
+
+;;; Code:
+
+;;;;;;;;
+;; Fluff
+(setq mu4e-compose-signature "\nThalia Wright\nhttps://www.lagrangian.space\n"
+      message-default-headers (concat
+                               "\nX-Clacks-Overhead: GNU Terry Pratchet\n"))
+
+;;;;;;;;
+;; Basic settings
+(setq message-send-mail-function 'smtpmail-send-it
+      mu4e-get-mail-command "mbsync -c ~/.config/isync/mbsyncrc -a"
+      ;; Don't leave a bunch of useless buffers
+      message-kill-buffer-on-exit t
+      ;; Prevent Maildir error: duplicate UID error messages
+      mu4e-change-filenames-when-moving t
+      ;; Render html Messages and Open in Browser
+      mu4e-html2text-command 'my-html2text)
+
+;;;;;;;;
+;; Helper function
 (defun my-html2text ()
+  "Use EWW and SHR to view HTML messages."
   (let ((dom (libxml-parse-html-region (point-min) (point-max))))
     (erase-buffer)
     (shr-insert-document dom)
     (goto-char (point-min))))
 (add-to-list 'mu4e-view-actions '("ViewInBrowser" . mu4e-action-view-in-browser) t)
-;; Helper function
+
 (defun revert-if-mu4e-main ()
   "Revert/update buffer if it's mu4e-main."
   (when (string-match-p (buffer-name (current-buffer)) "mu4e-main")
     (revert-buffer)))
+
 (defun my-msg-match (msg arg address)
   "Match message on headers."
   (mu4e-message-contact-field-matches msg arg address))
 
+;;;;;;;;
+;; Use password-store for authentication
+;; TODO: Figure out how to use pinentry-(tty|emacs) in terminal frames
 (setq auth-sources '(password-store))
 (auth-source-pass-enable)
 
+;;;;;;;;
+;; Message composition settings
+;; https://useplaintext.email/#mu4e
+;; TODO: figure out how to soft-wrap text
+(setq mu4e-compose-format-flowed t)
+
+;;;;;;;;
+;; Account-specific stuff
 (setq mu4e-contexts
       `( ,(make-mu4e-context
            :name "personal"
@@ -116,3 +145,5 @@
 							       "AND NOT flag:trashed")
 						:key ?u)))))))
 
+(provide 'mu4e)
+;;; mu4e.el end here
