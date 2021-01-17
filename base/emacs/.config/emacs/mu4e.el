@@ -13,7 +13,7 @@
 
 ;;;;;;;;
 ;; Fluff
-(setq mu4e-compose-signature "\nThalia Wright\nhttps://www.lagrangian.space\n"
+(setq mu4e-compose-signature "Thalia Wright\n<https://www.lagrangian.space>"
       message-default-headers (concat
                                "\nX-Clacks-Overhead: GNU Terry Pratchet\n"))
 
@@ -27,16 +27,17 @@
       mu4e-change-filenames-when-moving t
       ;; Render html Messages and Open in Browser
       mu4e-html2text-command 'my-html2text)
+(add-to-list 'mu4e-view-actions
+             '("ViewInBrowser" . mu4e-action-view-in-browser) t)
 
 ;;;;;;;;
-;; Helper function
+;; Helper functions
 (defun my-html2text ()
   "Use EWW and SHR to view HTML messages."
   (let ((dom (libxml-parse-html-region (point-min) (point-max))))
     (erase-buffer)
     (shr-insert-document dom)
     (goto-char (point-min))))
-(add-to-list 'mu4e-view-actions '("ViewInBrowser" . mu4e-action-view-in-browser) t)
 
 (defun revert-if-mu4e-main ()
   "Revert/update buffer if it's mu4e-main."
@@ -55,9 +56,18 @@
 
 ;;;;;;;;
 ;; Message composition settings
-;; https://useplaintext.email/#mu4e
-;; TODO: figure out how to soft-wrap text
+;; Write messages with format=flowed (RFC 3676) instead of hard 72 columns.
 (setq mu4e-compose-format-flowed t)
+(add-hook 'mu4e-compose-mode-hook
+          (defun my-compose-settings ()
+            "Email writing: identify hard newlines and soft-wrap at 72 cols"
+            ;; For some reason save-excusion is required here in order to
+            ;; prevent these modes from being applied to the buffer we were
+            ;; in before opening a mail-composition buffer.
+            (save-excursion
+              (whitespace-newline-mode)
+              (visual-fill-column-mode))))
+
 
 ;;;;;;;;
 ;; Account-specific stuff
@@ -72,43 +82,53 @@
                          (revert-if-mu4e-main))
            :match-func (lambda (msg)
                          (when msg
-                           (or (my-msg-match msg :to "vesperous@protonmail.com")
-                               (my-msg-match msg :from "vesperous@protonmail.com")
-                               (my-msg-match msg :cc "vesperous@protonmail.com")
-                               (my-msg-match msg :bcc "vesperous@protonmail.com")
-                               (my-msg-match msg :to "thalia@lagrangian.space")
-                               (my-msg-match msg :from "thalia@lagrangian.space")
-                               (my-msg-match msg :cc "thalia@lagrangian.space")
-                               (my-msg-match msg :bcc "thalia@lagrangian.space")
-                               (string-match-p "^/vesperous/INBOX"
-					       (mu4e-message-field msg :maildir)))))
+                           (or
+                            (my-msg-match msg :to "vesperous@protonmail.com")
+                            (my-msg-match msg :from "vesperous@protonmail.com")
+                            (my-msg-match msg :cc "vesperous@protonmail.com")
+                            (my-msg-match msg :bcc "vesperous@protonmail.com")
+                            (my-msg-match msg :to "thalia@lagrangian.space")
+                            (my-msg-match msg :from "thalia@lagrangian.space")
+                            (my-msg-match msg :cc "thalia@lagrangian.space")
+                            (my-msg-match msg :bcc "thalia@lagrangian.space")
+                            (string-match-p "^/vesperous/INBOX"
+					    (mu4e-message-field msg
+                                                                :maildir)))))
            :vars '((user-mail-address      . "thalia@lagrangian.space")
                    (smtpmail-smtp-user     . "vesperous@protonmail.com")
-                   (mu4e-compose-signature . "Thalia Wright")
                    (smtpmail-smtp-server   . "localhost")
                    (smtpmail-smtp-service  . 1025)
 		   (mu4e-refile-folder     . "/vesperous/Archive")
 		   (mu4e-sent-folder       . "/vesperous/Sent")
 		   (mu4e-drafts-folder     . "/vesperous/Drafts")
 		   (mu4e-trash-folder      . "/vesperous/Trash")
-                   (mu4e-maildir-shortcuts . ((:maildir "/vesperous/INBOX" :key ?i)
-						      (:maildir "/vesperous/Archive" :key ?a)
-						      (:maildir "/vesperous/Folders.consoom" :key ?c)
-						      (:maildir "/vesperous/Folders.vesperous" :key ?v)
-						      (:maildir "/vesperous/Folders.gnwrighter" :key ?g)))
+                   (mu4e-maildir-shortcuts
+                    .
+                    ((:maildir "/vesperous/INBOX" :key ?i)
+                     (:maildir "/vesperous/Archive" :key ?a)
+                     (:maildir "/vesperous/Folders.consoom" :key ?c)
+                     (:maildir "/vesperous/Folders.vesperous" :key ?v)
+                     (:maildir "/vesperous/Folders.gnwrighter" :key ?g)))
                    (mu4e-bookmarks
 		    .
 		    ((:name "Unread messages"
-			    :query (concat "maildir:/vesperous/INBOX "
-					   "OR maildir:/vesperous/Folders.consoom "
-					   "OR maildir:/vesperous/Folders.vesperous "
-					   "OR maildir:/vesperous/Folders.gnwrighter "
-					   "AND flag:unread "
-					   "AND NOT flag:trashed")
+			    :query (concat
+                                    "maildir:/vesperous/INBOX "
+				    "OR maildir:/vesperous/Folders.consoom "
+				    "OR maildir:/vesperous/Folders.vesperous "
+				    "OR maildir:/vesperous/Folders.gnwrighter "
+				    "AND flag:unread "
+				    "AND NOT flag:trashed")
 			    :key ?u)
-		     (:name "Deleted"
+                     (:name "Drafts"
+                            :query "maildir:/vesperous/Drafts"
+                            :key ?d)
+                     (:name "Sent"
+                            :query "maildir:/vesperous/Sent"
+                            :key ?s)
+		     (:name "Trashed"
 			    :query "flag:trashed"
-			    :key ?d)))))
+			    :key ?t)))))
 
          ,(make-mu4e-context
            :name "wrightng"
@@ -129,21 +149,33 @@
 		   (smtpmail-smtp-user     . "wrightng@reed.edu")
                    (smtpmail-smtp-server   . "smtp.gmail.com")
                    (smtpmail-smtp-service  . 587)
-                   (mu4e-compose-signature . "Thalia Wright")
 		   (mu4e-refile-folder     . "/wrightng/Archive-y2")
 		   (mu4e-sent-folder       . "/wrightng/[Gmail].Sent Mail")
 		   (mu4e-drafts-folder     . "/wrightng/[Gmail].Drafts")
 		   (mu4e-trash-folder      . "/wrightng/[Gmail].Trash")
-                   (mu4e-maildir-shortcuts . ((:maildir "/wrightng/INBOX" :key ?i)
-						 (:maildir "/wrightng/Archive-y2" :key ?a)
-						 (:maildir "/wrightng/News" :key ?n)
-						 (:maildir "/wrightng/[Gmail.All Mail" :key ?p)))
-                    ( mu4e-bookmarks . ((:name  "Unread school messages"
-						:query (concat "maildir:/wrightng/INBOX "
-							       "OR maildir:/wrightng/News "
-							       "AND flag:unread "
-							       "AND NOT flag:trashed")
-						:key ?u)))))))
+                   (mu4e-maildir-shortcuts
+                    .
+                    ((:maildir "/wrightng/INBOX" :key ?i)
+                     (:maildir "/wrightng/Archive-y2" :key ?a)
+                     (:maildir "/wrightng/News" :key ?n)
+                     (:maildir "/wrightng/[Gmail.All Mail" :key ?p)))
+                   (mu4e-bookmarks
+                    .
+                    ((:name  "Unread school messages"
+                             :query (concat "maildir:/wrightng/INBOX "
+                                            "OR maildir:/wrightng/News "
+                                            "AND flag:unread "
+                                            "AND NOT flag:trashed")
+                             :key ?u)
+                     (:name "Drafts"
+                            :query "maildir:/wrightng/[Gmail].Drafts"
+                            :key ?d)
+                     (:name "Sent"
+                            :query "maildir:/vesperous/[Gmail].Sent Mail"
+                            :key ?s)
+		     (:name "Trashed"
+			    :query "flag:trashed"
+			    :key ?t)))))))
 
 (provide 'mu4e)
 ;;; mu4e.el end here
