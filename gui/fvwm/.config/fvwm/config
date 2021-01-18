@@ -1,0 +1,53 @@
+#
+# General FVWM Configuration
+#
+
+# Desktops
+EdgeResistance 250 10
+EdgeThickness  1
+EdgeScroll     100 100
+ClickTime      750
+DesktopSize    1x4
+DesktopName    0 Primary
+DesktopName    1 Secondary
+DesktopName    2 Tertiary
+
+# Default terminal
+InfoStoreAdd terminal xterm -ti vt340
+
+# Startup 
+# FVWM looks for these files in $FVWM_USERDIR
+DestroyFunc StartFunction
+AddToFunc   StartFunction
++ I Read "menus.fvwm"
++ I Read "dock.fvwm"
++ I Read "bindings.fvwm"
++ I Module FvwmButtons Dock
+
+# Fonts
+WindowFont "xft:Sans:Italic:size=10:antialias=True"
+IconFont   "xft:Sans:Bold:size=8:antialias=True"
+
+# Transfer focus when switching pages
+*FvwmEvent: new_page MoveFocus CurrentPage NoWarp
+
+# Don't use wire frames
+OpaqueMoveSize unlimited
+Style "*" ResizeOpaque
+
+# Transfer focus to the most recently spawned window
+Style * FPGrabFocus
+
+# EwmhBaseStruts [left] [right] [top] [bottom]
+# Reserves space along the right edge of the screen for the Dock module
+EwmhBaseStruts 0 80 0 0
+
+# Prevent Xterm and Emacs from leaving gaps
+Style "*" ResizeHintOverride
+
+# Transfer focus when switching pages
+DestroyFunc MoveFocus
+AddToFunc   MoveFocus
++ I       All ($0, Focused) FlipFocus $1
++ I       TestRc (NoMatch) Prev ($0, AcceptsFocus) FlipFocus $1
+

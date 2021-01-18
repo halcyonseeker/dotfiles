@@ -1,0 +1,26 @@
+#
+# A little widget dock made with FVWMButtons
+#
+
+# Virtual Desktop Pager
+*FvwmPagerLabel   FvwmPager
+*FvwmPagerFont    none
+*FvwmPagerBack    skyblue4
+*FvwmPagerFore    black
+*FvwmPagerHilight slategray
+*FvwmPager:       WindowLabelFormat ""
+*FvwmPager:       SolidSeparators
+
+# Icon Manager
+
+# The dock itself
+Style Dock NoTitle, Sticky, WindowListSkip, CirculateSkip, \
+      StaysOnBottom, FixedPosition, FixedSize, !Iconifiable
+DestroyModuleConfig Dock: *                                   
+*Dock: Geometry 65x270-1+1
+*Dock: Rows     4
+*Dock: Columns  1
+*Dock: (2x2, Swallow "FvwmPager" `Module FvwmPager`)
+*Dock: (2x1, Swallow "wmCalClock" `Exec wmCalClock -24`)
+*Dock: (2x1, Swallow "xbattery" `Exec xbattery`)
+#*Dock: (2x1, Title "Root Menu", Action(mouse 1) Menu RootMenu)

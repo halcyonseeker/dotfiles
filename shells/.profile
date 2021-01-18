@@ -58,6 +58,8 @@ export XAUTHORITY="$XDG_RUNTIME_DIR/xauthority"
 export ICEAUTHORITY="$XDG_CACHE_HOME/ICEauthority"
 export GOPATH="$HOME/.local/go"
 export MPV_HOME="$XDG_CONFIG_HOME/mpv"
+export FVWM_USERDIR="$XDG_CONFIG_HOME/fvwm"
+export FVWM_DATADIR="$XDG_DATA_HOME/fvwm"
 
 # GUI variables
 export GTK_THEME=Adwaita:dark
