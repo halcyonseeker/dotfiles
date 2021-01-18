@@ -70,7 +70,7 @@
   (evil-set-toggle-key "C-M-z"))       ; Don't break suspend-frame bindings
 
 ;; AuTeX and DocView Modes
-(add-hook 'TeX-mode-hook 'refill-mode)
+(add-hook 'TeX-mode-hook 'auto-fill-mode)
 (setq doc-view-continuous t)
 (setq TeX-view-program-selection
  '(((output-dvi has-no-display-manager) "dvi2tty")
@@ -101,7 +101,7 @@
   (add-hook 'peep-dired-hook 'evil-normalize-keymaps))
 
 ;; Org Mode
-(add-hook 'org-mode-hook 'refill-mode)
+(add-hook 'org-mode-hook 'auto-fill-mode)
 (setq org-publish-timestamp-directory "~/.config/emacs/org-timestamps/")
 
 ;; Dictionary Mode
