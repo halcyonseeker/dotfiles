@@ -1,6 +1,16 @@
 #
-# A little widget dock made with FVWMButtons
+# A little widget dock made with FVWMButtons, plus an FvwmIconMan
 #
+
+#
+# Helper Functions
+#
+# Raise and Focus
+DestroyFunc IconClickHandler
+AddToFunc   IconClickHandler
+ + I Iconify Off
+ + I Raise
+ + I Focus
 
 # Virtual Desktop Pager
 *FvwmPagerLabel   FvwmPager
@@ -11,16 +21,32 @@
 *FvwmPager:       WindowLabelFormat ""
 *FvwmPager:       SolidSeparators
 
-# Icon Manager
-
 # The dock itself
 Style Dock NoTitle, Sticky, WindowListSkip, CirculateSkip, \
       StaysOnBottom, FixedPosition, FixedSize, !Iconifiable
-DestroyModuleConfig Dock: *                                   
-*Dock: Geometry 65x270-1+1
-*Dock: Rows     4
+DestroyModuleConfig Dock: *
+*Dock: Geometry 65x320-1+1
+*Dock: Rows     14
 *Dock: Columns  1
-*Dock: (2x2, Swallow "FvwmPager" `Module FvwmPager`)
-*Dock: (2x1, Swallow "wmCalClock" `Exec wmCalClock -24`)
-*Dock: (2x1, Swallow "xbattery" `Exec xbattery`)
-#*Dock: (2x1, Title "Root Menu", Action(mouse 1) Menu RootMenu)
+*Dock: (1x7, Swallow "FvwmPager" `Module FvwmPager`)
+*Dock: (1x3, Swallow "wmCalClock" `Exec wmCalClock -24`)
+*Dock: (1x3, Swallow "wmbattery" `Exec wmbattery`)
+*Dock: (1x1, Swallow "stalonetray" `Exec stalonetray -i 20 -p`)
+
+# Icon Manager
+FvwmIconMan:  font "-*-helvetica-bold-r-*-*-14-*-*-*-*-*-iso10646-1"
+*FvwmIconMan: managergeometry 1x0-0+335
+*FvwmIconMan: buttongeometry 65x0
+*FvwmIconMan: format "%i"
+*FvwmIconMan: focusbutton down black grey
+*FvwmIconMan: plainbutton up black slategray
+*FvwmIconMan: iconbutton up black slategray
+*FvwmIconMan: selectbutton down black slategray
+*FvwmIconMan: iconandselectbutton down black slategray
+*FvwmIconMan: focusandselectbutton down black gray
+*FvwmIconMan: action mouse 1 n sendcommand IconClickHandler
+*FvwmIconMan: sort none
+*FvwmIconMan: resolution page
+*FvwmIconMan: drawicons true
+Style FvwmIconMan NoTitle, Sticky, WindowListSkip, !Iconifiable
+Style * NoIcon # Prevent minimized windows from placing icons on the desk

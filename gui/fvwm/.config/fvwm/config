@@ -23,6 +23,7 @@ AddToFunc   StartFunction
 + I Read "dock.fvwm"
 + I Read "bindings.fvwm"
 + I Module FvwmButtons Dock
++ I Module FvwmIconMan
 
 # Fonts
 WindowFont "xft:Sans:Italic:size=10:antialias=True"
