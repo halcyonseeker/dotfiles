@@ -12,7 +12,7 @@ message_function()
 }
 
 # Configuration variables
-remote="thalia@192.168.5.19:~/backup"
+remote="thalia@cloud.lagrangian.space:~/backup"
 local="/storage/backups/$(hostname)"
 ignore=".cache .mozilla .local/share .config .emacs.d/backups .emacs.d/auto-save-list .emacs.d/elpa .tor-browser"
 
