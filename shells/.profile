@@ -62,8 +62,9 @@ export FVWM_USERDIR="$XDG_CONFIG_HOME/fvwm"
 export FVWM_DATADIR="$XDG_DATA_HOME/fvwm"
 
 # GUI variables
-export GTK_THEME=Adwaita:dark
+export GTK_THEME="Raleigh-Reloaded"
 export GTK2_RC_FILES="$XDG_CONFIG_HOME/gtk-2.0/gtkrc-2.0"
+export GTK_OVERLAY_SCROLLING=0
 
 # History settings
 export HISTFILE="$XDG_CACHE_HOME/sh_history"
