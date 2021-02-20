@@ -1,0 +1,4 @@
+#!/bin/sh
+
+curl https://http.cat/"${1:-'404'}" /tmp/httpcat.out 2>/dev/null && \ 
+    feh /tmp/httpcat.out
