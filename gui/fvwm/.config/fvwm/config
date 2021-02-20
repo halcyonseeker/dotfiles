@@ -2,6 +2,25 @@
 # General FVWM Configuration
 #
 
+# TODO: create Raleigh-like colorset
+# - menus
+# - FvwmPager
+# - WindowList
+# - IconMan
+# - FvwmButtons
+# TODO: change window decoration buttons
+# - Cluster of ~4 buttons on the right of title bar
+# - Use custom bitmap X for window closing
+# TODO: Return focus to previous window when closing newest window
+# TODO: Make config portable between fvwm, fvwm2, and fvwm3
+# TODO: Add XDG application menu
+# TODO: Change IconMan font (need good unicode support)
+# TODO: Change menu styles to look more like GTK Raleigh menus
+# TODO: Fix multiple-monitor behavior
+# - Window list with (CurrentPage) only has the windows in the current monitor
+# - I can't edgescroll properly on my 16:9 laptop when using a 4:3 monitor
+# TODO: Add a few desks and an FvwmButtons navigator in Dock
+
 # Desktops
 EdgeResistance 250 10
 EdgeThickness  1

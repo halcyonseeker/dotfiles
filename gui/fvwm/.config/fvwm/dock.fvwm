@@ -25,7 +25,7 @@ AddToFunc   IconClickHandler
 Style Dock NoTitle, Sticky, WindowListSkip, CirculateSkip, \
       StaysOnBottom, FixedPosition, FixedSize, !Iconifiable
 DestroyModuleConfig Dock: *
-*Dock: Geometry 65x320-1+1
+*Dock: Geometry 65x320-1+1@g
 *Dock: Rows     14
 *Dock: Columns  1
 *Dock: (1x7, Swallow "FvwmPager" `Module FvwmPager`)
@@ -34,8 +34,8 @@ DestroyModuleConfig Dock: *
 *Dock: (1x1, Swallow "stalonetray" `Exec stalonetray -i 20 -p`)
 
 # Icon Manager
-FvwmIconMan:  font "-*-helvetica-bold-r-*-*-14-*-*-*-*-*-iso10646-1"
-*FvwmIconMan: managergeometry 1x0-0+335
+#FvwmIconMan:  font "-*-helvetica-bold-r-*-*-14-*-*-*-*-*-iso10646-1"
+*FvwmIconMan: managergeometry 1x0-0+335@g
 *FvwmIconMan: buttongeometry 65x0
 *FvwmIconMan: format "%i"
 *FvwmIconMan: focusbutton down black grey

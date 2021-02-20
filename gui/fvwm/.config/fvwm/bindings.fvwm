@@ -18,7 +18,6 @@ AddToFunc   RaiseMove
 # + I ThisWindow (HasHandles) WindowStyle !Title, !Borders
 # + I ThisWindow (!HasHandles) WindowStyle Title, Borders
 
-
 #
 ######################################################## Mouse Bindings
 #
@@ -52,7 +51,8 @@ IgnoreModifiers L25
 Key       Space    A       4         Menu RootMenu
 
 # Meta + Tab - Cycle through windows with WindowList
-Key       Tab      A       4         WindowList Root c c NoDeskSort, SelectOnRelease Meta_L
+Key       Tab      A       M         WindowList (CurrentPage) Root c c \
+    SelectOnRelease Meta_L, CurrentAtEnd
 
 # Meta + Shift (h/j/k/l || Left/Down/Up/Right):
 # Move focused window left/down/up/right
