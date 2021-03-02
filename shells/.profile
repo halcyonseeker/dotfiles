@@ -62,6 +62,7 @@ export FVWM_USERDIR="$XDG_CONFIG_HOME/fvwm"
 export FVWM_DATADIR="$XDG_DATA_HOME/fvwm"
 
 # GUI variables
+export XINITRC="$XDG_CONFIG_HOME"/xorg/xinitrc
 export GTK_THEME="Raleigh-Reloaded"
 export GTK2_RC_FILES="$XDG_CONFIG_HOME/gtk-2.0/gtkrc-2.0"
 export GTK_OVERLAY_SCROLLING=0
