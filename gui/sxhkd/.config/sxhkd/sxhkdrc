@@ -17,6 +17,12 @@ XF86AudioLowerVolume
 	amixer set Master 5%-
 XF86AudioRaiseVolume 
 	amixer set Master 5%+
+XF86AudioPlay
+        mpc toggle
+XF86AudioPrev
+        mpc prev
+XF86AudioNext
+        mpc next
 
 # Run various scripts and applications
 # TODO 
