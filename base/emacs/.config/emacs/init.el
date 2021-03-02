@@ -1,5 +1,16 @@
 ;;; init.el --- Thalia Wright's startup file for GNU Emacs
 ;;; Commentary:
+;; TODO:
+;; - Fix TeX-view-program-selection to use xdg-open when running with
+;;   -nw in a graphical environemnt
+;; - Evil Mode
+;;   - Fix redo behavior
+;;   - Fix elfeed bindings
+;; - Use pinentry-emacs or pinentry-tty in non-graphical frames
+;; - Make document viewing nicer
+;; - Clean up init file and look into use-package
+;; - Resolve "{add} Access Denied" issue with emms and mpd
+
 ;;; Code:
 ;;;;;;;;;;;;;;;;
 ;; Personal Info
@@ -21,6 +32,7 @@
 
 ;; Improve tab behavior
 (setq-default indent-tabs-mode nil)
+(setq default-tab-width 4)
 (setq c-default-style "k&r"
       c-basic-offset 4)
 
@@ -38,7 +50,7 @@
 ;; Suppress annoying things
 (setq inhibit-startup-message t)
 (setq vc-follow-symlinks t)
-(defalias 'yes-or-no-p 'y-or-n-p) 
+(defalias 'yes-or-no-p 'y-or-n-p)
 
 ;; Use melpa repositories
 (package-initialize)
@@ -48,10 +60,21 @@
 (setq backup-by-copying t
       backup-directory-alist '((".*" . "~/.config/emacs/backup")))
 
+;; Move custom stuff into a seperate file
+(setq custom-file "~/.config/emacs/custom.el")
+(when (file-exists-p "~/.config/emacs/custom.el")
+  (load-file custom-file))
+
 ;; Decrypt GPG key with pinentry-emacs when running in tty/terminal
 ;; (when (not (window-system))
 ;;   (setenv "INSIDE_EMACS"(format "%s,comint" emacs-version))
 ;;   (pinentry-start))
+
+;; Don't suspend graphical frames
+(global-set-key (kbd "C-z")
+		(lambda ()
+		  (interactive)
+		  (when (not (display-graphic-p)) (suspend-frame))))
 
 ;;;;;;;;;;;;;;;;;;;;;
 ;; Packages and Modes
@@ -61,24 +84,39 @@
            (require 'smtpmail nil 'noerror))
   (load "~/.config/emacs/mu4e.el"))
 
+;; Elfeed RSS/Atom Reader
+(global-set-key (kbd "C-x n") 'elfeed)
+(when (file-exists-p "~/documents/elfeed.el")
+  (load "~/documents/elfeed.el"))
+
 ;; Evil Mode
 (setq evil-want-C-i-jump nil)          ; Fix tab in tty. BEFORE require 'evil
 (when (require 'evil nil 'noerror)
   (evil-mode 1)
   (add-to-list 'evil-emacs-state-modes ; Use emacs-state in various modes
+               'elfeed-search-mode
 	       'eww-mode)
-  (evil-set-toggle-key "C-M-z"))       ; Don't break suspend-frame bindings
+  (evil-set-toggle-key "C-M-z")        ; Don't break suspend-frame bindings
+  ;; Use emacs like bindings in insert-state
+  (define-key evil-insert-state-map "\C-n" 'evil-next-line)
+  (define-key evil-insert-state-map "\C-p" 'evil-previous-line)
+  (define-key evil-insert-state-map "\C-a" 'evil-beginning-of-line)
+  (define-key evil-insert-state-map "\C-e" 'bevil-end-of-line)
+  ;; Page through buffer with space and shift+space/backspace in normal-state
+  (define-key evil-normal-state-map (kbd "SPC") 'scroll-up-command)
+  (define-key evil-normal-state-map (kbd "DEL") 'scroll-down-command)
+  (define-key evil-normal-state-map (kbd "S-SPC") 'scroll-down-command))
 
 ;; AuTeX and DocView Modes
 (add-hook 'TeX-mode-hook 'auto-fill-mode)
-(setq doc-view-continuous t)
-(setq TeX-view-program-selection
- '(((output-dvi has-no-display-manager) "dvi2tty")
-   ((output-pdf has-no-display-manager) "fbpdf")
-   ((output-html has-no-display-manager) "lynx")
-   (output-dvi "xdg-open")
-   (output-pdf "xdg-open")
-   (output-html "xdg-open")))
+(setq doc-view-continuous t
+      TeX-view-program-selection
+      '(((output-dvi has-no-display-manager) "dvi2tty")
+        ((output-pdf has-no-display-manager) "fbpdf")
+        ((output-html has-no-display-manager) "lynx")
+        (output-dvi "xdg-open")
+        (output-pdf "xdg-open")
+        (output-html "xdg-open")))
 
 ;; Use Ido if Ivy is not present
 (if (boundp 'ivy-mode)
@@ -103,13 +141,28 @@
 ;; Org Mode
 (add-hook 'org-mode-hook 'auto-fill-mode)
 (setq org-publish-timestamp-directory "~/.config/emacs/org-timestamps/")
+(global-set-key "\C-ca" 'org-agenda)
 
 ;; Dictionary Mode
 ;(setq dictionary-server "localhost")
 
 ;; Load parchment theme
-(when (boundp 'parhment)
+(when (boundp 'parchment)
   (load-theme 'parchment t))
+
+;; Writeroom mode
+(global-set-key (kbd "C-x w") 'writeroom-mode)
+
+;; Emacs Multi Media System
+(when (and (require 'emms-setup nil 'noerror)
+           (require 'emms-player-mpd nil 'noerror))
+  (emms-all)
+  (emms-default-players)
+  (setq emms-player-mpd-server-name "localhost"
+        emms-player-mpd-server-port "6600")
+  (add-to-list 'emms-info-functions 'emms-info-mpd)
+  (add-to-list 'emms-player-list 'emms-player-mpd)
+  (global-set-key (kbd "C-x p") 'emms-play-file))
 
 ;; Emacs Web Wowser
 (setq shr-use-colors nil
@@ -120,17 +173,6 @@
            (require 'evil-magit nil 'noerror))
   (global-set-key (kbd "C-x g") 'magit-status)
   (setq evil-magit-state 'motion))
-
-;;;;;;;;;;;;;;;;;;;
-;; Suspend behavior
-;;;;;;;;;;;;;;;;;;;
-(global-unset-key (kbd "C-z"))
-(global-set-key (kbd "C-z C-z") ; Prevent confilct in stumpwm
-		(lambda () ; Only suspend frame if running from terminal
-		   (interactive)
-		   (if (display-graphic-p)
-		       (message "suspend-frame disabled for graphical displays.")
-		     (suspend-frame))))
 
 ;;;;;;;;;;;;;;;;;;;
 ;; Set Window Title
@@ -168,7 +210,7 @@
          '(85 . 50) '(100 . 100)))))
 ;; Set transparency of emacs
 (defun transparency (value)
-  "Set the transparency of the frame window. 0=transparent/100=opaque."
+  "Set transparency of the frame window to VALUE.  0=transparent/100=opaque."
   (interactive "nTransparency Value 0 - 100 opaque:")
   (set-frame-parameter (selected-frame) 'alpha value))
 ;(transparency 85)
@@ -178,45 +220,11 @@
 ;;;;;;;;;;;;
 ;; From http://ergoemacs.org/emacs/emacs_list_and_set_font.html
 (set-fontset-font
- t
- '(#x1f300 . #x1fad0)
+ t '(#x1f300 . #x1fad0)
  (cond
   ((member "Noto Color Emoji" (font-family-list)) "Noto Color Emoji")
   ((member "Noto Emoji" (font-family-list)) "Noto Emoji")
   ((member "Segoe UI Emoji" (font-family-list)) "Segoe UI Emoji")
   ((member "Symbola" (font-family-list)) "Symbola")
-  ((member "Apple Color Emoji" (font-family-list)) "Apple Color Emoji"))
- ;; Apple Color Emoji should be before Symbola, but Richard Stallman disabled it.
- ;; GNU Emacs Removes Color Emoji Support on the Mac
- ;; http://ergoemacs.org/misc/emacs_macos_emoji.html
- ;;
- )
-
-;;;;;;;;;;;;;
-;; Begin Auto
-;;;;;;;;;;;;;
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(ansi-color-faces-vector
-   [default default default italic underline success warning error])
- '(ansi-color-names-vector
-   ["#242424" "#e5786d" "#95e454" "#cae682" "#8ac6f2" "#333366" "#ccaa8f" "#f6f3e8"])
- '(custom-enabled-themes nil)
- '(default-input-method "russian-computer")
- '(evil-undo-system 'undo-redo)
- '(org-drill-done-count-color "#663311")
- '(org-drill-failed-count-color "#880000")
- '(org-drill-mature-count-color "#005500")
- '(org-drill-new-count-color "#004488")
- '(package-selected-packages
-   '(gemini-mode ereader evil-magit magit dired-git-info persist cider clojure-mode elpher parchment-theme peep-dired rust-mode haskell-mode counsel ivy nov evil markdown-mode dictionary latex-math-preview auctex writeroom-mode htmlize)))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
+  ((member "Apple Color Emoji" (font-family-list)) "Apple Color Emoji")))
 ;;; init.el ends here
