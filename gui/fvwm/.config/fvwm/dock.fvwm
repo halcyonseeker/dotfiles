@@ -34,9 +34,9 @@ DestroyModuleConfig Dock: *
 *Dock: (1x1, Swallow "stalonetray" `Exec stalonetray -i 20 -p`)
 
 # Icon Manager
-#FvwmIconMan:  font "-*-helvetica-bold-r-*-*-14-*-*-*-*-*-iso10646-1"
+*FvwmIconMan: font "xft:Sans:Italic:size=10:antialias=True"
 *FvwmIconMan: managergeometry 1x0-0+335@g
-*FvwmIconMan: buttongeometry 65x0
+*FvwmIconMan: buttongeometry 77x0
 *FvwmIconMan: format "%i"
 *FvwmIconMan: focusbutton down black grey
 *FvwmIconMan: plainbutton up black slategray
@@ -48,5 +48,5 @@ DestroyModuleConfig Dock: *
 *FvwmIconMan: sort none
 *FvwmIconMan: resolution page
 *FvwmIconMan: drawicons true
-Style FvwmIconMan NoTitle, Sticky, WindowListSkip, !Iconifiable
+Style FvwmIconMan NoTitle, Sticky, WindowListSkip, !Iconifiable, !Handles
 Style * NoIcon # Prevent minimized windows from placing icons on the desk

@@ -14,7 +14,6 @@
 # TODO: Return focus to previous window when closing newest window
 # TODO: Make config portable between fvwm, fvwm2, and fvwm3
 # TODO: Add XDG application menu
-# TODO: Change IconMan font (need good unicode support)
 # TODO: Change menu styles to look more like GTK Raleigh menus
 # TODO: Fix multiple-monitor behavior
 # - Window list with (CurrentPage) only has the windows in the current monitor
