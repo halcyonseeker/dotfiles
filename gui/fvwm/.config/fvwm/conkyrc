@@ -14,6 +14,7 @@ conky.config={
     draw_shades = false,
     gap_x = 1298,
     gap_y = 441,
+    double_buffer = true,
 }
 conky.text=[[
 ${alignc}${time %a %k:%M}
