@@ -11,7 +11,7 @@ st.font: Monospace:size=10
 !!!!!!!!!! XTerm
 XTerm.termName: xterm-256color
 XTerm*faceName: DejaVu Sans Mono
-XTerm*faceSize: 9
+XTerm*faceSize: 8.5
 XTerm*saveLines: 16384
 XTerm*highlightSelection: true
 ! Allow Xterms to be properly iconified in FVWM
