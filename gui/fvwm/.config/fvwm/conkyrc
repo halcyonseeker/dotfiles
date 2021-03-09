@@ -1,0 +1,28 @@
+conky.config={
+    background = true,
+    out_to_console = no,
+    own_window = true,
+    own_window_title = 'FvwmConky',
+    own_window_type = dock,
+    own_window_transparent = true,
+    use_xft = true,
+    font = 'mono:bold:size=7',
+    update_interval = 1.0,
+    total_run_times = 0,
+    use_spacer = none,
+    alignment = top_middle,
+    draw_shades = false,
+    gap_x = 1298,
+    gap_y = 441,
+}
+conky.text=[[
+${alignc}${time %a %k:%M}
+${alignc}${time %b %m-%d}
+${cpugraph cpu0}
+Mem ${alignc}$membar
+SSD ${alignc}$fs_bar
+${alignc}${battery_short}
+${alignc}${battery_time}
+${battery_bar}
+]]
+

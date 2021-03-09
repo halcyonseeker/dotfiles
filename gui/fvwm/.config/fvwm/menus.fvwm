@@ -37,43 +37,18 @@ AddToMenu   WindowOps
 DestroyMenu RootMenu
 AddToMenu   RootMenu "Root Menu" Title
 + "Terminal"           Exec $[infostore.terminal]
-+ "Connect to Emacs"   Exec emacsclient -c
-+ "Emacs E-Mail"       Exec emacsclient -c -e '(mu4e)'
++ "Emacsclient"        Exec emacsclient -c
++ "E-Mail"       Exec emacsclient -c -e '(mu4e)'
 + ""                   Nop
-+ "Applications Menu"  Popup ApplicationsMenu
-+ "Theme Menu"         Popup ThemesMenu
++ "Russian Book"       Exec $[infostore.terminal] -e nnn ~/academics-f20/rus220/Foundations_of_Russian
 + ""                   Nop
 + "Display Settings"   Exec arandr
 + "Kill X Program"     Exec xkill
 + ""                   Nop
-+ "FVWM Console"       Module FvwmConsole -terminal xterm
++ "FVWM Console"       Module FvwmConsole -terminal $[infostore.terminal]
 + "Refresh Fvwm"       Refresh
 + "Restart Fvwm"       Restart
 + "Exit Fvwm"          Popup QuitMenu
-
-# TODO: Use piperead to get listing of XDG Desktop programs
-DestroyMenu ApplicationsMenu
-AddToMenu   ApplicationsMenu "Applications Menu" Title
-+ "TODO"               Nop
-
-DestroyMenu ThemesMenu
-AddToMenu   ThemesMenu "Select Themes" Title
-+ "Select Wallpaper"   Exec sxiv -t ~/images/wallpapers/* /storage/personal/Desktop/img/*
-+ "FVWM Themes"        Popup FVWMThemesMenu
-+ "Xresources Themes"  Popup XresourcesMenu
-
-# TODO: Create some color and decoration themes for FVWm
-DestroyMenu FVWMThemesMenu
-AddToMenu   FVWMThemesMenu "FVWM Themes" Title
-+ "TODO"               Nop
-
-DestroyMenu XresourcesMenu
-AddToMenu   XresourcesMenu "Xresources Themes" Title
-+ "Clear Theme"        Exec xrdb -remove && xrdb -merge ~/.config/xresources/Xresources
-+ ""                   Nop
-+ "Gruvbox Dark"       Exec xrdb -merge ~/.config/xresources/gruvbox-dark.xres 
-+ "Gruvbox Light"      Exec xrdb -merge ~/.config/xresources/gruvbox-light.xres 
-+ "Parchment"          Exec xrdb -merge ~/.config/xresources/parchment.xres 
 
 # Quit Menu
 DestroyMenu QuitMenu

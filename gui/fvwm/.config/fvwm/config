@@ -31,7 +31,8 @@ DesktopName    1 Secondary
 DesktopName    2 Tertiary
 
 # Default terminal
-InfoStoreAdd terminal xterm -ti vt340
+# InfoStoreAdd terminal xterm -ti vt340
+InfoStoreAdd terminal alacritty
 
 # Startup 
 # FVWM looks for these files in $FVWM_USERDIR
@@ -42,6 +43,7 @@ AddToFunc   StartFunction
 + I Read "bindings.fvwm"
 + I Module FvwmButtons Dock
 + I Module FvwmIconMan
++ I Exec conky -c ~/.config/fvwm/conkyrc
 
 # Fonts
 WindowFont "xft:Sans:Italic:size=10:antialias=True"
