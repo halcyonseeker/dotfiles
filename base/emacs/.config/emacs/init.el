@@ -1,14 +1,18 @@
 ;;; init.el --- Thalia Wright's startup file for GNU Emacs
 ;;; Commentary:
 ;; TODO:
-;; - Fix TeX-view-program-selection to use xdg-open when running with
-;;   -nw in a graphical environemnt
+;; - Fix TeX-view-program-selection to use xdg-open when running with -nw
+;;   in a graphical environemnt
 ;; - Evil Mode
 ;;   - Fix redo behavior
-;;   - Fix elfeed bindings
+;; - Elfeed
+;;   - Get elfeed and evil to work together
+;;   - Figure out archiving of feeds
+;; - Set a keybinding for eww-browse-external-browser in eww-mode
+;; - Have mu4e use xdg-open instead of eww-mode
 ;; - Use pinentry-emacs or pinentry-tty in non-graphical frames
 ;; - Make document viewing nicer
-;; - Clean up init file and look into use-package
+;; - Clean up init file and apply use-package more liberally
 ;; - Resolve "{add} Access Denied" issue with emms and mpd
 
 ;;; Code:
@@ -19,7 +23,8 @@
       mu4e-attachment-dir "~/temporary"
       user-full-name "Thalia Wright"
       user-mail-address "vesperous@protonmail.com"
-      org-directory "~/org")
+      org-directory "~/org"
+      browse-url-browser-function 'eww-browse-url)
 
 ;;;;;;;;;;;;;;;;;;;
 ;; Aesthetic Tweaks
@@ -84,28 +89,39 @@
            (require 'smtpmail nil 'noerror))
   (load "~/.config/emacs/mu4e.el"))
 
-;; Elfeed RSS/Atom Reader
-(global-set-key (kbd "C-x n") 'elfeed)
-(when (file-exists-p "~/documents/elfeed.el")
-  (load "~/documents/elfeed.el"))
+;; Elfeed
+(use-package elfeed
+  :ensure t
+  :bind
+  ("C-x r" . elfeed)
+  :init
+  (load "~/documents/elfeed.el")
+  :bind
+  :config
+  (setq elfeed-db-directory "~/.config/emacs/elfeed"))
 
-;; Evil Mode
-(setq evil-want-C-i-jump nil)          ; Fix tab in tty. BEFORE require 'evil
-(when (require 'evil nil 'noerror)
+;; Evil Mode and Evil Collection
+(use-package evil
+  :ensure t
+  :demand t
+  :init
+  (setq evil-want-C-i-jump nil       ; Fix TAB in non-graphical frames
+        evil-want-keybinding nil)    ; Required for evil-collection
+  :config
   (evil-mode 1)
-  (add-to-list 'evil-emacs-state-modes ; Use emacs-state in various modes
-               'elfeed-search-mode
-	       'eww-mode)
-  (evil-set-toggle-key "C-M-z")        ; Don't break suspend-frame bindings
+  (evil-set-toggle-key "C-M-z")      ; Don't break suspend-frame bindings
+  ;; evil-collections isn't good enough in elfeed, eww, and dired
+  (evil-set-initial-state 'help-mode 'emacs)
+  (evil-set-initial-state 'elfeed-search-mode 'emacs)
+  (evil-set-initial-state 'elfeed-show-mode 'emacs)
+  (evil-set-initial-state 'eww-mode 'emacs)
   ;; Use emacs like bindings in insert-state
-  (define-key evil-insert-state-map "\C-n" 'evil-next-line)
-  (define-key evil-insert-state-map "\C-p" 'evil-previous-line)
+  (define-key evil-insert-state-map "\C-n" 'next-line)
+  (define-key evil-insert-state-map "\C-p" 'previous-line)
   (define-key evil-insert-state-map "\C-a" 'evil-beginning-of-line)
-  (define-key evil-insert-state-map "\C-e" 'bevil-end-of-line)
-  ;; Page through buffer with space and shift+space/backspace in normal-state
-  (define-key evil-normal-state-map (kbd "SPC") 'scroll-up-command)
-  (define-key evil-normal-state-map (kbd "DEL") 'scroll-down-command)
-  (define-key evil-normal-state-map (kbd "S-SPC") 'scroll-down-command))
+  (define-key evil-insert-state-map "\C-e" 'evil-end-of-line)
+  (define-key evil-insert-state-map "\C-k" 'kill-line)
+  (define-key evil-insert-state-map "\C-d" 'evil-delete-char))
 
 ;; AuTeX and DocView Modes
 (add-hook 'TeX-mode-hook 'auto-fill-mode)
@@ -132,10 +148,10 @@
 
 ;; Dired and Peep Mode
 (global-set-key (kbd "C-x i") 'peep-dired)
-(when (boundp 'evil-define-key)
+(when (boundp 'evil-mode)
   (evil-define-key 'normal peep-dired-mode-map
-                   (kbd "j") 'peep-dired-next-file
-                   (kbd "k") 'peep-dired-prev-file)
+    (kbd "j") 'peep-dired-next-file
+    (kbd "k") 'peep-dired-prev-file)
   (add-hook 'peep-dired-hook 'evil-normalize-keymaps))
 
 ;; Org Mode
@@ -166,12 +182,18 @@
 
 ;; Emacs Web Wowser
 (setq shr-use-colors nil
-      eww-download-directory "~/temporary")
+      eww-download-directory "~/temporary"
+      eww-browse-secondary-browser-function '(shell-command "xdg-open"))
 
-;; Magit
-(when (and (require 'magit nil 'noerror)
-           (require 'evil-magit nil 'noerror))
-  (global-set-key (kbd "C-x g") 'magit-status)
+;; Magit and Magit Evil
+(use-package magit
+  :ensure t
+  :bind
+  ("C-x g" . magit-status))
+(use-package evil-magit
+  :after magit evil
+  :ensure t
+  :config
   (setq evil-magit-state 'motion))
 
 ;;;;;;;;;;;;;;;;;;;
