@@ -1,7 +1,5 @@
-# ~/.xprofile
+# xinitrc
 # Contains programs to be run when Xorg is started. 
-# I'm a pathological WM/DE hopper, so I moved `exec asdf` to ~/.xinitrc
-# Remember to add `[ -f ~/.xprofile ] && . ~/.xprofile` to xinitrc
 
 # Don't beep at me
 xset b off
@@ -27,9 +25,11 @@ feh --no-fehbg --bg-fill "$(find ~/images/wallpapers -name "*" | shuf | head -1)
     xsetroot -solid "#999999"
 
 # Load Xresources
-xrdb -merge ~/.config/xresources/Xresources
-xrdb -merge ~/.config/xresources/gruvbox-dark.xres
+xrdb -merge ~/.config/xorg/Xresources
+xrdb -merge ~/.config/xorg/gruvbox-dark.xres
 
 # Customize keyboard
 setxkbmap -option caps:swapescape
 setxkbmap -option compose:ralt
+
+exec fvwm -f ~/.config/fvwm/config
