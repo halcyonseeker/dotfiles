@@ -13,9 +13,20 @@
 ;; - Use pinentry-emacs or pinentry-tty in non-graphical frames
 ;; - Make document viewing nicer
 ;; - Clean up init file and apply use-package more liberally
+;;   - https://github.com/jwiegley/use-package
+;;   - http://cachestocaches.com/2015/8/getting-started-use-package/
 ;; - Resolve "{add} Access Denied" issue with emms and mpd
 
 ;;; Code:
+
+;; (defun where-open-url (url)
+;;   "Determine how to open URL"
+;;   (if (string= major-mode 'mu4e-view-mode)
+;;       (if (window-system)
+;;           '(shell-command (format "xdg-open %s" url))
+;;         '(eww-browse-url url))
+;;     '(eww-browse-url url)))
+      
 ;;;;;;;;;;;;;;;;
 ;; Personal Info
 ;;;;;;;;;;;;;;;;
@@ -92,12 +103,14 @@
 ;; Elfeed
 (use-package elfeed
   :ensure t
-  :bind
-  ("C-x r" . elfeed)
+  :defer t
   :init
   (load "~/documents/elfeed.el")
   :bind
+  ("C-x r" . elfeed)
   :config
+  (bind-key "j" 'next-line elfeed-search-mode-map)
+  (bind-key "k" 'previous-line elfeed-search-mode-map)
   (setq elfeed-db-directory "~/.config/emacs/elfeed"))
 
 ;; Evil Mode and Evil Collection
