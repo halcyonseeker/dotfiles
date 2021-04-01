@@ -34,6 +34,7 @@ alias yta="youtube-dl --add-metadata -i -x -f bestaudio/best"
 alias ec="emacsclient -nw -c"
 alias em="emacsclient -nw -e '(mu4e)'"
 alias ip="ip -c"
+alias ru="openrussian" # TODO: find a better lang-lang dictionary solution
 
 set -o emacs
 
