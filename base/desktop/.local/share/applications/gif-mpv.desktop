@@ -1,0 +1,5 @@
+[Desktop Entry]
+Type=Application
+Name=Loop a GIF in MPV
+Exec=mpv --loop-file=inf "%U"
+MimeType=image/gif
