@@ -1,6 +1,6 @@
 #!/bin/sh
 # Default handler for magnet links
-# Called by ~/.local/share/applications/torrent.desktop and ~/.config/mimeapps.list
+# Called by ~/.local/share/applications/{torrent.desktop, mimeapps.list}
 # Depends on transmission-cli, notify-send, and dunst
 
 if [ -z "$1" ] ; then
@@ -8,13 +8,16 @@ if [ -z "$1" ] ; then
     exit 1
 fi
 
-pgrep -x transmission-da >/dev/null || \
-    (transmission-daemon && notify-send "🌱 Torrent Handler" "Starting transmission-daemon...")
+pgrep -x transmission-da >/dev/null || {
+    transmission-daemon -w ~/temporary && \
+        notify-send "🌱 Torrent Handler" "Starting transmission-daemon..."
+}
 
 sleep 5
 
-if (transmission-remote -a "$1" >"$HOME"/torrent-add.err 2>&1) ; then 
+if (transmission-remote -a "$1" -e "$XDG_CACHE_HOME"/transmission-da.log) ; then
     notify-send "🌱 Torrent Handler" "Added $1"
 else
-    notify-send "🌱 Torrent Handler" "Failed: Unable to Add Torrent. See ~/torrent-add.err"
+    notify-send "🌱 Torrent Handler" \
+                "Failed: Unable to Add Torrent. See ~/torrent-add.err"
 fi
