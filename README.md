@@ -24,13 +24,13 @@ stow creates corresponding links in my home directory. For example:
 ## Contents
 I sometimes like to reorganise this repository for fun, so this might
 not be accurate:
-* **shells/** A Rube-Goldberg shell configuration, see below. Why I
-  didn't put this directory in base/ is a mystery to me.
 * **base/** Configurations that don't explicitly depend on a
   graphical user interface. I keep these separate from GUI to make it
   easier to use machines that I don't have as much control over.
 * **gui/** Configurations for X11, various window managers, and
   explicitly graphical programs.
+I'm gradually moving "packages" out of base/ and gui/, right now this 
+has been reflected in shells/, xorg/, and neovim/.
     
 ## Commentary
 ### XDG Base Directory Bigotry
@@ -44,18 +44,18 @@ I have a kinda cool but also really dumb polyglot shell configuration.
 The file ~/.profile is read at login by the Korn shell and the Bourne
 shell. It primarily contains portable environment declarations that I
 think should work on any Posix-superset shell. Because ~/.profile is
-only read by ksh and sh, if `$SHELL` is set to bash or zsh the symlink
-should be renamed accordingly:
+only read by ksh and sh, if `$SHELL` is set to the Boomer shell or the 
+Zoomer shell then the symlink should be renamed accordingly:
 
     % [ $(basename $SHELL) = zsh ] && mv .profile .zprofile
-    % [ $(basename $SHELL) = bash ] && mv .profile .bash_profile
+    $ [ $(basename $SHELL) = bash ] && mv .profile .bash_profile
 
-The file ~/.shrc is a weird multi-shell polyglot file that is run in
+The file ~/.shrc is a weird multi-shell polyglot file that is run by
 non-login shells. For sh and ksh it is set as the value of the `$ENV`
 variable and ran. For bash and zsh the symlink should be renamed:
 
     % [ $(basename $SHELL) = zsh ] && mv .shrc .zshrc
-    % [ $(basename $SHELL) = bash ] && mv .shrc .bashrc
+    $ [ $(basename $SHELL) = bash ] && mv .shrc .bashrc
 
 This works perfectly for zsh and OpenBSD ksh, and require some tweaks
 under bash. It sort-of works for dash and FreeBSD's `/bin/sh`, though
@@ -74,15 +74,14 @@ symlink is required:
     
 I like to use Emacs for weird things like email and pdf previews of
 LaTeX documents, so my configuration relies on some external packages
-like imagemagick, texlive, gpg, pass, and mu4e. 
+like imagemagick, texlive, gpg, pass, protonmail-bridge, and mu4e. 
 
 My configuration heavily depends on melpa packages like AucTeX and
 Evil Mode, so `M-x package-refresh-contents` and `M-x
-package-install-selected-packages` are required.
-
-Additionally, in order to do email in emacs I need things that I don't
-keep in this repository like my password-store and external programs
-like protonmail-bridge.
+package-install-selected-packages` are required. I'm slowly rewriting
+everything to just work<sup>TM<sup> with the `use-package` macro. I
+should also take advantage of emacs' ability to compile elisp to
+reduce the startup time.
 
 ### neo(vim)
 I prefer neovim to vim, but I think this configuration should work
@@ -90,21 +89,19 @@ with plain old vim provided that ~/.profile exists with `$VIMINIT` set
 to the right file.
 
 ### X Stuff
-Because I'm a pathological WM hopper and I keep my things under git,
-the bulk of my X configuration (programs I want started and stuff)
-live in the file symlinked to by ~/.xprofile. This is called by
-~/.xinitrc, just before the `exec foo` directive. I really need to
-figure out a better way of doing that. The ly display manager with
-it's DOOM-like ansi flames looks promising.
+I used to be a a pathological WM hopper, though I've started to
+fossilise around Fvwm. As such I have some keybindings managed by
+sxhkdrc as well as a cwm configuration in this repo. In the future
+I'll probably make an effort to streamline things around Fvwm. All my
+xorg stuff lives in ~/.config/xorg with `$XINITRC` set to the
+appropriate file. Sadly the startx script (a wrapper around xinit)
+doesn't support this variable (despite it requiring a 1-line change
+and an issue having been open for *years*), so at some point I'll
+probably just role my own.
 
-I'm hoping that FVWM holds a cure for my addiction.
-
-I haven't been memed into switching to Wayland yet, but if/when I do
-I'll have to figure out a way of automatically calling/filtering
-~/.xprofile.
-
-Xresources and stuff live in ~/.config/xresources, which may be an
-issue for some programs. I haven't encountered any though.
+I have my GTK3 theme set to Raleigh-Reloaded, which mimics the
+traditional GTk2 theme. This works pretty well, though I still need to
+figure out how to theme those stupid QT programs.
 
 ### Freedesktop S&!t
 The XDG utils and specifications are generally stupid and obtuse, so
