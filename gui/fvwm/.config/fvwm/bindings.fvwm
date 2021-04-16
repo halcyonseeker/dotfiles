@@ -12,6 +12,34 @@ AddToFunc   RaiseMove
 + I       Raise
 + M       $0
 
+# Tile window while respecting EwmhBaseStruts & keeping decoration
+DestroyFunc SoftTileLeft
+AddToFunc   SoftTileLeft
++ I ThisWindow (!Shaded, !Iconic) Maximize 50 100
++ I ThisWindow (Maximized, !Shaded, !Iconic) Move +0 +0
+
+DestroyFunc SoftTileRight
+AddToFunc   SoftTileRight
++ I ThisWindow (!Shaded, !Iconic) Maximize 50 100
++ I ThisWindow (Maximized, !Shaded, !Iconic) Move -0 +0
+
+DestroyFunc SoftTileTop
+AddToFunc   SoftTileTop
++ I ThisWindow (!Shaded, !Iconic) Maximize 100 50
++ I ThisWindow (Maximized, !Shaded, !Iconic) Move +0 +0
+
+DestroyFunc SoftTileBottom
+AddToFunc   SoftTileBottom
++ I ThisWindow (!Shaded, !Iconic) Maximize 100 50
++ I ThisWindow (Maximized, !Shaded, !Iconic) Move +0 -0
+
+# Tile window left/right while ignoring EwmhBaseStruts & removing decoration
+# DestroyFunc HardTileLeft
+# AddToFunc   HardTileLeft
+
+# DestroyFunc HardTileRight
+# AddToFunc   HardTileRight
+
 # TODO Undecorate and fully maximize a window
 # DestroyFunc FullscreenWin
 # AddToFunc FullscreenWin
@@ -86,6 +114,17 @@ Key       m        A       MC        Maximize 100 100
 # Meta + Control + i/s minimize/stick a window
 Key       i        A       MC        Iconify
 Key       s        A       MC        Stick
+
+# Super + (h/j/k/l || Left/Down/Up/Right):
+# Tile focused window
+Key       h        A       4         SoftTileLeft
+Key       j        A       4         SoftTileBottom
+Key       k        A       4         SoftTileTop
+Key       l        A       4         SoftTileRight
+Key       Left     A       4         SoftTileLeft
+Key       Down     A       4         SoftTileBottom
+Key       Up       A       4         SoftTileTop
+Key       Right    A       4         SoftTileRight
 
 # Super + 1/2/3 - Go to desk 1/2/3
 # TODO: add a few workspaces
