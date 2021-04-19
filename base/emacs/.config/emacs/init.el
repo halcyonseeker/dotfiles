@@ -25,9 +25,9 @@
 ;;         '(eww-browse-url url))
 ;;     '(eww-browse-url url)))
       
-;;;;;;;;;;;;;;;;
-;; Personal Info
-;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Personal Info
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq mail-user-agent 'mu4e-user-agent
       mu4e-attachment-dir "~/temporary"
       user-full-name "Thalia Wright"
@@ -35,9 +35,9 @@
       org-directory "~/org"
       browse-url-browser-function 'eww-browse-url)
 
-;;;;;;;;;;;;;;;;;;;
-;; Aesthetic Tweaks
-;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Aesthetic Tweaks
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Fix general appearance and behavior
 (tool-bar-mode 0)
 (menu-bar-mode 0)
@@ -90,9 +90,9 @@
 		  (interactive)
 		  (when (not (display-graphic-p)) (suspend-frame))))
 
-;;;;;;;;;;;;;;;;;;;;;
-;; Packages and Modes
-;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Install and configure packages
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Initialize use-package
 (when (not (package-installed-p 'use-package))
   (package-refresh-contents)
@@ -103,7 +103,7 @@
            (require 'smtpmail nil 'noerror))
   (load "~/.config/emacs/mu4e.el"))
 
-;; Elfeed
+;; Elfeed RSS Reader
 (use-package elfeed
   :ensure t
   :defer t
@@ -116,7 +116,7 @@
   (bind-key "k" 'previous-line elfeed-search-mode-map)
   (setq elfeed-db-directory "~/.config/emacs/elfeed"))
 
-;; Evil Mode and Evil Collection
+;; Evil Mode - A better text editor for Emacs
 (use-package evil
   :ensure t
   :demand t
@@ -139,7 +139,9 @@
   (define-key evil-insert-state-map "\C-k" 'kill-line)
   (define-key evil-insert-state-map "\C-d" 'evil-delete-char))
 
-;; AuTeX and DocView Modes
+;; TeX editing and document previews
+
+
 (add-hook 'TeX-mode-hook 'auto-fill-mode)
 (setq doc-view-continuous t
       TeX-view-program-selection
@@ -189,8 +191,8 @@
   (setq dictionary-server "localhost"))
 
 ;; Load parchment theme
-(when (boundp 'parchment)
-  (load-theme 'parchment t))
+;; (when (boundp 'parchment)
+;;   (load-theme 'parchment t))
 
 ;; Writeroom mode for a distraction-free environment
 (use-package writeroom-mode
@@ -217,7 +219,7 @@
       eww-download-directory "~/temporary"
       eww-browse-secondary-browser-function '(shell-command "xdg-open"))
 
-;; Magit and Magit Evil
+;; Magit and Magit Evil -- Make Git way faster and easier to use
 (use-package magit
   :ensure t
   :bind
@@ -228,9 +230,6 @@
   :config
   (setq evil-magit-state 'motion))
 
-;;;;;;;;;;;;;;;;;;;
-;; Set Window Title
-;;;;;;;;;;;;;;;;;;;
 ;; Misc packages
 (use-package go-mode :ensure t)
 (use-package htmlize :ensure t)
@@ -240,6 +239,9 @@
 (use-package nov     :ensure t :after ereader)
 ;; persist use-package parchment-theme
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Set Window Title
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq-default frame-title-format
               '(:eval
                 (format "%s %s [%s@%s]"
@@ -255,9 +257,9 @@
                         (or (file-remote-p default-directory 'host)
                             system-name))))
 
-;;;;;;;;;;;;;;;
-;; Transparency
-;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Transparency
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; From https://gitlab.com/mvanorder1390/my-emacs-config/blob/master/init.el
 (defun toggle-transparency ()
   "Toggle the transparency of an Emacs frame."
@@ -278,9 +280,9 @@
   (set-frame-parameter (selected-frame) 'alpha value))
 ;(transparency 85)
 
-;;;;;;;;;;;;
-;; Emojis 🤣
-;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Emojis 🤣
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; From http://ergoemacs.org/emacs/emacs_list_and_set_font.html
 (set-fontset-font
  t '(#x1f300 . #x1fad0)
