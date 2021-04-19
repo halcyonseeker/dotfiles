@@ -12,9 +12,7 @@
 ;; - Have mu4e use xdg-open instead of eww-mode
 ;; - Use pinentry-emacs or pinentry-tty in non-graphical frames
 ;; - Make document viewing nicer
-;; - Clean up init file and apply use-package more liberally
-;;   - https://github.com/jwiegley/use-package
-;;   - http://cachestocaches.com/2015/8/getting-started-use-package/
+;; - Figure out why use-package can't find evil-magit
 ;; - Resolve "{add} Access Denied" issue with emms and mpd
 
 ;;; Code:
@@ -95,6 +93,11 @@
 ;;;;;;;;;;;;;;;;;;;;;
 ;; Packages and Modes
 ;;;;;;;;;;;;;;;;;;;;;
+;; Initialize use-package
+(when (not (package-installed-p 'use-package))
+  (package-refresh-contents)
+  (package-install 'use-package))
+
 ;; Mu4e Mail Client
 (when (and (require 'mu4e nil 'noerror)
            (require 'smtpmail nil 'noerror))
@@ -146,45 +149,61 @@
         (output-dvi "xdg-open")
         (output-pdf "xdg-open")
         (output-html "xdg-open")))
+;;(use-package latex-math-preview :ensure t :after auctex)
 
-;; Use Ido if Ivy is not present
-(if (boundp 'ivy-mode)
-    (progn
-      (ivy-mode 1)
-      (global-set-key (kbd "C-x C-f") 'counsel-find-file))
-  (progn
-    (ido-mode 1)
-    (setq ido-default-file-method 'selected-window
-          ido-default-buffer-method 'selected-window)
-    (make-local-variable 'ido-decorations)
-    (setf (nth 2 ido-decorations) "\n")))
+;; Markdown editing mode
+(use-package markdown-mode
+  :ensure t
+  :config
+  (add-hook 'markdown-mode-hook 'auto-fill-mode))
 
-;; Dired and Peep Mode
-(global-set-key (kbd "C-x i") 'peep-dired)
-(when (boundp 'evil-mode)
-  (evil-define-key 'normal peep-dired-mode-map
-    (kbd "j") 'peep-dired-next-file
-    (kbd "k") 'peep-dired-prev-file)
-  (add-hook 'peep-dired-hook 'evil-normalize-keymaps))
+;; Ivy and counsel for nicer minibuffer behavior
+(use-package ivy
+  :ensure t
+  :config
+  (ivy-mode 1)
+  (global-set-key (kbd "C-x C-f") 'counsel-find-file))
+(use-package counsel :ensure t :after ivy)
+
+;; Ranger-style previews and Git info in dired
+(use-package dired-git-info :ensure t)
+(use-package peep-dired
+  :ensure t
+  :config
+  (global-set-key (kbd "C-x i") 'peep-dired)
+  (when (boundp 'evil-mode)
+    (evil-define-key 'normal peep-dired-mode-map
+      (kbd "j") 'peep-dired-next-file
+      (kbd "k") 'peep-dired-prev-file)
+    (add-hook 'peep-dired-hook 'evil-normalize-keymaps)))
 
 ;; Org Mode
 (add-hook 'org-mode-hook 'auto-fill-mode)
 (setq org-publish-timestamp-directory "~/.config/emacs/org-timestamps/")
 (global-set-key "\C-ca" 'org-agenda)
 
-;; Dictionary Mode
-;(setq dictionary-server "localhost")
+;; A nice dictionary
+(use-package dictionary
+  :ensure t
+  :config
+  (setq dictionary-server "localhost"))
 
 ;; Load parchment theme
 (when (boundp 'parchment)
   (load-theme 'parchment t))
 
-;; Writeroom mode
-(global-set-key (kbd "C-x w") 'writeroom-mode)
+;; Writeroom mode for a distraction-free environment
+(use-package writeroom-mode
+  :ensure t
+  :config
+  (global-set-key (kbd "C-x w") 'writeroom-mode))
 
-;; Emacs Multi Media System
-(when (and (require 'emms-setup nil 'noerror)
-           (require 'emms-player-mpd nil 'noerror))
+;; Control MPD from within Emacs
+(use-package emms
+  :ensure t
+  :config
+  (require 'emms-setup)
+  (require 'emms-player-mpd)
   (emms-all)
   (emms-default-players)
   (setq emms-player-mpd-server-name "localhost"
@@ -212,6 +231,15 @@
 ;;;;;;;;;;;;;;;;;;;
 ;; Set Window Title
 ;;;;;;;;;;;;;;;;;;;
+;; Misc packages
+(use-package go-mode :ensure t)
+(use-package htmlize :ensure t)
+(use-package ereader :ensure t)
+(use-package elpher  :ensure t)
+(use-package snow    :ensure t)
+(use-package nov     :ensure t :after ereader)
+;; persist use-package parchment-theme
+
 (setq-default frame-title-format
               '(:eval
                 (format "%s %s [%s@%s]"

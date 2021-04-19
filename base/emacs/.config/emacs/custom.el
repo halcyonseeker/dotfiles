@@ -17,9 +17,7 @@
  '(org-drill-done-count-color "#663311")
  '(org-drill-failed-count-color "#880000")
  '(org-drill-mature-count-color "#005500")
- '(org-drill-new-count-color "#004488")
- '(package-selected-packages
-   '(use-package go-mode emms gemini-mode ereader evil-magit magit dired-git-info persist elpher parchment-theme peep-dired counsel ivy nov evil markdown-mode dictionary latex-math-preview auctex writeroom-mode htmlize)))
+ '(org-drill-new-count-color "#004488"))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
