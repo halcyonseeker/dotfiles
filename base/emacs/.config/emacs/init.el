@@ -90,6 +90,17 @@
 		  (interactive)
 		  (when (not (display-graphic-p)) (suspend-frame))))
 
+
+;; Set the frame title to something more meaningful
+(setq-default frame-title-format
+              '(:eval
+                (cond (dired-directory
+                       (format "%s" (expand-file-name dired-directory)))
+                      ((and buffer-file-truename
+                            (not (string= major-mode "mu4e-compose-mode")))
+                       (format "%s %s" (buffer-name) buffer-file-truename))
+                      (t (format "%s" (buffer-name))))))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Install and configure packages
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -140,8 +151,6 @@
   (define-key evil-insert-state-map "\C-d" 'evil-delete-char))
 
 ;; TeX editing and document previews
-
-
 (add-hook 'TeX-mode-hook 'auto-fill-mode)
 (setq doc-view-continuous t
       TeX-view-program-selection
@@ -238,24 +247,6 @@
 (use-package snow    :ensure t)
 (use-package nov     :ensure t :after ereader)
 ;; persist use-package parchment-theme
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Set Window Title
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq-default frame-title-format
-              '(:eval
-                (format "%s %s [%s@%s]"
-                        (buffer-name)
-			(cond
-			 (buffer-file-truename
-                          (concat "(" buffer-file-truename ")"))
-                         (dired-directory
-                          (concat "{" dired-directory "}"))
-                         (t ""))
-                        (or (file-remote-p default-directory 'user)
-                            user-real-login-name)
-                        (or (file-remote-p default-directory 'host)
-                            system-name))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Transparency
