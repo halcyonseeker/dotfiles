@@ -31,13 +31,13 @@ not be accurate:
   explicitly graphical programs.
 I'm gradually moving "packages" out of base/ and gui/, right now this 
 has been reflected in shells/, xorg/, and neovim/.
-    
+
 ## Commentary
 ### XDG Base Directory Bigotry
 I keep a clean ~. A significant portion of my shell configuration is
 dedicated to telling wayward programs to look for their files in
 `$XDG_CONFIG_HOME`.
-    
+
 ### A Note on Shells
 I have a kinda cool but also really dumb polyglot shell configuration.
 
@@ -74,7 +74,7 @@ symlink is required:
     
 I like to use Emacs for weird things like email and pdf previews of
 LaTeX documents, so my configuration relies on some external packages
-like imagemagick, texlive, gpg, pass, protonmail-bridge, and mu4e. 
+like imagemagick, texlive, biber, gpg, pass, protonmail-bridge, and mu4e. 
 
 My configuration heavily depends on melpa packages like AucTeX and
 Evil Mode, so `M-x package-refresh-contents` and `M-x
