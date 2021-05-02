@@ -79,9 +79,9 @@ like imagemagick, texlive, biber, gpg, pass, protonmail-bridge, and mu4e.
 My configuration heavily depends on melpa packages like AucTeX and
 Evil Mode, so `M-x package-refresh-contents` and `M-x
 package-install-selected-packages` are required. I'm slowly rewriting
-everything to just work<sup>TM<sup> with the `use-package` macro. I
-should also take advantage of emacs' ability to compile elisp to
-reduce the startup time.
+everything to just work™ with the `use-package` macro. I should also
+take advantage of emacs' ability to compile elisp to reduce the
+startup time.
 
 ### neo(vim)
 I prefer neovim to vim, but I think this configuration should work
