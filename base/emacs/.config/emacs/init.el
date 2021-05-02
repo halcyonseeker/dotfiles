@@ -5,14 +5,10 @@
 ;;   in a graphical environemnt
 ;; - Evil Mode
 ;;   - Fix redo behavior
-;; - Elfeed
-;;   - Get elfeed and evil to work together
-;;   - Figure out archiving of feeds
 ;; - Set a keybinding for eww-browse-external-browser in eww-mode
 ;; - Have mu4e use xdg-open instead of eww-mode
 ;; - Use pinentry-emacs or pinentry-tty in non-graphical frames
 ;; - Make document viewing nicer
-;; - Figure out why use-package can't find evil-magit
 ;; - Resolve "{add} Access Denied" issue with emms and mpd
 
 ;;; Code:
@@ -90,7 +86,6 @@
 		  (interactive)
 		  (when (not (display-graphic-p)) (suspend-frame))))
 
-
 ;; Set the frame title to something more meaningful
 (setq-default frame-title-format
               '(:eval
@@ -123,8 +118,6 @@
   :bind
   ("C-x r" . elfeed)
   :config
-  (bind-key "j" 'next-line elfeed-search-mode-map)
-  (bind-key "k" 'previous-line elfeed-search-mode-map)
   (setq elfeed-db-directory "~/.config/emacs/elfeed"))
 
 ;; Evil Mode - A better text editor for Emacs
@@ -137,11 +130,6 @@
   :config
   (evil-mode 1)
   (evil-set-toggle-key "C-M-z")      ; Don't break suspend-frame bindings
-  ;; evil-collections isn't good enough in elfeed, eww, and dired
-  (evil-set-initial-state 'help-mode 'emacs)
-  (evil-set-initial-state 'elfeed-search-mode 'emacs)
-  (evil-set-initial-state 'elfeed-show-mode 'emacs)
-  (evil-set-initial-state 'eww-mode 'emacs)
   ;; Use emacs like bindings in insert-state
   (define-key evil-insert-state-map "\C-n" 'next-line)
   (define-key evil-insert-state-map "\C-p" 'previous-line)
@@ -149,6 +137,11 @@
   (define-key evil-insert-state-map "\C-e" 'evil-end-of-line)
   (define-key evil-insert-state-map "\C-k" 'kill-line)
   (define-key evil-insert-state-map "\C-d" 'evil-delete-char))
+(use-package evil-collection
+  :after evil
+  :ensure t
+  :config
+  (evil-collection-init))
 
 ;; TeX editing and document previews
 (add-hook 'TeX-mode-hook 'auto-fill-mode)
@@ -228,25 +221,18 @@
       eww-download-directory "~/temporary"
       eww-browse-secondary-browser-function '(shell-command "xdg-open"))
 
-;; Magit and Magit Evil -- Make Git way faster and easier to use
+;; Magit -- Make Git way faster and easier to use
 (use-package magit
   :ensure t
   :bind
   ("C-x g" . magit-status))
-(use-package evil-magit
-  :after magit evil
-  :ensure t
-  :config
-  (setq evil-magit-state 'motion))
 
-;; Misc packages
+;; Miscellaneous Useful Packages
 (use-package go-mode :ensure t)
 (use-package htmlize :ensure t)
 (use-package ereader :ensure t)
 (use-package elpher  :ensure t)
-(use-package snow    :ensure t)
 (use-package nov     :ensure t :after ereader)
-;; persist use-package parchment-theme
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Transparency
