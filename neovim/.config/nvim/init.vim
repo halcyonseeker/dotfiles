@@ -14,6 +14,8 @@ if !has('nvim')
     set viewdir=$XDG_DATA_HOME/vim/view
     set viminfo+='1000,n$XDG_DATA_HOME/vim/viminfo
     set runtimepath=$XDG_CONFIG_HOME/nvim,$VIMRUNTIME,$XDG_CONFIG_HOME/nvim/after
+    let &t_SI = "\e[6 q"
+    let &t_EI = "\e[2 q"
 endif
 
 " Never mix tabs and spaces
