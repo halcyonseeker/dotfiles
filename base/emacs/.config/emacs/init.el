@@ -5,11 +5,17 @@
 ;;   in a graphical environemnt
 ;; - Evil Mode
 ;;   - Fix redo behavior
+;; - Mu4e, Calendar, Diary
+;;   - Use xdg-open instead of eww-browse-url for urls and view-in-browser
+;;   - Import ics files into diary from mu4e
+;;     - Write function to filter crap out of Google Calendar ics files
+;;     - Use icalendar-import-file as default system handler for ics files
+;;   - Figure out why calendar won't show colors
 ;; - Set a keybinding for eww-browse-external-browser in eww-mode
-;; - Have mu4e use xdg-open instead of eww-mode
 ;; - Use pinentry-emacs or pinentry-tty in non-graphical frames
 ;; - Make document viewing nicer
 ;; - Resolve "{add} Access Denied" issue with emms and mpd
+;; - Would it be good to byte-compile init.el?
 
 ;;; Code:
 
