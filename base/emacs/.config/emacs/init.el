@@ -119,35 +119,26 @@
 (use-package elfeed
   :ensure t
   :defer t
-  :init
-  (load "~/documents/elfeed.el")
-  :bind
-  ("C-x r" . elfeed)
-  :config
-  (setq elfeed-db-directory "~/.config/emacs/elfeed"))
+  :init (load "~/documents/elfeed.el")
+  :bind ("C-x r" . elfeed)
+  :config (setq elfeed-db-directory "~/.config/emacs/elfeed"))
 
 ;; Evil Mode - A better text editor for Emacs
 (use-package evil
   :ensure t
   :demand t
   :init
-  (setq evil-want-C-i-jump nil       ; Fix TAB in non-graphical frames
-        evil-want-keybinding nil)    ; Required for evil-collection
+  (setq evil-want-C-i-jump nil          ; Fix TAB in -nw frames
+        evil-want-keybinding nil)
   :config
   (evil-mode 1)
-  (evil-set-toggle-key "C-M-z")      ; Don't break suspend-frame bindings
-  ;; Use emacs like bindings in insert-state
-  (define-key evil-insert-state-map "\C-n" 'next-line)
-  (define-key evil-insert-state-map "\C-p" 'previous-line)
-  (define-key evil-insert-state-map "\C-a" 'evil-beginning-of-line)
-  (define-key evil-insert-state-map "\C-e" 'evil-end-of-line)
-  (define-key evil-insert-state-map "\C-k" 'kill-line)
-  (define-key evil-insert-state-map "\C-d" 'evil-delete-char))
+  (evil-set-toggle-key "C-M-z")         ; Let me suspend the frame
+  (setq evil-disable-insert-state-bindings t))
 (use-package evil-collection
   :after evil
   :ensure t
-  :config
-  (evil-collection-init))
+  :init (setq evil-want-keybinding nil)
+  :config (evil-collection-init))
 
 ;; TeX editing and document previews
 (add-hook 'TeX-mode-hook 'auto-fill-mode)
@@ -230,8 +221,7 @@
 ;; Magit -- Make Git way faster and easier to use
 (use-package magit
   :ensure t
-  :bind
-  ("C-x g" . magit-status))
+  :bind ("C-x g" . magit-status))
 
 ;; Miscellaneous Useful Packages
 (use-package go-mode :ensure t)
