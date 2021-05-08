@@ -24,21 +24,10 @@
       ;; Don't leave a bunch of useless buffers
       message-kill-buffer-on-exit t
       ;; Prevent Maildir error: duplicate UID error messages
-      mu4e-change-filenames-when-moving t
-      ;; Render html Messages and Open in Browser
-      mu4e-html2text-command 'my-html2text)
-(add-to-list 'mu4e-view-actions
-             '("ViewInBrowser" . mu4e-action-view-in-browser) t)
+      mu4e-change-filenames-when-moving t)
 
 ;;;;;;;;
 ;; Helper functions
-(defun my-html2text ()
-  "Use EWW and SHR to view HTML messages."
-  (let ((dom (libxml-parse-html-region (point-min) (point-max))))
-    (erase-buffer)
-    (shr-insert-document dom)
-    (goto-char (point-min))))
-
 (defun revert-if-mu4e-main ()
   "Revert/update buffer if it's mu4e-main."
   (when (string-match-p (buffer-name (current-buffer)) "mu4e-main")
@@ -59,14 +48,33 @@
 ;; Write messages with format=flowed (RFC 3676) instead of hard 72 columns.
 (setq mu4e-compose-format-flowed t)
 (add-hook 'mu4e-compose-mode-hook
-          (defun my-compose-settings ()
+          (defun local/mu4e-compose-settings ()
             "Email writing: identify hard newlines and soft-wrap at 72 cols"
-            ;; For some reason save-excusion is required here in order to
-            ;; prevent these modes from being applied to the buffer we were
-            ;; in before opening a mail-composition buffer.
             (save-excursion
               (whitespace-newline-mode)
               (visual-fill-column-mode))))
+
+;;;;;;;;
+;; Message view settings
+(add-hook 'mu4e-view-mode-hook
+          (defun local/mu4e-view-settings ()
+            "Soft-wrap plain text emails"
+            (when (not mu4e~message-body-html)
+              (save-excursion
+                (setq visual-fill-column-width 80)
+                (visual-fill-column-mode)
+                (visual-line-mode)))))
+
+(setq mu4e-html2text-command
+      (lambda ()
+        "Use EWW and SHR to view HTML messages."
+        (let ((dom (libxml-parse-html-region (point-min) (point-max))))
+          (erase-buffer)
+          (shr-insert-document dom)
+          (goto-char (point-min)))))
+
+(add-to-list 'mu4e-view-actions
+             '("ViewInBrowser" . mu4e-action-view-in-browser) t)
 
 
 ;;;;;;;;
