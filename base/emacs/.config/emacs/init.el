@@ -99,6 +99,16 @@
                        (format "%s %s" (buffer-name) buffer-file-truename))
                       (t (format "%s" (buffer-name))))))
 
+;; Use C-l to clear scrollback in eshell
+(bind-keys
+ ("C-l" . (lambda ()
+            (interactive)
+            (with-current-buffer "*eshell*"
+              (goto-char (point-max))
+              (eshell-kill-input)
+              (insert "clear-scrollback")
+              (eshell-send-input)))))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Install and configure packages
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
