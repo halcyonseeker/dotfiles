@@ -21,8 +21,10 @@ batdaemon &
 #redshift-gtk &
 
 # Set wallpaper
-feh --no-fehbg --bg-fill "$(find ~/images/wallpapers -name "*" | shuf | head -1)" || \
-    xsetroot -solid "#999999"
+find ~/.local/share/dotfiles/ -name "*.png" \
+    | shuf \
+    | head -1 \
+    | xargs feh --no-fehbg --bg-tile
 
 # Load Xresources
 xrdb -merge ~/.config/xorg/Xresources
