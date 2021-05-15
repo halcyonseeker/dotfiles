@@ -40,12 +40,13 @@ Style "FvwmConky" NoTitle, Sticky, WindowListSkip, CirculateSkip, \
                   StaysOnBottom, FixedPosition, FixedSize, !Iconifiable, \
 
 # Icon Manager
-Style FvwmIconMan NoTitle, Sticky, WindowListSkip, !Iconifiable, !Handles, \
+Style FvwmIconMan NoTitle, Sticky, WindowListSkip, !Iconifiable, \
                   CirculateSkip, StaysOnBottom, FixedPosition, FixedSize
 DestroyModuleConfig FvwmIconMan
-*FvwmIconMan: font "xft:Sans:Italic:size=10:antialias=True"
-*FvwmIconMan: managergeometry 1x0-0+340@g
-*FvwmIconMan: buttongeometry 78x0
+*FvwmIconMan: font "xft:Sans:Italic:size=9:antialias=True"
+*FvwmIconMan: managergeometry 1x0-0+338@g
+*FvwmIconMan: buttongeometry 67x23
+*FvwmIconMan: title ""
 *FvwmIconMan: format "%i"
 *FvwmIconMan: focusbutton down black grey
 *FvwmIconMan: plainbutton up black slategray
