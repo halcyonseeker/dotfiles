@@ -103,11 +103,12 @@
 (bind-keys
  ("C-l" . (lambda ()
             (interactive)
-            (with-current-buffer "*eshell*"
+            (when (string= major-mode "eshell-mode")
               (goto-char (point-max))
               (eshell-kill-input)
               (insert "clear-scrollback")
-              (eshell-send-input)))))
+              (eshell-send-input)
+              (yank)))))
 
 ;; Org Mode
 (add-hook 'org-mode-hook 'auto-fill-mode)
