@@ -35,7 +35,7 @@
       browse-url-browser-function 'eww-browse-url)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Aesthetic Tweaks
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Out of the Box Functionality
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Fix general appearance and behavior
 (tool-bar-mode 0)
@@ -109,8 +109,22 @@
               (insert "clear-scrollback")
               (eshell-send-input)))))
 
+;; Org Mode
+(add-hook 'org-mode-hook 'auto-fill-mode)
+(setq org-publish-timestamp-directory "~/.config/emacs/org-timestamps/")
+(global-set-key "\C-ca" 'org-agenda)
+
+;; Emacs Web Wowser
+(setq shr-use-colors nil
+      eww-download-directory "~/temporary"
+      eww-browse-secondary-browser-function '(shell-command "xdg-open"))
+
+;; Doc View
+(setq doc-view-continuous t)
+(add-hook 'doc-view-mode-hook 'auto-revert-mode)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Install and configure packages
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Install and Configure Packages
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Initialize use-package
 (when (not (package-installed-p 'use-package))
@@ -156,8 +170,7 @@
 
 ;; TeX editing and document previews
 (add-hook 'TeX-mode-hook 'auto-fill-mode)
-(setq doc-view-continuous t
-      TeX-view-program-selection
+(setq TeX-view-program-selection
       '(((output-dvi has-no-display-manager) "dvi2tty")
         ((output-pdf has-no-display-manager) "fbpdf")
         ((output-html has-no-display-manager) "lynx")
@@ -192,11 +205,6 @@
       (kbd "k") 'peep-dired-prev-file)
     (add-hook 'peep-dired-hook 'evil-normalize-keymaps)))
 
-;; Org Mode
-(add-hook 'org-mode-hook 'auto-fill-mode)
-(setq org-publish-timestamp-directory "~/.config/emacs/org-timestamps/")
-(global-set-key "\C-ca" 'org-agenda)
-
 ;; A nice dictionary
 (use-package dictionary
   :ensure t
@@ -226,11 +234,6 @@
   (add-to-list 'emms-info-functions 'emms-info-mpd)
   (add-to-list 'emms-player-list 'emms-player-mpd)
   (global-set-key (kbd "C-x p") 'emms-play-file))
-
-;; Emacs Web Wowser
-(setq shr-use-colors nil
-      eww-download-directory "~/temporary"
-      eww-browse-secondary-browser-function '(shell-command "xdg-open"))
 
 ;; Magit -- Make Git way faster and easier to use
 (use-package magit
