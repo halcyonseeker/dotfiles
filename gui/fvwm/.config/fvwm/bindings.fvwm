@@ -59,12 +59,6 @@ Mouse     1        R       A         Menu RootMenu
 Mouse     2        R       A         Menu WindowOps
 Mouse     3        R       A         WindowList
 
-# Title Bar Buttons
-Mouse     0        1       A         Menu WindowOps 
-Mouse     0        3       A         Close
-Mouse     0        4       A         Iconify
-Mouse     0        2       A         Maximize 100 100
-
 # Click an icons to de-iconify
 Mouse     1        I       A         Iconify
 
@@ -109,7 +103,7 @@ Key       Right    A       MC        Scroll +100  +0
 Key       m        A       MC        Maximize 100 100
 # Key       =        A       MC        Maximize 50 100
 # Key       +        A       MC        Maximize 100 49
-# Key       f        A       MC        FullscreenWin
+Key       f        A       MC        Maximize Fullscreen
 
 # Meta + Control + i/s minimize/stick a window
 Key       i        A       MC        Iconify
