@@ -98,6 +98,9 @@
                        (format "%s %s" (buffer-name) buffer-file-truename))
                       (t (format "%s" (buffer-name))))))
 
+;; Use C-\ to toggle between US qwerty and Russian Typewriter
+(setq default-input-method "russian-computer")
+
 ;; Use C-l to clear scrollback in eshell
 (bind-keys
  ("C-l" . (lambda ()
