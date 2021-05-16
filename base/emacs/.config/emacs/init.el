@@ -8,7 +8,6 @@
 ;;   - Import ics files into diary from mu4e
 ;;     - Write function to filter crap out of Google Calendar ics files
 ;;     - Use icalendar-import-file as default system handler for ics files
-;;   - Figure out why calendar won't show colors
 ;; - Use pinentry-emacs or pinentry-tty in non-graphical frames
 ;; - Make document viewing nicer
 ;; - Resolve "{add} Access Denied" issue with emms and mpd
@@ -113,7 +112,6 @@
 ;; Org Mode
 (add-hook 'org-mode-hook 'auto-fill-mode)
 (setq org-publish-timestamp-directory "~/.config/emacs/org-timestamps/")
-(global-set-key "\C-ca" 'org-agenda)
 
 ;; Emacs Web Wowser
 (setq shr-use-colors nil
@@ -123,6 +121,11 @@
 ;; Doc View
 (setq doc-view-continuous t)
 (add-hook 'doc-view-mode-hook 'auto-revert-mode)
+
+;; Calendar and Diary
+(setq calendar-mark-diary-entries-flag t)
+(add-hook 'diary-list-entries-hook 'diary-sort-entries t)
+(global-set-key (kbd "C-x c") 'calendar)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Install and Configure Packages
