@@ -44,6 +44,7 @@
 (column-number-mode 1)
 (line-number-mode 1)
 (save-place-mode 1)
+(goto-address-mode 1)
 
 ;; Suppress annoying things
 (setq inhibit-startup-message t)
