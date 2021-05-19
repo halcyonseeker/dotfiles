@@ -143,6 +143,7 @@
         evil-disable-insert-state-bindings t)
   :config
   (evil-mode 1)
+  (define-key evil-insert-state-map "\C-w" 'evil-delete-backward-word)
   (evil-set-toggle-key "C-M-z"))        ; Let me suspend the frame
 (use-package evil-collection
   :after evil
