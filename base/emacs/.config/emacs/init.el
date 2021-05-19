@@ -157,11 +157,11 @@
   :demand t
   :init
   (setq evil-want-C-i-jump nil          ; Fix TAB in -nw frames
-        evil-want-keybinding nil)
+        evil-want-keybinding nil
+        evil-disable-insert-state-bindings t)
   :config
   (evil-mode 1)
-  (evil-set-toggle-key "C-M-z")         ; Let me suspend the frame
-  (setq evil-disable-insert-state-bindings t))
+  (evil-set-toggle-key "C-M-z"))        ; Let me suspend the frame
 (use-package evil-collection
   :after evil
   :ensure t
