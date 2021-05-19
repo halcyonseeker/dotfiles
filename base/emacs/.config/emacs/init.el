@@ -3,26 +3,12 @@
 ;; TODO:
 ;; - Fix TeX-view-program-selection to use xdg-open when running with -nw
 ;;   in a graphical environemnt
-;; - Mu4e, Calendar, Diary
-;;   - Use xdg-open instead of eww-browse-url for urls and view-in-browser
-;;   - Import ics files into diary from mu4e
-;;     - Write function to filter crap out of Google Calendar ics files
-;;     - Use icalendar-import-file as default system handler for ics files
 ;; - Use pinentry-emacs or pinentry-tty in non-graphical frames
-;; - Make document viewing nicer
 ;; - Resolve "{add} Access Denied" issue with emms and mpd
 ;; - Would it be good to byte-compile init.el?
 
 ;;; Code:
 
-;; (defun where-open-url (url)
-;;   "Determine how to open URL"
-;;   (if (string= major-mode 'mu4e-view-mode)
-;;       (if (window-system)
-;;           '(shell-command (format "xdg-open %s" url))
-;;         '(eww-browse-url url))
-;;     '(eww-browse-url url)))
-      
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Personal Info
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -76,11 +62,6 @@
 (setq custom-file "~/.config/emacs/custom.el")
 (when (file-exists-p "~/.config/emacs/custom.el")
   (load-file custom-file))
-
-;; Decrypt GPG key with pinentry-emacs when running in tty/terminal
-;; (when (not (window-system))
-;;   (setenv "INSIDE_EMACS"(format "%s,comint" emacs-version))
-;;   (pinentry-start))
 
 ;; Don't suspend graphical frames
 (global-set-key (kbd "C-z")
@@ -184,7 +165,6 @@
         (output-dvi "xdg-open")
         (output-pdf "xdg-open")
         (output-html "xdg-open")))
-;;(use-package latex-math-preview :ensure t :after auctex)
 
 ;; Markdown editing mode
 (use-package markdown-mode
@@ -217,10 +197,6 @@
   :ensure t
   :config
   (setq dictionary-server "localhost"))
-
-;; Load parchment theme
-;; (when (boundp 'parchment)
-;;   (load-theme 'parchment t))
 
 ;; Writeroom mode for a distraction-free environment
 (use-package writeroom-mode
