@@ -1,0 +1,242 @@
+#!/bin/sh
+# An install script. See the here-doc and the README for usage.
+# This should work on any system with a Posix-combatible /bin/sh.
+# TODO:
+# - list_installed_packages() and delete_package() only works when the
+#   symlink has the same name as the file it's pointing to. Would it
+#   make sense to instead find(1) specified directories for symlinks
+#   pointing to files in this repo?
+# - The cli is a little clunky, I should probably switch to getopt(1)
+# - Fill out os_preinstallation_actions()
+# - What about fonts? Right now I have these installed;
+#   - ttf-baekmuk
+#   - ttf-dejavu
+#   - ttf-hanazono
+#   - ttf-joypixels
+#   - ttf-khmer
+#   - ttf-liberation
+#   - ttf-linux-libertine
+#   - ttf-opensans
+#   - ttf-tibetan-machine
+
+
+[ -d ".git" ] || {
+    echo "Script must be run in the root of the repository."
+    exit 1
+}
+
+[ -n "$HOME" ] || {
+    echo "This script can't run safely if $HOME is unset."
+    exit 1
+}
+
+######################################################################
+
+is_package() {
+    [ -d "$1" ] || return 1
+}
+
+print_deps() {
+    printf "\033[1m\tDependencies: %s\033[m\n" "$1"
+}
+
+print_package_info() {
+    # The dotfiles/ directory just contains resources used by this repo
+
+    case "$1" in
+        neovim)
+            print_deps "vim or neovim"
+        ;;
+        shells)
+            print_deps "ksh, bash, or zsh zsh-syntax-highlighting"
+        ;;
+        xorg)
+            print_deps "xorg, xinput, dunst, unclutter, xrdb, setxkbmap, xterm, feh"
+        ;;
+        desktop)
+            print_deps "xdg-utils" 
+        ;;
+        emacs)
+            print_deps "emacs, isync, protonmail-bridge, mu, texlive, biber, gpg, pass, imagemagick"
+        ;;
+        mpd)
+            print_deps "mpd"
+        ;;
+        ranger)
+            print_deps "ranger"
+        ;;
+        scripts)
+            print_deps "rsync, ffmpeg, mpv, youtube-dl, imagemagick, transmission-cli, libnotify, xclip, zathura, zathura-pdf-mupdf, dmenu"
+        ;;
+        cwm)
+            print_deps "cwm"
+        ;;
+        fvwm)
+            print_deps "fvwm2, conky"
+        ;;
+        sxhkd)
+            print_deps "sxhkd, slock, dmenu, pass, python, scrot"
+        ;;
+        sxiv)
+            print_deps "sxiv, feh"
+        ;;
+        newsboat)
+            print_deps "newsboat, mpv"
+    esac
+}
+
+print_os_action() {
+    printf "\033[1m======> Running pre-installation actions for %s\033[m\n" "$1"
+}
+
+os_preinstall_action() {
+    case "$(uname)" in
+        OpenBSD)
+            print_os_action "OpenBSD"
+            rm -fv ~/.Xdefaults ~/.profile ~/.login ~/.cvsrc ~/.mailrc ~/.cshrc
+        ;;
+        # For Linux, /etc/os-release
+    esac
+}
+
+######################################################################
+
+print_usage() {
+    cat >&1 <<-EOF
+USAGE: ./install -[dslh] [package1 ... packagen]
+       ./install -[dslh] < [package1 ... packagen] 
+OPTIONS:
+       -d | --delete    Uninstall the packages passed as arguments, or
+                        all of them if none are passed. This will only 
+                        remove the package symlinks and empty directories,
+                        existing files will not be removed.
+       -s | --status    Report the presence of installed packages and 
+                        pre-existing files, and show the files that will
+                        be created should the packages passed on the
+                        command line (all if none) be installed.
+       -l | --list      List the installed packages.
+       -h | --help      Print this message and exit.
+       None             Install the packages passed on the command line,
+                        or all of them if no arguments are passed.
+EOF
+}
+
+######################################################################
+
+install_package() {
+    is_package "$1" || \
+        { echo "install: install_package() $1 is not a package" >&2; exit 1; }
+
+    printf "\033[1m======> Installing package %s\033[m\n" "$1"
+    print_package_info "$1"
+
+    find "$1" -type d | while read -r dname ; do
+        # eg, mkdir -pv ~/.config/emacs
+        if [ "$dname" != "$1" ] ; then
+            mkdir -pv "$HOME"/"${dname##$1/}"
+        else
+            continue
+        fi
+    done || { echo "install: install_package() find -type d" >&2; exit 1; }
+
+    find "$1" -type f | while read -r fname ; do 
+        # eg, ln -sv $(pwd)/emacs/.config/emacs/init.el ~/.config/emacs/init.el 
+        ln -sv "$(pwd)"/"$fname" "$HOME"/"${fname##$1/}" || \
+            { echo "install: install_package() ln" >&2; exit 1; }
+    done || { echo "install: install_package() find -type f" >&2; exit 1; }
+}
+
+######################################################################
+
+delete_package() {
+    is_package "$1" || \
+        { echo "install: delete_package() $1 is not a package" >&2; exit 1; }
+
+    printf "\033[1m======> Removing package %s\033[m\n" "$1"
+
+    find "$1" -type f | while read -r fname ; do
+        # eg, rm -fv ~/.local/share/applications/emacsmail.desktop
+        rm -fv "$HOME"/"${fname##$1/}"
+    done || { echo "install: delete_package() find -type f" >&2; exit 1; }
+
+    find "$1" -type d | while read -r dir ; do
+        # eg, rmdir -v ~/.local/share/applications
+        #     rmdir -v ~/.local/share
+        #     rmdir -v ~/.local (return; direcory not empty)
+        if [ "$dir" != "$1" ] ; then
+            rmpath="$HOME"/"${dir##$1/}"
+            while [ "$rmpath" != "$HOME" ] ; do
+                rmdir -v "$rmpath" 2>/dev/null || break # directory not empty
+                rmpath="$(dirname "$rmpath")"
+            done
+        else
+            continue
+        fi
+    done || { echo "install: delete_package() find -type d" >&2; exit 1; }
+}
+
+######################################################################
+
+list_installed_packages() {
+    # Do for each of the packages
+    find . -mindepth 1 -maxdepth 1 -type d \
+        | grep -v "^\./\.git" \
+        | while read -r package ; do
+
+        # Print a header with the package name
+        find "$package" -type f | while read -r fname ; do
+            linkname="$HOME"/"${fname##$package/}"
+            [ -L "$linkname" ] && {
+                printf "\033[1m======> Package is installed: %s\033[m\n" "$package"
+                print_package_info "${package#\.\/}"
+                break;
+            }
+        done
+
+        # Enumerate the installed files in that package
+        find "$package" -type f | while read -r fname ; do
+            linkname="$HOME"/"${fname##$package/}"
+            [ -L "$linkname" ] && {
+                printf "\t%s -> %s\n" "$linkname" "$fname"
+            }
+        done
+    done
+}
+
+######################################################################
+
+case "$1" in
+    -d|--delete)
+        if [ -t 0 ] ; then
+            shift
+            for p in "$@" ; do
+                delete_package "${p%\/}"
+                shift
+            done
+        else
+            while read -r p ; do 
+                delete_package "${p%\/}"
+            done <&0
+        fi
+        ;;
+    
+    -h|--help) print_usage ;;
+
+    -l|--list) list_installed_packages ;;
+
+    *)
+        os_preinstall_action
+        if [ -t 0 ] ; then
+            for p in "$@" ; do
+                install_package "${p%\/}"
+                shift
+            done
+        else
+            while read -r p ; do 
+                install_package "${p%\/}"
+            done <&0
+        fi
+        ;;
+esac
+
+exit 0
