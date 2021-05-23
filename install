@@ -131,18 +131,20 @@ install_package() {
     print_package_info "$1"
 
     find "$1" -type d | while read -r dname ; do
-        # eg, mkdir -pv ~/.config/emacs
+        # eg, mkdir -p ~/.config/emacs
         if [ "$dname" != "$1" ] ; then
-            mkdir -pv "$HOME"/"${dname##$1/}"
+            mkdir -p "$HOME"/"${dname##$1/}"
+	    printf "\tMKDIR: %s\n" "$HOME"/"${dname##$1/}"
         else
             continue
         fi
     done || { echo "install: install_package() find -type d" >&2; exit 1; }
 
     find "$1" -type f | while read -r fname ; do 
-        # eg, ln -sv $(pwd)/emacs/.config/emacs/init.el ~/.config/emacs/init.el 
-        ln -sv "$(pwd)"/"$fname" "$HOME"/"${fname##$1/}" || \
+        # eg, ln -s $(pwd)/emacs/.config/emacs/init.el ~/.config/emacs/init.el 
+        ln -s "$(pwd)"/"$fname" "$HOME"/"${fname##$1/}" || \
             { echo "install: install_package() ln" >&2; exit 1; }
+	printf "\tLN: %s -> %s\n" "$HOME"/"${fname##$1/}" "$(pwd)"/"$fname"
     done || { echo "install: install_package() find -type f" >&2; exit 1; }
 }
 
@@ -155,18 +157,20 @@ delete_package() {
     printf "\033[1m======> Removing package %s\033[m\n" "$1"
 
     find "$1" -type f | while read -r fname ; do
-        # eg, rm -fv ~/.local/share/applications/emacsmail.desktop
-        rm -fv "$HOME"/"${fname##$1/}"
+        # eg, rm -f ~/.local/share/applications/emacsmail.desktop
+        rm -f "$HOME"/"${fname##$1/}"
+	printf "\tRM: %s\n" "$HOME"/"${fname##$1/}"
     done || { echo "install: delete_package() find -type f" >&2; exit 1; }
 
     find "$1" -type d | while read -r dir ; do
-        # eg, rmdir -v ~/.local/share/applications
-        #     rmdir -v ~/.local/share
-        #     rmdir -v ~/.local (return; direcory not empty)
+        # eg, rmdir ~/.local/share/applications
+        #     rmdir ~/.local/share
+        #     rmdir ~/.local (return; direcory not empty)
         if [ "$dir" != "$1" ] ; then
             rmpath="$HOME"/"${dir##$1/}"
             while [ "$rmpath" != "$HOME" ] ; do
-                rmdir -v "$rmpath" 2>/dev/null || break # directory not empty
+                rmdir "$rmpath" 2>/dev/null || break # directory not empty
+		printf "\tRMDIR: %s\n" "$rmpath"
                 rmpath="$(dirname "$rmpath")"
             done
         else
