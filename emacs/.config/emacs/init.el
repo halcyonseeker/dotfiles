@@ -129,7 +129,8 @@
 (use-package elfeed
   :ensure t
   :defer t
-  :init (load "~/documents/elfeed.el")
+  :init (when (file-exists-p "~/documents/elfeed.el")
+          (load "~/documents/elfeed.el"))
   :bind ("C-x r" . elfeed)
   :config (setq elfeed-db-directory "~/.config/emacs/elfeed"))
 
