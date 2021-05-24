@@ -102,6 +102,7 @@
 (setq shr-use-colors nil
       eww-download-directory "~/temporary"
       eww-browse-secondary-browser-function '(shell-command "xdg-open"))
+(add-hook 'eww-after-render-hook #'local-eww--rename-buffer)
 
 ;; Doc View
 (setq doc-view-continuous t)
@@ -234,7 +235,7 @@
 (use-package nov     :ensure t :after ereader)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Transparency
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Some Functions
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; From https://gitlab.com/mvanorder1390/my-emacs-config/blob/master/init.el
 (defun toggle-transparency ()
@@ -249,12 +250,14 @@
                     ((numberp (cadr alpha)) (cadr alpha)))
               100)
          '(85 . 50) '(100 . 100)))))
-;; Set transparency of emacs
-(defun transparency (value)
-  "Set transparency of the frame window to VALUE.  0=transparent/100=opaque."
-  (interactive "nTransparency Value 0 - 100 opaque:")
-  (set-frame-parameter (selected-frame) 'alpha value))
-;(transparency 85)
+
+(defun local-eww--rename-buffer ()
+  "Rename EWW buffer using page title or URL. This makes it easy to have
+lots of EWW buffers open at one time. Used by `eww-after-render-hook'"
+  (let ((name (if (eq "" (plist-get eww-data :title))
+                  (plist-get eww-data :url)
+                (plist-get eww-data :title))))
+    (rename-buffer (format "*eww: %s*" name) t)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Emojis 🤣
