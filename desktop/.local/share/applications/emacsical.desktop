@@ -1,0 +1,5 @@
+[Desktop Entry]
+Type=Application
+Name=Import iCalendar to Emacs Diary
+Exec=emacsclient -c -e '(icalendar-import-file "%U" diary-file)'
+MimeType=text/calendar
