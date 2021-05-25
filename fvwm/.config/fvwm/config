@@ -89,7 +89,7 @@ AddToMenu   RootMenu "Root Menu" Title
 + "FVWM Console"       Module FvwmConsole -terminal $[infostore.terminal]
 + "Refresh Fvwm"       Refresh
 + "Restart Fvwm"       Restart
-+ "Exit Fvwm"          Popup ConfirmQuitMenu
++ "Exit Fvwm"          Popup QuitMenu
 DestroyMenu QuitMenu
 AddToMenu   QuitMenu
 + "Don't Exit"         Nop
