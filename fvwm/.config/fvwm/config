@@ -22,10 +22,7 @@ EdgeResistance 250 10
 EdgeThickness  1
 EdgeScroll     100 100
 ClickTime      750
-DesktopSize    1x4
-DesktopName    0 Primary
-DesktopName    1 Secondary
-DesktopName    2 Tertiary
+DesktopSize    1x1
 
 # Default terminal
 InfoStoreAdd terminal xterm -ti vt340
@@ -36,9 +33,6 @@ DestroyFunc StartFunction
 AddToFunc   StartFunction
 + I Read "dock.fvwm"
 + I Read "bindings.fvwm"
-+ I Module FvwmButtons Dock
-+ I Module FvwmIconMan
-+ I Exec conky -c ~/.config/fvwm/conkyrc
 
 # Fonts
 WindowFont "xft:Sans:Italic:size=10:antialias=True"

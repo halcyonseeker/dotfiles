@@ -2,10 +2,19 @@
 # A little widget dock made with FVWMButtons, plus an FvwmIconMan
 #
 
-#
-# Helper Functions
-#
-# Raise and Focus
+# Set up the pages
+DesktopSize    1x4
+DesktopName    0 Primary
+DesktopName    1 Secondary
+DesktopName    2 Tertiary
+
+# Add to the startup function
+AddToFunc StartFunction
++ I Module FvwmButtons Dock
++ I Module FvwmIconMan
++ I Exec conky -c ~/.config/fvwm/conkyrc
+
+# Deiconify a window and move focus to it
 DestroyFunc IconClickHandler
 AddToFunc   IconClickHandler
  + I Iconify Off
