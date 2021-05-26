@@ -22,9 +22,10 @@ batdaemon &
 
 # Set wallpaper
 find ~/.local/share/dotfiles/ -name "*.png" \
-    | shuf \
+    | sort -R \
     | head -1 \
-    | xargs feh --no-fehbg --bg-tile
+    | xargs feh --no-fehbg --bg-tile \
+    || xsetroot -solid '#008080'
 
 # Load Xresources
 xrdb -merge ~/.config/xorg/Xresources
