@@ -81,6 +81,10 @@ Mouse 3 R A WindowList
 Mouse 1 W M RaiseMove Move
 Mouse 3 W M RaiseMove Resize
 
+# ... but it should still be possible
+Mouse 1 T A RaiseMove Move
+Mouse 1 FS A RaiseMove Resize
+
 # Click an icons to de-iconify them
 Mouse 1 I A Iconify
 
