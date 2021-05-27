@@ -135,27 +135,24 @@ install_package() {
     find "$1" -type d | while read -r dname; do
         # eg, mkdir -p ~/.config/emacs
         if [ "$dname" != "$1" ]; then
-            mkdir -p "$HOME"/"${dname##$1/}"
 	    printf "\tMKDIR: %s\n" "$HOME"/"${dname##$1/}"
+            mkdir -p "$HOME"/"${dname##$1/}" || {
+                echo "install: install_package() mkdir" >&2
+                exit 1
+            }
         else
             continue
         fi
-    done || {
-        echo "install: install_package() find -type d" >&2
-        exit 1
-    }
+    done
 
     find "$1" -type f | while read -r fname; do
         # eg, ln -s $(pwd)/emacs/.config/emacs/init.el ~/.config/emacs/init.el 
+	printf "\tLN: %s -> %s\n" "$HOME"/"${fname##$1/}" "$(pwd)"/"$fname"
         ln -s "$(pwd)"/"$fname" "$HOME"/"${fname##$1/}" || {
             echo "install: install_package() ln" >&2
             exit 1
         }
-	printf "\tLN: %s -> %s\n" "$HOME"/"${fname##$1/}" "$(pwd)"/"$fname"
-    done || {
-        echo "install: install_package() find -type f" >&2
-        exit 1
-    }
+    done
 }
 
 ######################################################################
@@ -170,12 +167,12 @@ delete_package() {
 
     find "$1" -type f | while read -r fname; do
         # eg, rm -f ~/.local/share/applications/emacsmail.desktop
-        rm -f "$HOME"/"${fname##$1/}"
 	printf "\tRM: %s\n" "$HOME"/"${fname##$1/}"
-    done || {
-        echo "install: delete_package() find -type f" >&2
-        exit 1
-    }
+        rm -f "$HOME"/"${fname##$1/}" || {
+            printf "install: delete_package() rm" >&2
+            exit 1
+        }
+    done
 
     find "$1" -type d | while read -r dir; do
         # eg, rmdir ~/.local/share/applications
@@ -191,36 +188,28 @@ delete_package() {
         else
             continue
         fi
-    done || {
-        echo "install: delete_package() find -type d" >&2
-        exit 1
-    }
+    done
 }
 
 ######################################################################
 
 list_installed_packages() {
     # Do for each of the packages
-    find . -mindepth 1 -maxdepth 1 -type d \
-        | grep -v "^\./\.git" \
-        | while read -r package; do
-
+    find . -mindepth 1 -maxdepth 1 -type d | grep -v "^\./\.git" | while read -r pkg; do
         # Print a header with the package name
-        find "$package" -type f | while read -r fname; do
-            linkname="$HOME"/"${fname##$package/}"
+        find "$pkg" -type f | while read -r fname; do
+            linkname="$HOME"/"${fname##$pkg/}"
             [ -L "$linkname" ] && {
-                printf "\033[1m======> Package is installed: %s\033[m\n" "$package"
-                print_package_info "${package#\.\/}"
+                printf "\033[1m======> Package is installed: %s\033[m\n" "$pkg"
+                print_package_info "${pkg#\.\/}"
                 break;
             }
         done
 
         # Enumerate the installed files in that package
-        find "$package" -type f | while read -r fname; do
-            linkname="$HOME"/"${fname##$package/}"
-            [ -L "$linkname" ] && {
-                printf "\t%s -> %s\n" "$linkname" "$fname"
-            }
+        find "$pkg" -type f | while read -r fname; do
+            linkname="$HOME"/"${fname##$pkg/}"
+            [ -L "$linkname" ] && printf "\t%s -> %s\n" "$linkname" "$fname"
         done
     done
 }
