@@ -119,6 +119,7 @@
   (setq mu4e-attachment-dir "~/temporary"
         mail-user-agent 'mu4e-user-agent
         message-send-mail-function 'smtpmail-send-it
+        mu4e-completing-read-function 'ivy-completing-read
         mu4e-get-mail-command "mbsync -c ~/.local/mail/mbsyncrc -a"
         message-kill-buffer-on-exit t
         mu4e-headers-skip-duplicates t
