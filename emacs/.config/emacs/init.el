@@ -10,16 +10,6 @@
 ;;; Code:
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Personal Info
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq mail-user-agent 'mu4e-user-agent
-      mu4e-attachment-dir "~/temporary"
-      user-full-name "Thalia Wright"
-      user-mail-address "vesperous@protonmail.com"
-      org-directory "~/org"
-      browse-url-browser-function 'eww-browse-url)
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Out of the Box Functionality
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Fix general appearance and behavior
@@ -96,10 +86,12 @@
 
 ;; Org Mode
 (add-hook 'org-mode-hook 'auto-fill-mode)
-(setq org-publish-timestamp-directory "~/.config/emacs/org-timestamps/")
+(setq org-publish-timestamp-directory "~/.config/emacs/org-timestamps/"
+      org-directory "~/org")
 
 ;; Emacs Web Wowser
-(setq shr-use-colors nil
+(setq browse-url-browser-function 'eww-browse-url
+      shr-use-colors nil
       eww-download-directory "~/temporary"
       eww-browse-secondary-browser-function '(shell-command "xdg-open"))
 (add-hook 'eww-after-render-hook #'local-eww--rename-buffer)
