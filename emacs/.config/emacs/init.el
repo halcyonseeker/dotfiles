@@ -127,6 +127,8 @@
         mu4e-view-show-images nil
         auth-sources '(password-store))
   (auth-source-pass-enable)
+  (add-to-list 'mu4e-view-actions
+               '("View In Browser" . mu4e-action-view-in-browser) t)
   (when (file-exists-p "~/.local/mail/accounts.el")
     (load "~/.local/mail/accounts.el")))
 
