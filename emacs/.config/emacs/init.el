@@ -197,12 +197,11 @@
 (use-package peep-dired
   :ensure t
   :config
-  (global-set-key (kbd "C-x i") 'peep-dired)
-  (when (boundp 'evil-mode)
-    (evil-define-key 'normal peep-dired-mode-map
-      (kbd "j") 'peep-dired-next-file
-      (kbd "k") 'peep-dired-prev-file)
-    (add-hook 'peep-dired-hook 'evil-normalize-keymaps)))
+  (evil-define-key 'normal dired-mode-map (kbd "p") 'peep-dired)
+  (evil-define-key 'normal peep-dired-mode-map
+    (kbd "k") 'peep-dired-prev-file
+    (kbd "j") 'peep-dired-next-file)
+    (add-hook 'peep-dired-hook 'evil-normalize-keymaps))
 
 ;; A nice dictionary
 (use-package dictionary
