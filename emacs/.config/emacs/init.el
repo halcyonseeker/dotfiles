@@ -108,6 +108,12 @@
 (add-hook 'diary-list-entries-hook 'diary-sort-entries t)
 (global-set-key (kbd "C-x c") 'calendar)
 
+;; Emacs IRC Client
+(setq erc-default-server "irc.libera.chat"
+      erc-nick "ymir"
+      erc-full-name "T W")
+(global-set-key (kbd "C-x i") 'erc-tls)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Install and Configure Packages
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
