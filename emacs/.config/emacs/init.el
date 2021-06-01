@@ -73,6 +73,9 @@
 ;; Use C-\ to toggle between US qwerty and Russian Typewriter
 (setq default-input-method "russian-computer")
 
+;; I want this to work in the mini-buffer
+(global-set-key (kbd "C-w") 'backward-kill-word)
+
 ;; Use C-l to clear scrollback in eshell
 (bind-keys
  ("C-l" . (lambda ()
@@ -151,7 +154,6 @@
         evil-disable-insert-state-bindings t)
   :config
   (evil-mode 1)
-  (define-key evil-insert-state-map "\C-w" 'evil-delete-backward-word)
   (evil-set-toggle-key "C-M-z"))        ; Let me suspend the frame
 (use-package evil-collection
   :after evil
