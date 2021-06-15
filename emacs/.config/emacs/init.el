@@ -241,11 +241,12 @@
   :bind ("C-x g" . magit-status))
 
 ;; Miscellaneous Useful Packages
-(use-package go-mode :ensure t)
-(use-package htmlize :ensure t)
-(use-package ereader :ensure t)
-(use-package elpher  :ensure t)
-(use-package nov     :ensure t :after ereader)
+(use-package fvwm-mode :ensure t)
+(use-package go-mode   :ensure t)
+(use-package htmlize   :ensure t)
+(use-package ereader   :ensure t)
+(use-package elpher    :ensure t)
+(use-package nov       :ensure t :after ereader)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Some Functions
