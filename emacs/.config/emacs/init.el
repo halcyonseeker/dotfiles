@@ -18,11 +18,11 @@
 (scroll-bar-mode 0)
 (xterm-mouse-mode 1)
 
-;; Improve tab behavior
-(setq-default indent-tabs-mode nil)
-(setq default-tab-width 4)
-(setq c-default-style "k&r"
-      c-basic-offset 4)
+;; Prefer BSD style
+(setq c-default-style "bsd")
+(setq-default c-basic-offset 4
+              tab-width 4
+              indent-tabs-mode t)
 
 ;; Make scroll behavior less jarring
 (setq mouse-wheel-scroll-amount '(1 ((shift) . 1)))

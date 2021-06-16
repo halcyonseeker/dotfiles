@@ -21,8 +21,6 @@ endif
 " Never mix tabs and spaces
 set tabstop=4
 set shiftwidth=4
-set expandtab
-autocmd FileType make setlocal noexpandtab
 
 " 72 column line wrap in text modes
 autocmd FileType text setlocal textwidth=72
