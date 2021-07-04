@@ -67,4 +67,5 @@ DestroyModuleConfig FvwmIconMan
 *FvwmIconMan: sort none
 *FvwmIconMan: resolution page
 *FvwmIconMan: drawicons true
-Style * NoIcon # Prevent minimized windows from placing icons on the desk
+# Prevent minimized windows from placing icons on the desk
+Style * NoIcon
