@@ -2,21 +2,6 @@
 # General FVWM Configuration
 #
 
-# TODO: create Raleigh-like colorset
-# - menus
-# - FvwmPager
-# - WindowList
-# - IconMan
-# - FvwmButtons
-# TODO: Return focus to previous window when closing newest window
-# TODO: Make config portable between fvwm, fvwm2, and fvwm3
-# TODO: Add XDG application menu
-# TODO: Change menu styles to look more like GTK Raleigh menus
-# TODO: Fix multiple-monitor behavior
-# - Window list with (CurrentPage) only has the windows in the current monitor
-# - I can't edgescroll properly on my 16:9 laptop when using a 4:3 monitor
-# TODO: Add a few desks and an FvwmButtons navigator in Dock
-
 # Desktops
 EdgeResistance 250 10
 EdgeThickness  1
@@ -34,13 +19,8 @@ AddToFunc   StartFunction
 + I Read "dock.fvwm"
 + I Read "bindings.fvwm"
 
-# Fonts
-WindowFont "xft:Sans:Italic:size=10:antialias=True"
-IconFont   "xft:Sans:Bold:size=8:antialias=True"
-MenuStyle * Font "xft:Sans:Bold:size=10:antialias=True"
-
-# Transfer focus when switching pages
-*FvwmEvent: new_page MoveFocus CurrentPage NoWarp
+# Set a default font
+DefaultFont "xft:Sans:Italic:size=10:antialias=True"
 
 # Don't use wire frames
 OpaqueMoveSize unlimited
@@ -61,6 +41,7 @@ DestroyFunc MoveFocus
 AddToFunc   MoveFocus
 + I       All ($0, Focused) FlipFocus $1
 + I       TestRc (NoMatch) Prev ($0, AcceptsFocus) FlipFocus $1
+*FvwmEvent: new_page MoveFocus CurrentPage NoWarp
 
 # Window titlebars: [menu] [close] --- title --- [iconify] [maximize]
 Mouse 0 1 A Menu WindowOps

@@ -23,7 +23,6 @@ AddToFunc   IconClickHandler
 
 # Virtual Desktop Pager
 *FvwmPagerLabel   FvwmPager
-*FvwmPagerFont    none
 *FvwmPagerBack    skyblue4
 *FvwmPagerFore    black
 *FvwmPagerHilight slategray
