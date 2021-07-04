@@ -97,10 +97,13 @@ Key Tab A M WindowList (CurrentPage) Root c c SelectOnRelease Meta_L, CurrentAtE
 # Root Menu
 DestroyMenu RootMenu
 AddToMenu   RootMenu "Root Menu" Title
-+ "Terminal"           Exec $[infostore.terminal]
++ "Terminal"           Exec xterm
 + "Emacsclient"        Exec emacsclient -c
++ "IRC Client"         Exec emacsclient -c -e '(erc-tls)'
++ "XMPP Client"        Exec alacritty -t Profanity -e profanity
 + "E-Mail"             Exec emacsclient -c -e '(mu4e)'
 + "Calendar"           Exec emacsclient -c -e '(progn (calendar) (diary-view-entries))'
++ "Notes"              Exec emacsclient -c ~/org/notes.org
 + "Display Settings"   Exec arandr
 + ""                   Nop
 + "FVWM Console"       Module FvwmConsole -terminal $[infostore.terminal]
