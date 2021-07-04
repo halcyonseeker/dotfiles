@@ -75,6 +75,9 @@ IgnoreModifiers L25
 # Alt + Tab to cycle between windows
 Key Tab A M WindowList (CurrentPage) Root c c SelectOnRelease Meta_L, CurrentAtEnd
 
+# Menu Colors
+MenuStyle * HilightBack SlateBlue, ActiveFore White, TrianglesUseFore, TrianglesSolid
+
 # Root Menu
 DestroyMenu RootMenu
 AddToMenu   RootMenu "Root Menu" Title
@@ -99,7 +102,7 @@ AddToMenu   QuitMenu
 
 # Window operations menu
 DestroyMenu WindowOps
-AddToMenu   WindowOps
+AddToMenu   WindowOps "Window Operations" Title
 + "Move"               Move
 + "Resize"             Resize
 + "(De)Iconify"        Iconify
