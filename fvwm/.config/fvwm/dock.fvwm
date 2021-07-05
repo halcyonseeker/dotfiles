@@ -67,5 +67,9 @@ DestroyModuleConfig FvwmIconMan
 *FvwmIconMan: sort none
 *FvwmIconMan: resolution page
 *FvwmIconMan: drawicons true
+*FvwmIconMan: Tips always
+*FvwmIconMan: TipsFormat "%t"
+*FvwmIconMan: TipsDelay 500 300
+*FvwmIconMan: TipsFont "xft:Sans:Italic:size=10:antialias=True"
 # Prevent minimized windows from placing icons on the desk
 Style * NoIcon
