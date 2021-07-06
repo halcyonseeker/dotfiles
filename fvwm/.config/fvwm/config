@@ -17,7 +17,6 @@ InfoStoreAdd terminal xterm -ti vt340
 DestroyFunc StartFunction
 AddToFunc   StartFunction
 + I Read "dock.fvwm"
-+ I Read "bindings.fvwm"
 
 # Set a default font
 DefaultFont "xft:Sans:Italic:size=10:antialias=True"
@@ -75,6 +74,28 @@ IgnoreModifiers L25
 # Alt + Tab to cycle between windows
 Key Tab A M WindowList (CurrentPage) Root c c SelectOnRelease Meta_L, CurrentAtEnd
 
+# Control + Meta + j/k or arrows to move between pages
+Key j A MC Scroll +0 +100
+Key k A MC Scroll +0 -100
+Key Down A MC Scroll +0 +100
+Key Up A MC Scroll +0 -100
+
+# Control + Meta + f/m/i/s to fullscreen/maximize/iconify/stick the window
+Key f A MC Maximize Fullscreen
+Key m A MC Maximize 100 100
+Key i A MC Iconify
+Key s A MC Stick
+
+# Super + h/j/k/l or arrows to file the window
+Key h A 4 SoftTileLeft
+Key j A 4 SoftTileBottom
+Key k A 4 SoftTileTop
+Key l A 4 SoftTileRight
+Key Left A 4 SoftTileLeft
+Key Down A 4 SoftTileBottom
+Key Up A 4 SoftTileTop
+Key Right A 4 SoftTileRight
+
 # Menu Colors
 MenuStyle * HilightBack SlateBlue, ActiveFore White, TrianglesUseFore, TrianglesSolid
 
@@ -130,3 +151,25 @@ DestroyFunc RaiseMove
 AddToFunc   RaiseMove
 + I       Raise
 + M       $0
+
+DestroyFunc SoftTileLeft
+AddToFunc   SoftTileLeft
++ I ThisWindow (!Shaded, !Iconic) Maximize 50 100
++ I ThisWindow (Maximized, !Shaded, !Iconic) Move +0 +0
+
+DestroyFunc SoftTileRight
+AddToFunc   SoftTileRight
++ I ThisWindow (!Shaded, !Iconic) Maximize 50 100
++ I ThisWindow (Maximized, !Shaded, !Iconic) Move -0 +0
+
+DestroyFunc SoftTileTop
+AddToFunc   SoftTileTop
++ I ThisWindow (!Shaded, !Iconic) Maximize 100 50
++ I ThisWindow (Maximized, !Shaded, !Iconic) Move +0 +0
+
+DestroyFunc SoftTileBottom
+AddToFunc   SoftTileBottom
++ I ThisWindow (!Shaded, !Iconic) Maximize 100 50
++ I ThisWindow (Maximized, !Shaded, !Iconic) Move +0 -0
+
+
