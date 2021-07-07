@@ -1,6 +1,6 @@
-# -*-fvwm-*-
-# General FVWM Configuration
-#
+# -*-fvwm-*- ############################################################
+############################################## General FVWM Configuration
+#########################################################################
 
 # Desktops
 EdgeResistance 250 10
@@ -14,24 +14,24 @@ DefaultFont "xft:Sans:Italic:size=10:antialias=True"
 
 # Don't use wire frames
 OpaqueMoveSize unlimited
-Style "*" ResizeOpaque
+Style * ResizeOpaque
 
 # Transfer focus to the most recently spawned window
 Style * FPGrabFocus
 
-# EwmhBaseStruts [left] [right] [top] [bottom]
-# Reserves space along the right edge of the screen for the Dock module
-EwmhBaseStruts 0 80 0 0
-
 # Prevent Xterm and Emacs from leaving gaps
-Style "*" ResizeHintOverride
+Style * ResizeHintOverride
 
 # Transfer focus when switching pages
 DestroyFunc MoveFocus
 AddToFunc   MoveFocus
-+ I       All ($0, Focused) FlipFocus $1
-+ I       TestRc (NoMatch) Prev ($0, AcceptsFocus) FlipFocus $1
++ I All ($0, Focused) FlipFocus $1
++ I TestRc (NoMatch) Prev ($0, AcceptsFocus) FlipFocus $1
 *FvwmEvent: new_page MoveFocus CurrentPage NoWarp
+
+#########################################################################
+################################################## Key and Mouse Bindings
+#########################################################################
 
 # Window titlebars: [menu] [close] --- title --- [iconify] [maximize]
 Mouse 0 1 A Menu WindowOps
@@ -87,6 +87,10 @@ Key Down A 4 SoftTileBottom
 Key Up A 4 SoftTileTop
 Key Right A 4 SoftTileRight
 
+#########################################################################
+################################################################### Menus
+#########################################################################
+
 # Menu Colors
 MenuStyle * HilightBack SlateBlue, ActiveFore White, TrianglesUseFore, TrianglesSolid
 
@@ -137,12 +141,17 @@ AddToMenu   WindowOps "Window Operations" Title
 + ""                   Nop
 + "Identify"           Module FvwmIdent
 
-# Helper functions
+#########################################################################
+######################################################## Helper Functions
+#########################################################################
+
+# For window move and resize mouse bindings
 DestroyFunc RaiseMove
 AddToFunc   RaiseMove
 + I       Raise
 + M       $0
 
+# For window tiling keybindings
 DestroyFunc SoftTileLeft
 AddToFunc   SoftTileLeft
 + I ThisWindow (!Shaded, !Iconic) Maximize 50 100
@@ -169,6 +178,14 @@ AddToFunc   IconClickHandler
  + I Iconify Off
  + I Raise
  + I Focus
+
+#########################################################################
+######################################## Things for the Right Dock Layout
+#########################################################################
+
+# EwmhBaseStruts [left] [right] [top] [bottom]
+# Reserves space along the right edge of the screen for the Dock module
+EwmhBaseStruts 0 80 0 0
 
 # Override the earlier page configuration
 DesktopSize 1x4
@@ -202,8 +219,8 @@ DestroyModuleConfig Dock: *
 *Dock: (1x1, Swallow "stalonetray" `Exec stalonetray -i 20 -p`)
 
 # Conky doesn't like being swallowed so we're using it standalone
-Style "FvwmConky" NoTitle, Sticky, WindowListSkip, CirculateSkip, \
-                  StaysOnBottom, FixedPosition, FixedSize, !Iconifiable
+Style FvwmConky NoTitle, Sticky, WindowListSkip, CirculateSkip, \
+                StaysOnBottom, FixedPosition, FixedSize, !Iconifiable
 
 # Prevent minimized windows from placing icons on the desk
 Style * NoIcon
