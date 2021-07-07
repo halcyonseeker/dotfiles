@@ -9,9 +9,6 @@ EdgeScroll     100 100
 ClickTime      750
 DesktopSize    1x1
 
-# Default terminal
-InfoStoreAdd terminal xterm -ti vt340
-
 # Set a default font
 DefaultFont "xft:Sans:Italic:size=10:antialias=True"
 
@@ -105,7 +102,7 @@ AddToMenu   RootMenu "Root Menu" Title
 + "Notes"              Exec emacsclient -c ~/org/notes.org
 + "Display Settings"   Exec arandr
 + ""                   Nop
-+ "FVWM Console"       Module FvwmConsole -terminal $[infostore.terminal]
++ "FVWM Console"       Module FvwmConsole -terminal xterm
 + "Refresh Fvwm"       Refresh
 + "Restart Fvwm"       Restart
 + "Exit Fvwm"          Popup QuitMenu
