@@ -20,8 +20,8 @@
 
 ;; Prefer BSD style
 (setq c-default-style "bsd")
-(setq-default c-basic-offset 4
-              tab-width 4
+(setq-default c-basic-offset 'set-from-style
+              tab-width 8
               indent-tabs-mode t)
 
 ;; Make scroll behavior less jarring
