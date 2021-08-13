@@ -1,7 +1,7 @@
 [Default Applications]
 inode/directory=nnn.desktop
-x-scheme-handler/http=firefox.desktop
-x-scheme-handler/https=firefox.desktop
+x-scheme-handler/http=firefox-esr.desktop
+x-scheme-handler/https=firefox-esr.desktop
 x-scheme-handler/magnet=torrent-handler.desktop;
 x-scheme-handler/mailto=emacsmail.desktop;
 application/x-bittorrent=torrent.desktop;
@@ -15,7 +15,7 @@ image/webp=sxiv.desktop
 image/jpg=sxiv.desktop
 image/gif=gif-mpv.desktop
 image/jpeg=sxiv.desktop
-text/html=firefox.desktop
+text/html=firefox-esr.desktop
 text/plain=nvim.desktop
 text/markdown=nvim.desktop;
 text/x-c++src=nvim.desktop;
