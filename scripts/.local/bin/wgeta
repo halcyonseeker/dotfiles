@@ -1,0 +1,21 @@
+#!/bin/sh
+
+[ -z "$1" ] && {
+	printf "Scrape a whole website. Usage: wgeta [url]\n"
+	exit
+}
+
+get_domain() {
+	echo "$1" \
+		| sed "s/^http:\/\///; s/^https:\/\///" \
+		| cut -d '/' -f1
+}
+
+wget \
+	--recursive \
+	--no-parent \
+	--convert-links \
+	--html-extension \
+	--page-requisites \
+	--domain "$(get_domain "$1")" \
+	"$1"
