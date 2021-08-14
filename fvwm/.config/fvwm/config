@@ -87,6 +87,29 @@ Key Down A 4 SoftTileBottom
 Key Up A 4 SoftTileTop
 Key Right A 4 SoftTileRight
 
+# Various system keys
+# TODO: Write a script to make these system agnostic
+Key XF86AudioMute A A Exec amixer set Master toggle
+Key XF86AudioLowerVolume A A Exec amixer set Master 5%-
+Key XF86AudioRaiseVolume A A Exec amixer set Master 5%+
+Key XF86ScreenSaver A A Exec slock
+Key XF86Sleep A A Exec systemctl suspend
+Key XF86TouchpadToggle A A Exec $HOME/.local/bin/sxhkd/touchpad-toggle
+Key XF86WLAN A A Exec $TERMINAL -e nmtui
+Key Print A A Exec scrot '$a_%y-%m-%d_%s.jpg' -e 'mv $f ~/images/screenshots && notify-send "📸 $f"'
+# TODO: figure out global play/pause
+Key XF86AudioPlay A A Exec mpc toggle
+
+# Application keys
+Key Return A CM Exec $TERMINAL
+Key Space A 4 Exec dmenu_run
+Key y A 4 Exec $HOME/.local/bin/sxhkd/dmenu-video
+Key u A 4 Exec $HOME/.local/bin/sxhkd/symbokey
+Key a A 4 Exec passmenu
+key z A 4 Exec $TERMINAL -e $FILE
+key c A 4 Exec $TERMINAL -e python
+key F1 A 4 Exec $HOME/.local/bin/sxhkd/lang-toggle
+
 #########################################################################
 ################################################################### Menus
 #########################################################################
@@ -97,7 +120,7 @@ MenuStyle * HilightBack SlateBlue, ActiveFore White, TrianglesUseFore, Triangles
 # Root Menu
 DestroyMenu RootMenu
 AddToMenu   RootMenu "Root Menu" Title
-+ "Terminal"           Exec xterm
++ "Terminal"           Exec $TERMINAL
 + "Emacsclient"        Exec emacsclient -c
 + "IRC Client"         Exec emacsclient -c -e '(erc-tls)'
 + "XMPP Client"        Exec alacritty -t Profanity -e profanity

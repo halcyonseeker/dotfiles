@@ -16,7 +16,6 @@ xinput --set-prop "/dev/wsmouse" "WS Pointer Wheel Emulation Axes" 6 7 4 5
 #picom -e 1 --inactive-opacity-override -i 1 --inactive-dim 0.2 &
 dunst &
 unclutter --timeout 3 &
-sxhkd &
 batdaemon &
 #redshift-gtk &
 
