@@ -1,0 +1,13 @@
+#!/bin/sh
+
+[ -z "$1" ] && {
+	printf "Upload a file to 0x0.st. Usage: 0x0 [file]\n"
+	exit
+}
+
+if [ -f "$1" ]; then
+	curl -F"file=@$1" https://0x0.st
+else
+	printf "0x0: No such file or directory, %s\n" "$1"
+	exit 1
+fi
