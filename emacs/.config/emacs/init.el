@@ -103,11 +103,6 @@
 (setq doc-view-continuous t)
 (add-hook 'doc-view-mode-hook 'auto-revert-mode)
 
-;; Calendar and Diary
-(setq calendar-mark-diary-entries-flag t)
-(add-hook 'diary-list-entries-hook 'diary-sort-entries t)
-(global-set-key (kbd "C-x c") 'calendar)
-
 ;; Emacs IRC Client
 (setq erc-default-server "irc.libera.chat"
       erc-nick "ymir"
