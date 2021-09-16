@@ -93,6 +93,7 @@
 (add-hook 'org-mode-hook 'auto-fill-mode)
 (setq org-publish-timestamp-directory "~/.config/emacs/org-timestamps/"
       org-directory "~/org")
+(setq org-startup-folded t)
 
 ;; Emacs Web Wowser
 (setq browse-url-browser-function 'eww-browse-url
