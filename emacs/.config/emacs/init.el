@@ -64,10 +64,12 @@
 (setq-default frame-title-format
               '(:eval
                 (cond (dired-directory
-                       (format "%s" (expand-file-name dired-directory)))
+                       (format "%s" (abbreviate-file-name
+				     (expand-file-name dired-directory))))
                       ((and buffer-file-truename
                             (not (string= major-mode "mu4e-compose-mode")))
-                       (format "%s %s" (buffer-name) buffer-file-truename))
+                       (format "%s %s" (buffer-name) (file-name-directory
+						      buffer-file-truename)))
                       (t (format "%s" (buffer-name))))))
 
 ;; Use C-\ to toggle between US qwerty and Russian Typewriter
