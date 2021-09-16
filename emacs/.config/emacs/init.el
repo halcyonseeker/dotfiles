@@ -171,15 +171,18 @@
   (evil-set-undo-system 'undo-tree)
   (global-undo-tree-mode 1))
 
-;; TeX editing and document previews
-(add-hook 'TeX-mode-hook 'auto-fill-mode)
-(setq TeX-view-program-selection
-      '(((output-dvi has-no-display-manager) "dvi2tty")
-        ((output-pdf has-no-display-manager) "fbpdf")
-        ((output-html has-no-display-manager) "lynx")
-        (output-dvi "xdg-open")
-        (output-pdf "xdg-open")
-        (output-html "xdg-open")))
+;; AucTeX for a better TeX and LaTeX experience
+(use-package tex
+  :ensure auctex
+  :config
+  (add-hook 'TeX-mode-hook 'auto-fill-mode)
+  (setq TeX-view-program-selection
+	'(((output-dvi has-no-display-manager) "dvi2tty")
+          ((output-pdf has-no-display-manager) "fbpdf")
+          ((output-html has-no-display-manager) "lynx")
+          (output-dvi "xdg-open")
+          (output-pdf "xdg-open")
+          (output-html "xdg-open"))))
 
 ;; Markdown editing mode
 (use-package markdown-mode
