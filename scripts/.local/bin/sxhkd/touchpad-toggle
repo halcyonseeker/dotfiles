@@ -2,11 +2,10 @@
 # Toggle my touchpad on and off
 # Depends on xinput
 
-id=$(xinput --list | grep Synaptics | awk '{print $6}' | sed "s/id=//")
-state=$(xinput --list-props "$id" | grep 'Device Enabled' | awk '{print $4}')
+set -eu
 
-if [ "$state" -eq 0 ] ; then
-	xinput --enable "$id"
-else
-	xinput --disable "$id"
-fi
+id="$(xinput --list | grep Synaptics | cut -f2 | tr -d "s/id=//")"
+case "$(xinput --list-props "$id" | grep 'Device Enabled' | cut -f3)" in
+	0) xinput --enable "$id" ;;
+	*) xinput --disable "$id" ;;
+esac

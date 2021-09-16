@@ -2,6 +2,8 @@
 # Grab url from clipboard and stream it with mpv
 # Depends on: xclip, youtube-dl, mpv, libnotify, and dunst
 
+set -eu
+
 if ( echo "$(xclip -o -selection clipboard)" | grep -aEo "^(((https|http)://|www\\.)[a-zA-Z0-9.]*[:]?[a-zA-Z0-9.~/@$&%?$#=_-]*)$" ) ; then
 	url=$(xclip -o -selection clipboard | tr -d "\n" | dmenu -p "Play Video?") 
 	notify-send "Loading $url" 

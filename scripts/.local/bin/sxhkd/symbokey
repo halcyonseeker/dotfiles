@@ -1,66 +1,24 @@
 #!/bin/sh
+# Show an emoji picker in dmenu. At some point I might make this fancier.
+# Depends on dmenu, xclip, libnotify, a notification daemon and an emoji font
 
-# symbokey: a customizable dmenu-based character selector for emojis and glyphs
-# Author:   Thalia Wright <vesperous@protonmail.com>
-# Website:  https://www.github.com/halcyonseeker/symbokey
-# License:  tbd
+# TODO: this script should be able to automatically build the emoji file
+# curl -s https://unicode.org/emoji/charts/full-emoji-list.html \
+	# | grep -e "^<td class='code'><a href='.*' name='.*'>.*</a></td>$" \
+	       # -e "^<td class='chars'>.</td>$" \
+	       # -e "^<td class='name'>.*</td>$" \
+	# | sed -e "s/^<td class='code'><a href='.*' name='.*'>//" \
+	      # -e "s/^<td class='chars'>//" \
+	      # -e "s/^<td class='name'>//" \
+	      # -e "s/<\/td>//; s/<\/a>//" \
+	      # -e "s/\&amp;/\&/"
+# Now place the emoji, code, and description on the same line
 
-# Options:
-# -u	Update the global list of characters.
-# -f	Use an additional character file.
-# -h	Print help message
+set -eu
 
-# Depedencies:
-# dmenu	<dmenu.suckless.org>
-# xclip <https://github.com/astrand/xclip>
-# libnotify
-# A notification daemon
-# A color emoji font
-
-# Variables:
-if [ "$(uname)" = Linux ] ; then
-	#char_file="/usr/share/symbokey/chars.txt"
-	char_file="$HOME"/.local/share/dotfiles/emojis.list
-else 
-	char_file="/usr/local/share/symbokey/chars.txt"
-fi
-
-help_msg="Usage:\n-u\tUpdate global list of characters\n-f\tUse an additional character file\n"
-
-# TODO fix syntax
-#cache_file=${$XDG_CACHE_HOME/symbokey:=$(HOME)/.cache/symbokey}
-cache_file="$XDG_CACHE_HOME"/symbokey
-
-# Update the global character list from Wikipedia
-update () {
-	echo "TODO Updating character list"
-}
-
-display () {
-	[ -f "$1" ] && cat "$1" > "$cache_file"
-		
-	cat "$cache_file" "$char_file" | \
-	grep -v "#" | \
-	dmenu -i -l 20 | \
-	cut -d " " -f 1 | \
-	tr -d "\n" | \
-	xclip -selection clipboard 
-		
-	[ -n "$(xclip -o -selection clipboard)" ] && \
-		notify-send -t 2000 "$(xclip -o -selection clipboard) copied to clipboard"
-}
-
-case $1 in 
-	"") display 
-		;; 
-	"-u") echo "Updating global character file..." 
-		update 
-		;;
-	"-f") [ -f "$2" ] || echo 2>&1 "$2: No such file or directory" 
-		display "$2" 
-		;;
-	"-h") printf "%s" "$help_msg" 
-		;;
-	*) printf "%s" "$help_msg" 
-		;;
-esac
+grep -v "#" "${XDG_DATA_HOME:-$HOME/.local/share}"/dotfiles/emojis.list \
+	| dmenu -i -l 20 \
+	| cut -d " " -f 1 \
+	| tr -d "\n" \
+	| xclip -selection clipboard \
+	&& notify-send -t 2000 "$(xclip -o -selection clipboard) copied to clipboard"

@@ -3,21 +3,23 @@
 # Called by ~/.local/share/applications/{torrent.desktop, mimeapps.list}
 # Depends on transmission-cli, notify-send, and dunst
 
-if [ -z "$1" ] ; then
-    notify-send "🌱 Torrent Handler" "Failed: Command Line Empty"
-    exit 1
-fi
+set -eu
+
+[ -z "$1" ] && {
+	notify-send "🌱 Torrent Handler" "Failed: Command Line Empty"
+	exit 1
+}
 
 pgrep -x transmission-da >/dev/null || {
-    transmission-daemon -w ~/temporary && \
-        notify-send "🌱 Torrent Handler" "Starting transmission-daemon..."
+	transmission-daemon -w ~/temporary && \
+		notify-send "🌱 Torrent Handler" "Starting transmission-daemon..."
 }
 
 sleep 5
 
-if (transmission-remote -a "$1" -e "$XDG_CACHE_HOME"/transmission-da.log) ; then
-    notify-send "🌱 Torrent Handler" "Added $1"
+if (transmission-remote -a "$1" -e "$XDG_CACHE_HOME"/transmission-da.log); then
+	notify-send "🌱 Torrent Handler" "Added $1"
 else
-    notify-send "🌱 Torrent Handler" \
-                "Failed: Unable to Add Torrent. See ~/torrent-add.err"
+	notify-send "🌱 Torrent Handler" \
+		"Failed: Unable to Add Torrent. See ~/torrent-add.err"
 fi

@@ -4,10 +4,11 @@
 # TODO: determine which bytes to use
 # TODO: figure out how to embed cover image, ffmpeg doesn't support this with opus yet
 
-message_function()
-{
-    notify-send "🎧 📕 aaxfree" "$1" 2>/dev/null
-    echo "$1"
+set -eu
+
+message_function() {
+	notify-send "🎧 📕 aaxfree" "$1" 2>/dev/null
+	echo "$1"
 }
 
 [ -f "$1" ] || message_function "$1 not found"
@@ -15,7 +16,7 @@ opusname="$(echo "$1" | sed "s/aax/opus/")"
 #bytes=7601152f                  # mine
 bytes=2bbd0f03
 if (ffmpeg -activation_bytes "$bytes" -i "$1" "$opusname") ; then
-    message_function "$opusname created"
+	message_function "$opusname created"
 else
-    message_function "Unable to create $opusname"
+	message_function "Unable to create $opusname"
 fi

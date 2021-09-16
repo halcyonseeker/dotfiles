@@ -1,16 +1,14 @@
 #!/bin/sh
-# Toggle between US and Russian keyboard input with Menu key
+# Toggle between US and Russian keyboard input. I bind this to Mod4+F1
 # Depends on setxkbmap
 # TODO figure out Russian keyboard in the console
 
-currentlayout=$(setxkbmap -query | grep layout | awk '{print $2}')
+set -eu
 
-if [ "$currentlayout" = "us" ]
-then
+if [ "$(setxkbmap -query | grep layout | awk '{print $2}')" = "us" ]; then
 	setxkbmap -model ru -layout ru
 else
 	setxkbmap -model us -layout us
 fi
 
-# Don't pipe to sh
-grep setxkbmap ~/.xprofile | sh
+grep setxkbmap "${XINITRC:-$HOME/.config/xorg/xinitrc}" | sh

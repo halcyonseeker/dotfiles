@@ -6,9 +6,7 @@
 }
 
 get_domain() {
-	echo "$1" \
-		| sed "s/^http:\/\///; s/^https:\/\///" \
-		| cut -d '/' -f1
+	echo "$1" | sed "s/^http:\/\///; s/^https:\/\///" | cut -d '/' -f1
 }
 
 wget \

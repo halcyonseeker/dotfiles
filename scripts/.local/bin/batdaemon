@@ -1,38 +1,25 @@
 #!/bin/sh
-# Send notifications when my battery gets low
+# Poll my battery and send notifications when it gets low.
 # Dependencies: libnotify, dunst
 
-# The calmest WM setup is cwm without a statusbar, but I'm paranoid
-# about my laptop's battery getting too low. This script will send
-# notifications at every 5% drop after the battery drops below the 30%
-# mark.
-# Run this file from your WM/Xorg startup file.
+set -eu
 
-
-# Loop 4 ever
-while true ; do
-
-    # Get battery status
-    if [ $(uname) = "OpenBSD" ] ; then
-        bat_stat="$(apm | head -1 | cut -d ' ' -f4 | tr -d '%')"
-    else 
-        bat_stat="$(cat /sys/class/power_supply/BAT0/capacity)" 
-    fi
-
-
-    # Check if battery ≤ 30%
-    if [ "$bat_stat" -le 30 ] ; then
-
-	# Check if battery ≤ 10%
-	if [ "$bat_stat" -le 10 ] ; then
-	    notify-send -t 2000 -u critical ⚠"BAT: $bat_stat"
-	else
-	    notify-send -t 2000 -u normal 🔋"BAT: $bat_stat"
+while true; do
+	if [ $(uname) = "OpenBSD" ]; then
+		bat_stat="$(apm | head -1 | cut -d ' ' -f4 | tr -d '%')"
+	else 
+		bat_stat="$(cat /sys/class/power_supply/BAT0/capacity)" 
 	fi
-    fi
 
-    # Don't be a resource hog
-    sleep 300
+	[ "$bat_stat" -le 30 ] && {
+		if [ "$bat_stat" -le 10 ]; then
+	    		notify-send -t 2000 -u critical ⚠"BAT: $bat_stat"
+		else
+	    		notify-send -t 2000 -u normal 🔋"BAT: $bat_stat"
+		fi
+	}
+
+	sleep 300
 done
 
     
