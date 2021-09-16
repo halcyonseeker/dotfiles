@@ -11,6 +11,7 @@ if [ "$url" = "${url#http}" ] && [ "$url" = "${url#gopher}" ]; then
 	exit 1
 elif [ "${url#"${url%???}"}" = "pdf" ]; then
 	echo "$url" | dmenu -p "Display Document?" >/dev/null && {
+		notify-send "📕 dmenu-url" "Loading PDF...\n$url"
 		curl -s "$url" | zathura - || {
 			notify-send "📕 dmenu-url" "Failed to display document."
 			exit 1
@@ -19,6 +20,7 @@ elif [ "${url#"${url%???}"}" = "pdf" ]; then
 else
 	# Assume it's a video
 	echo "$url" | dmenu -p "Play Video?" >/dev/null && {
+		notify-send "📕 dmenu-url" "Streaming Video...\n$url"
 		# Exit status 4 means mpv was closed prematurely
 		mpv "$url" || [ $? != "4" ] && {
 			notify-send "📕 dmenu-url" "Failed to play video."
