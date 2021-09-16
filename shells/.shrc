@@ -35,6 +35,10 @@ alias ec="emacsclient -nw -c"
 alias em="emacsclient -nw -e '(mu4e)'"
 alias ip="ip -c"
 alias ru="openrussian" # TODO: find a better lang-lang dictionary solution
+alias info="info --vi-keys"
+alias se="sudoedit"
+alias xo="xdg-open"
+alias ltr="ls -ltr"
 
 set -o emacs
 
