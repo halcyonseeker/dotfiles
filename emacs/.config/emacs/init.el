@@ -241,6 +241,12 @@
   :ensure t
   :bind ("C-x g" . magit-status))
 
+(use-package slime
+  :ensure t
+  :config
+  (setq inferior-lisp-program "sbcl")
+  (setq slime-repl-history-file "~/.config/emacs/slime/slime-history.eld"))
+
 ;; Miscellaneous Useful Packages
 (use-package fvwm-mode :ensure t)
 (use-package go-mode   :ensure t)
