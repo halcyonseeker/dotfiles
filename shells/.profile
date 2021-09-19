@@ -10,9 +10,10 @@
 # programs use the XDG specification to determine default applications.
 # The XDG default application handler should reflect the preferences
 # defined here.
-export EDITOR="vi"
-which vim >/dev/null 2>&1 && export EDITOR="vim"
-which nvim >/dev/null 2>&1 && export EDITOR="nvim"
+EDITOR="vi"
+command -v vim >/dev/null && EDITOR="vim"
+command -v nvim >/dev/null && EDITOR="nvim"
+export EDITOR
 export VISUAL="$EDITOR"
 
 export TERMINAL="xterm"
@@ -72,7 +73,7 @@ export HISTFILE="$XDG_CACHE_HOME/sh_history"
 export HISTSIZE=5000
 
 # NNN config
-which trash >/dev/null 2>&1 && export NNN_TRASH=1
+command -v trash >/dev/null && export NNN_TRASH=1
 
 # Make some directories
 mkdir -p "$XDG_CACHE_HOME"/zsh >/dev/null 2>&1
