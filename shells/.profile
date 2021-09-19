@@ -18,9 +18,12 @@ export VISUAL="$EDITOR"
 
 export TERMINAL="xterm"
 
-export FILE="$(xdg-mime query default inode/directory | tr -d '.desktop')"
-which nnn >/dev/null 2>&1 && export FILE="nnn"
-which ranger >/dev/null 2>&1 && export FILE="ranger"
+FILE="$TERMINAL"
+command -v xdg-mime >/dev/null \
+	&& FILE="$(xdg-mime query default inode/directory | tr -d '.desktop')"
+command -v nnn >/dev/null && FILE="$TERMINAL -e nnn"
+command -v ranger >/dev/null && FILE="$TERMINAL -e ranger"
+export FILE
 
 export PAGER="less"
 
