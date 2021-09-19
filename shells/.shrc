@@ -2,7 +2,7 @@
 # General Bourne Shell Run-Command File
 #
 # This file is equivalent to ~/.shrc, ~/.bashrc, ~/.zshrc, or ~/.kshrc
-# depending on the name of the symlink and the value of $0. Unlike 
+# depending on the name of the symlink and the value of $0.  Unlike
 # .profile which seeks to be posix complaint, this file contains shell-
 # specific configurations for Bash and Zsh in addition to portable 
 # stuff like aliases.
@@ -13,13 +13,13 @@
 #
 # Colorfull aliases are hard apparently
 if [ -x /usr/bin/dircolors ] ; then
-    alias ls="ls -F --color=auto"
-    alias grep="grep --color=auto" 
-    alias diff="diff --color=auto"
+	alias ls="ls -F --color=auto"
+	alias grep="grep --color=auto"
+	alias diff="diff --color=auto"
 elif [ -x /usr/local/bin/colorls ] ; then
-    alias ls="colorls -GF"
+	alias ls="colorls -GF"
 else
-    alias ls="ls -GF"
+	alias ls="ls -GF"
 fi
 
 alias mv="mv -iv"
@@ -46,53 +46,49 @@ set -o emacs
 # Zshrc equivalent
 #
 if [ "$0" = "zsh" ] || [ "$0" = "-zsh" ] ; then
+	zstyle :compinstall filename '$HOME/.config/shrc'
+	autoload -Uz compinit
+	compinit -d $XDG_CACHE_HOME/zsh/zcompdump-$ZSH_VERSION
 
-    # Begin lines added by compinstall
-    zstyle :compinstall filename '$HOME/.config/shrc'
-    autoload -Uz compinit
-    compinit -d $XDG_CACHE_HOME/zsh/zcompdump-$ZSH_VERSION
-    # End lines added by compinstall
+	# History behavior
+	HISTFILE="$HOME"/.cache/zsh/histfile
+	HISTSIZE=5000
+	SAVEHIST=5000
+	setopt appendhistory
 
-    # History behavior
-    HISTFILE="$HOME"/.cache/zsh/histfile
-    HISTSIZE=5000
-    SAVEHIST=5000
-    setopt appendhistory
+	# Different systems use different prefeces
+	if [ -d /usr/share/zsh ] ; then
+		plugins_dir="/usr/share/zsh/plugins"
+	elif [ -f /usr/local/share/zsh ] ; then
+		plugins_dir="/usr/local/share/zsh/plugins"
+	fi
 
-    # Different systems use different prefeces
-    if [ -d /usr/share/zsh ] ; then
-        plugins_dir="/usr/share/zsh/plugins"
-    elif [ -f /usr/local/share/zsh ] ; then
-        plugins_dir="/usr/local/share/zsh/plugins"
-    fi
+	# Load plugins
+	source "$plugins_dir"/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh \
+		2>/dev/null
 
-    # Load plugins
-    source "$plugins_dir"/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh \
-        2>/dev/null
+	# Make keys work
+	bindkey '^[[P' delete-char
+	bindkey '^[[5~' up-line-or-history
+	bindkey '^[[6~' down-line-or-history
+	bindkey '^[[1~' beginning-of-line
+	bindkey '^[[4~' end-of-line
 
-    # Make keys work
-    bindkey '^[[P' delete-char
-    bindkey '^[[5~' up-line-or-history
-    bindkey '^[[6~' down-line-or-history
-    bindkey '^[[1~' beginning-of-line
-    bindkey '^[[4~' end-of-line
+	if [ -n "$SSH_CONNECTION" ] ; then
+		case "$EUID" in
+			0) export PROMPT="%B%F{red}[%m: %~]%# %b%f" ;;
+			*) export PROMPT="%B%F{green}[%m: %~]%# %b%f" ;;
+		esac
+	else
+		case "$EUID" in
+			0) export PROMPT="%B%F{red}[%~]%# %b%f" ;;
+			*) export PROMPT="%B%F{green}[%~]%# %b%f" ;;
+		esac
+	fi
 
-    # Set a fancier prompt
-    if [ -n "$SSH_CONNECTION" ] ; then
-        case "$EUID" in
-            0) export PROMPT="%B%F{red}[%m: %~]%# %b%f" ;;
-            *) export PROMPT="%B%F{green}[%m: %~]%# %b%f" ;;
-        esac
-    else
-        case "$EUID" in
-            0) export PROMPT="%B%F{red}[%~]%# %b%f" ;;
-            *) export PROMPT="%B%F{green}[%~]%# %b%f" ;;
-        esac
-    fi
-
-    # Set terminal title status: path command
-    precmd ()  {print -Pn -- '\e]2;%?: %~\a'}
-    preexec () {print -Pn -- '\e]2;%?: %~ %# ' && print -n -- "${(q)1}\a"}
+	# Set terminal title status: path command
+	precmd ()  { print -Pn -- '\e]2;%?: %~\a' }
+	preexec () { print -Pn -- '\e]2;%?: %~ %# ' && print -n -- "${(q)1}\a" }
 
 fi
 
@@ -100,39 +96,37 @@ fi
 # Bashrc equivalent
 #
 if [ "$0" = "bash" ] || [ "$0" = "-bash" ] ; then
+	if [ -n "$SSH_CONNECTION" ] ; then
+		case "$UID" in
+			0) export PS1="\e[1;41m[\h: \w]\$\e[m " ;;
+			*) export PS1="\e[1;32m[\h: \w]\$\e[m " ;;
+		esac
+	else
+		case "$UID" in
+			0) export PS1="\e[1;41m[\w]\$\e[m " ;;
+			*) export PS1="\e[1;32m[\w]\$\e[m " ;;
+		esac
+	fi
 
-    # Set a fancier prompt
-    if [ -n "$SSH_CONNECTION" ] ; then
-        case "$UID" in
-            0) export PS1="\e[1;41m[\h: \w]\$\e[m " ;;
-            *) export PS1="\e[1;32m[\h: \w]\$\e[m " ;;
-        esac
-    else
-        case "$UID" in
-            0) export PS1="\e[1;41m[\w]\$\e[m " ;;
-            *) export PS1="\e[1;32m[\w]\$\e[m " ;;
-        esac
-    fi
-
-    # Improved tab completion behavior
-    complete -c man which
-    complete -cf sudo doas
-    
+	# Improved tab completion behavior
+	complete -c man which
+	complete -cf sudo doas
 fi
 
 #
 # Kshrc equivalent
 #
 if [ "$0" = "ksh" ] || [ "$0" = "-ksh" ] ; then
-    if [ -n "$SSH_CONNECTION" ] ; then
-        case "$UID" in
-            0) export PS1="\e[1;41m[\h: \w]\$\e[m " ;;
-            *) export PS1="\e[1;32m[\h: \w]\$\e[m " ;;
-        esac
-    else
-        case "$UID" in
-            0) export PS1="\e[1;41m[\w]\$\e[m " ;;
-            *) export PS1="\e[1;32m[\w]\$\e[m " ;;
-        esac
-    fi
+	if [ -n "$SSH_CONNECTION" ] ; then
+		case "$UID" in
+			0) export PS1="\e[1;41m[\h: \w]\$\e[m " ;;
+			*) export PS1="\e[1;32m[\h: \w]\$\e[m " ;;
+		esac
+	else
+		case "$UID" in
+			0) export PS1="\e[1;41m[\w]\$\e[m " ;;
+			*) export PS1="\e[1;32m[\w]\$\e[m " ;;
+		esac
+	fi
 fi
+

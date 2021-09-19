@@ -6,7 +6,7 @@
 #
 
 # Set preferred applications for use in scripts. With the exception of
-# $EDITOR and $VISUAL, none of thses variables are respected. Other
+# $EDITOR and $VISUAL, none of thses variables are respected.  Other
 # programs use the XDG specification to determine default applications.
 # The XDG default application handler should reflect the preferences
 # defined here.
@@ -16,7 +16,6 @@ which nvim >/dev/null 2>&1 && export EDITOR="nvim"
 export VISUAL="$EDITOR"
 
 export TERMINAL="xterm"
-which st >/dev/null 2>&1 && export TERMINAL="st"
 
 export FILE="$(xdg-mime query default inode/directory | tr -d '.desktop')"
 which nnn >/dev/null 2>&1 && export FILE="nnn"
@@ -27,21 +26,22 @@ export PAGER="less"
 # Tell emacsclient to run emacs --daemon if it can't connect
 export ALTERNATE_EDITOR=""
 
-# Important variables
-export PATH="$HOME/.local/bin:$GOPATH/bin:$PATH"
+# Set word-delimiters for cutting text with ^W
 export WORDCHARS='*?_[]~=&;!#$%^(){}'
 
-# Set a simple, portable prompt
+export PATH="$HOME/.local/bin:$GOPATH/bin:$PATH"
+
+# Set a stupid-simple prompt. Ksh, Zsh, and Bash will override this.
 if [ -n "$SSH_CONNECTION" ] ; then
-    case "$UID" in 
-        0) export PS1='[$(hostname): $(basename $PWD)]# ' ;;
-        *) export PS1='[$(hostname): $(basename $PWD)]$ ' ;; 
-    esac
+	case "$UID" in
+		0) export PS1='[$(hostname): $(basename $PWD)]# ' ;;
+		*) export PS1='[$(hostname): $(basename $PWD)]$ ' ;;
+	esac
 else
-    case "$UID" in 
-        0) export PS1='[$(basename $PWD)]# ' ;;
-        *) export PS1='[$(basename $PWD)]$ ' ;; 
-    esac
+	case "$UID" in
+		0) export PS1='[$(basename $PWD)]# ' ;;
+		*) export PS1='[$(basename $PWD)]$ ' ;;
+	esac
 fi
 
 # These aren't always set by default
@@ -60,14 +60,14 @@ export GOPATH="$HOME/.local/go"
 export MPV_HOME="$XDG_CONFIG_HOME/mpv"
 export FVWM_USERDIR="$XDG_CONFIG_HOME/fvwm"
 export FVWM_DATADIR="$XDG_DATA_HOME/fvwm"
-
-# GUI variables
-export XINITRC="$XDG_CONFIG_HOME"/xorg/xinitrc
-export GTK_THEME="Raleigh-Reloaded"
+export XINITRC="$XDG_CONFIG_HOME/xorg/xinitrc"
 export GTK2_RC_FILES="$XDG_CONFIG_HOME/gtk-2.0/gtkrc-2.0"
+
+# Customize GTK and QT
+export GTK_THEME="Raleigh-Reloaded"
 export GTK_OVERLAY_SCROLLING=0
 
-# History settings
+# Basic history settings. Zsh will override this.
 export HISTFILE="$XDG_CACHE_HOME/sh_history"
 export HISTSIZE=5000
 
@@ -84,7 +84,7 @@ mkdir -p "$XDG_CONFIG_HOME"/emacs/org-timestamps/ >/dev/null 2>&1
 
 # Do shell specific things with the rc file
 case "$(basename $SHELL)" in
-    "bash") export BASH_ENV="$HOME"/.bashrc && source "$BASH_ENV" ;;
-    "zsh") source "$HOME"/.zshrc ;;
-    *) export ENV="$HOME/.shrc" && sh "$ENV" ;;
+	"bash") export BASH_ENV="$HOME"/.bashrc && source "$BASH_ENV" ;;
+	"zsh") source "$HOME"/.zshrc ;;
+	*) export ENV="$HOME/.shrc" && sh "$ENV" ;;
 esac
