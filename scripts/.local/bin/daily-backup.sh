@@ -2,64 +2,36 @@
 # daily.sh: Backup script run daily
 # Depends on rsync and optionally libnotify and a notification daemon
 
-# Exit on any error
-set -e
+# Exit on any error or when a child process is interupted
+set -eu
+trap 'exit 1' INT
 
-message_function()
-{
-    echo "$1"
-    notify-send "🏠 -> 💾 daily-backup.sh" "$1" >/dev/null
+message_function() {
+	echo "$1"
+	command -v notify-send >/dev/null && \
+		notify-send "🏠 -> 💾 daily-backup.sh" "$1"
 }
 
-# Configuration variables
-remote="thalia@cloud.lagrangian.space:~/backup"
 local="/storage/backups/$(hostname)"
-ignore=".cache .mozilla .local/share .config .emacs.d/backups .emacs.d/auto-save-list .emacs.d/elpa .tor-browser"
+[ -w "$local" ] || {
+	message_function "Error: backup dir is not writable"
+	exit 1
+}
+mkdir -p "$local"/live 2>/dev/null
 
-# Tell tar to ignore some directories
-# TODO: Why can't I just pass an exclude string to rsync?
-for d in $ignore ; do
-    [ -d "$HOME"/"$d" ] && \
-        echo "Signature: 8a477f597d28d172789f06886806bc55" > \
-             "$HOME"/"$d"/CACHEDIR.TAG
-done
- 
-# Live backups (rsync)
-rsync -axv \
-      --delete-after \
-      --exclude '.cache' \
-      --exclude '.mozilla' \
-      --exclude '.local/share' \
-      --exclude '.config' \
-      --exclude '.emacs.d/backups' \
-      --exclude '.emacs.d/auto-save-list' \
-      --exclude '.emacs.d/elpa' \
-      --exclude 'temporary' \
-      --exclude '.tor-browser' \
-      "$HOME"/ "$local"/live
+echo "
+.cache
+.local/cargo
+.local/rustup
+.local/go
+.local/lib
+.slime
+.tor-browser
+repos
+" | rsync -axv --delete-after --exclude-from - \
+	"$HOME"/ "$local"/live && message_function "Live backup succeeded."
 
-case $? in
-    0) message_function "Live backup succeeded." ;;
-    *) message_function "Live backup failed." ;;
-esac
+# Copy the snapshots and live copy to my remote server
+rsync -axv "$local"/ thalia@ulthar.xyz:~/backup/ \
+	&& message_function "Remote backup succeeded."
 
-# Create differential tarball from the last weekly snapshot
-# pass -level=0 to take a clean snapshot
-tar --listed-incremental="$local"/snapshot.file \
-    --exclude-caches \
-    -cvzf \
-    "$local"/daily/backup-"$(date +'%F-%s')".1.tar.gz \
-    "$HOME"
-
-case $? in
-    0) message_function "Tar snapshot succeeded." ;;
-    *) message_function "Tar snapshot failed." ;;
-esac
-
-# Copy that all to remote
-rsync -axv "$local" "$remote"/
-
-case $? in
-    0) message_function "Remote backup succeeded." ;;
-    *) message_function "Remote backup failed." ;;
-esac
