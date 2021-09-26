@@ -22,6 +22,7 @@ else
 	echo "$url" | dmenu -p "Play Video?" >/dev/null && {
 		notify-send "📕 dmenu-url" "Streaming Video...\n$url"
 		# Exit status 4 means mpv was closed prematurely
+		notify-send "📕 dmenu-url" "Streaming Video...\n$url"
 		mpv "$url" || [ $? != "4" ] && {
 			notify-send "📕 dmenu-url" "Failed to play video."
 			exit 1
