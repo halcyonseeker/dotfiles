@@ -9,7 +9,7 @@ trap 'exit 1' INT
 message_function() {
 	echo "$1"
 	command -v notify-send >/dev/null && \
-		notify-send "🏠 -> 💾 daily-backup.sh" "$1"
+		notify-send "🏠 -> 💾 home-backup" "$1"
 }
 
 local="/storage/backups/$(hostname)"

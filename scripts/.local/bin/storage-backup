@@ -24,7 +24,7 @@ df | grep mnt >/dev/null || {
 message_function () {
 	echo "$1"
 	command -v notify-send >/dev/null && \
-		notify-send "🖥 -> 💾 storage-backup.sh" "1"
+		notify-send "🖥 -> 💾 storage-backu" "$1"
 }
 
 echo "
