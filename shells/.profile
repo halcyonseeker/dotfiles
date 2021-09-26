@@ -70,6 +70,7 @@ export GTK2_RC_FILES="$XDG_CONFIG_HOME/gtk-2.0/gtkrc-2.0"
 # Customize GTK and QT
 export GTK_THEME="Raleigh-Reloaded"
 export GTK_OVERLAY_SCROLLING=0
+export QT_QPA_PLATFORMTHEME="qt5ct"
 
 # Basic history settings. Zsh will override this.
 export HISTFILE="$XDG_CACHE_HOME/sh_history"
