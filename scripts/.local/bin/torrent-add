@@ -5,21 +5,23 @@
 
 set -eu
 
-[ -z "$1" ] && {
-	notify-send "🌱 Torrent Handler" "Failed: Command Line Empty"
-	exit 1
+msg() {
+	printf "Torrent Handler: %s\n" "$1"
+	command -v notify-send >/dev/null && \
+		notify-send "🌱 Torrent Handler" "$1"
 }
 
-pgrep -x transmission-da >/dev/null || {
+pgrep transmission >/dev/null || {
 	transmission-daemon -w ~/temporary && \
-		notify-send "🌱 Torrent Handler" "Starting transmission-daemon..."
+		msg "Starting transmission daemon..."
 }
 
-sleep 5
+[ "$#" -gt 0 ] && {
+	transmission-remote -a "$1" -e "$XDG_CACHE_HOME"/transmission-da.log
+	case "$?" in
+		0) msg "Added $1" ;;
+		*) msg "Failed: Unable to Add Torrent." ;;
+	esac
+}
 
-if (transmission-remote -a "$1" -e "$XDG_CACHE_HOME"/transmission-da.log); then
-	notify-send "🌱 Torrent Handler" "Added $1"
-else
-	notify-send "🌱 Torrent Handler" \
-		"Failed: Unable to Add Torrent. See ~/torrent-add.err"
-fi
+printf "Web interface is running on http://localhost:9091\n"
