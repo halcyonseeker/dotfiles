@@ -56,16 +56,12 @@ if [ "$0" = "zsh" ] || [ "$0" = "-zsh" ] ; then
 	SAVEHIST=5000
 	setopt appendhistory
 
-	# Different systems use different prefeces
-	if [ -d /usr/share/zsh ] ; then
-		plugins_dir="/usr/share/zsh/plugins"
-	elif [ -f /usr/local/share/zsh ] ; then
-		plugins_dir="/usr/local/share/zsh/plugins"
-	fi
-
 	# Load plugins
-	source "$plugins_dir"/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh \
-		2>/dev/null
+	if [ "$(uname)" = "Linux" ]; then
+		source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh 2>/dev/null
+	elif [ "$(uname)" = "FreeBSD" ] ; then
+		source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh 2>/dev/null
+	fi
 
 	# Make keys work
 	bindkey '^[[P' delete-char
