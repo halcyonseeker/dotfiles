@@ -5,9 +5,11 @@
 set -eu
 
 while true; do
-	if [ $(uname) = "OpenBSD" ]; then
+	if [ "$(uname)" = "OpenBSD" ]; then
 		bat_stat="$(apm | head -1 | cut -d ' ' -f4 | tr -d '%')"
-	else 
+	elif [ "$(uname)" = "FreeBSD" ]; then
+		bat_stat="$(sysctl hw.acpi.battery.life | cut -d' ' -f2)"
+	elif [ "$(uname)" = "Linux" ]; then
 		bat_stat="$(cat /sys/class/power_supply/BAT0/capacity)" 
 	fi
 
