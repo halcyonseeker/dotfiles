@@ -88,10 +88,9 @@ Key Up A 4 SoftTileTop
 Key Right A 4 SoftTileRight
 
 # Various system keys
-# TODO: Write a script to make these system agnostic
-Key XF86AudioMute A A Exec amixer set Master toggle
-Key XF86AudioLowerVolume A A Exec amixer set Master 5%-
-Key XF86AudioRaiseVolume A A Exec amixer set Master 5%+
+Key XF86AudioMute A A Exec Exec $HOME/.local/bin/audio-abstract mute
+Key XF86AudioLowerVolume A A Exec $HOME/.local/bin/audio-abstract down
+Key XF86AudioRaiseVolume A A Exec $HOME/.local/bin/audio-abstract up
 Key XF86ScreenSaver A A Exec slock
 Key XF86Sleep A A Exec systemctl suspend
 Key XF86TouchpadToggle A A Exec $HOME/.local/bin/touchpad-toggle
