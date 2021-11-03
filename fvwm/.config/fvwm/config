@@ -88,12 +88,12 @@ Key Up A 4 SoftTileTop
 Key Right A 4 SoftTileRight
 
 # Various system keys
-Key XF86AudioMute A A Exec Exec $HOME/.local/bin/audio-abstract mute
-Key XF86AudioLowerVolume A A Exec $HOME/.local/bin/audio-abstract down
-Key XF86AudioRaiseVolume A A Exec $HOME/.local/bin/audio-abstract up
+Key XF86AudioMute A A Exec $FVWM_USERDIR/scripts/audio-abstract.sh mute
+Key XF86AudioLowerVolume A A Exec $FVWM_USERDIR/scripts/audio-abstract.sh down
+Key XF86AudioRaiseVolume A A Exec $FVWM_USERDIR/scripts/audio-abstract.sh up
 Key XF86ScreenSaver A A Exec slock
 Key XF86Sleep A A Exec systemctl suspend
-Key XF86TouchpadToggle A A Exec $HOME/.local/bin/touchpad-toggle
+Key XF86TouchpadToggle A A Exec $FVWM_USERDIR/scripts/touchpad-toggle.sh
 Key XF86WLAN A A Exec $TERMINAL -e nmtui
 Key Print A A Exec scrot '$a_%y-%m-%d_%s.jpg' -e 'mv $f ~/images/screenshots && notify-send "📸 $f"'
 # TODO: figure out global play/pause
@@ -101,13 +101,13 @@ Key XF86AudioPlay A A Exec mpc toggle
 
 # Application keys
 Key Return A CM Exec $TERMINAL
-Key Space A 4 Exec dmenu_run
-Key y A 4 Exec $HOME/.local/bin/dmenu-url
-Key u A 4 Exec $HOME/.local/bin/symbokey
+Key Space A 4 Exec rofi -show run
+Key y A 4 Exec $FVWM_USERDIR/scripts/dmenu-url.sh
+Key u A 4 Exec $FVWM_USERDIR/scripts/emojipicker.sh
 Key a A 4 Exec $FVWM_USERDIR/scripts/passmenu.sh
 key z A 4 Exec $FILE
 key c A 4 Exec $TERMINAL -e python
-key F1 A 4 Exec $HOME/.local/bin/lang-toggle
+key F1 A 4 Exec $FVWM_USERDIR/scripts/lang-toggle.sh
 
 #########################################################################
 ################################################################### Menus
