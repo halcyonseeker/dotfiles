@@ -104,7 +104,7 @@ Key Return A CM Exec $TERMINAL
 Key Space A 4 Exec dmenu_run
 Key y A 4 Exec $HOME/.local/bin/dmenu-url
 Key u A 4 Exec $HOME/.local/bin/symbokey
-Key a A 4 Exec passmenu
+Key a A 4 Exec $FVWM_USERDIR/scripts/passmenu.sh
 key z A 4 Exec $FILE
 key c A 4 Exec $TERMINAL -e python
 key F1 A 4 Exec $HOME/.local/bin/lang-toggle
