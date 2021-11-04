@@ -119,6 +119,7 @@
 (when (not (package-installed-p 'use-package))
   (package-refresh-contents)
   (package-install 'use-package))
+(setq use-package-always-ensure t)
 
 ;; Mu4e Mail Client
 (when (and (require 'mu4e nil 'noerror)
@@ -141,7 +142,6 @@
 
 ;; Elfeed RSS Reader
 (use-package elfeed
-  :ensure t
   :defer t
   :init (when (file-exists-p "~/documents/elfeed.el")
           (load "~/documents/elfeed.el"))
@@ -150,7 +150,6 @@
 
 ;; Evil Mode - A better text editor for Emacs
 (use-package evil
-  :ensure t
   :demand t
   :init
   (setq evil-want-C-i-jump nil          ; Fix TAB in -nw frames
@@ -161,11 +160,9 @@
   (evil-set-toggle-key "C-M-z"))        ; Let me suspend the frame
 (use-package evil-collection
   :after evil
-  :ensure t
   :init (setq evil-want-keybinding nil)
   :config (evil-collection-init))
 (use-package undo-tree
-  :ensure t
   :after evil
   :diminish
   :config
@@ -187,22 +184,19 @@
 
 ;; Markdown editing mode
 (use-package markdown-mode
-  :ensure t
   :config
   (add-hook 'markdown-mode-hook 'auto-fill-mode))
 
 ;; Ivy and counsel for nicer minibuffer behavior
 (use-package ivy
-  :ensure t
   :config
   (ivy-mode 1)
   (global-set-key (kbd "C-x C-f") 'counsel-find-file))
-(use-package counsel :ensure t :after ivy)
+(use-package counsel :after ivy)
 
 ;; Ranger-style previews and Git info in dired
-(use-package dired-git-info :ensure t)
+(use-package dired-git-info)
 (use-package peep-dired
-  :ensure t
   :config
   (evil-define-key 'normal dired-mode-map (kbd "p") 'peep-dired)
   (evil-define-key 'normal peep-dired-mode-map
@@ -212,19 +206,16 @@
 
 ;; A nice dictionary
 (use-package dictionary
-  :ensure t
   :config
   (setq dictionary-server "localhost"))
 
 ;; Writeroom mode for a distraction-free environment
 (use-package writeroom-mode
-  :ensure t
   :config
   (global-set-key (kbd "C-x w") 'writeroom-mode))
 
 ;; Control MPD from within Emacs
 (use-package emms
-  :ensure t
   :config
   (require 'emms-setup)
   (require 'emms-player-mpd)
@@ -238,22 +229,20 @@
 
 ;; Magit -- Make Git way faster and easier to use
 (use-package magit
-  :ensure t
   :bind ("C-x g" . magit-status))
 
 (use-package slime
-  :ensure t
   :config
   (setq inferior-lisp-program "sbcl")
   (setq slime-repl-history-file "~/.config/emacs/slime/slime-history.eld"))
 
 ;; Miscellaneous Useful Packages
-(use-package fvwm-mode :ensure t)
-(use-package go-mode   :ensure t)
-(use-package htmlize   :ensure t)
-(use-package ereader   :ensure t)
-(use-package elpher    :ensure t)
-(use-package nov       :ensure t :after ereader)
+(use-package fvwm-mode)
+(use-package go-mode)
+(use-package htmlize)
+(use-package ereader)
+(use-package elpher)
+(use-package nov :after ereader)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Some Functions
