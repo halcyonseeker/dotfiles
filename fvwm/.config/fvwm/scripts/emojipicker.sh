@@ -17,7 +17,7 @@
 set -eu
 
 emojis="${XDG_DATA_HOME:-$HOME/.local/share}"/dotfiles/emojis.list
-line="$(grep -v "#" "$emojis" | dmenu -i -l 20)" || exit
+line="$(grep -v "#" "$emojis" | rofi -dmenu)" || exit
 echo "$line" | cut -d " " -f 1 | tr -d "\n" | xclip -selection clipboard && {
 	notify-send -t 2000 "$(xclip -o -selection clipboard) copied to clipboard"
 }

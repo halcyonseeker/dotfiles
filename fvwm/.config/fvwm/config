@@ -102,7 +102,7 @@ Key XF86AudioPlay A A Exec mpc toggle
 # Application keys
 Key Return A CM Exec $TERMINAL
 Key Space A 4 Exec rofi -show run
-Key y A 4 Exec $FVWM_USERDIR/scripts/dmenu-url.sh
+Key y A 4 Exec $FVWM_USERDIR/scripts/rofi-url.sh
 Key u A 4 Exec $FVWM_USERDIR/scripts/emojipicker.sh
 Key a A 4 Exec $FVWM_USERDIR/scripts/passmenu.sh
 key z A 4 Exec $FILE
