@@ -27,6 +27,7 @@
 (setq-default c-basic-offset 'set-from-style
               tab-width 8
               indent-tabs-mode t)
+(setq sh-basic-offset tab-width)
 
 ;; Make scroll behavior less jarring
 (setq mouse-wheel-scroll-amount '(1 ((shift) . 1)))
