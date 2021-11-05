@@ -273,17 +273,4 @@ lots of EWW buffers open at one time. Used by `eww-after-render-hook'"
                   (plist-get eww-data :url)
                 (plist-get eww-data :title))))
     (rename-buffer (format "*eww: %s*" name) t)))
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Emojis 🤣
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; From http://ergoemacs.org/emacs/emacs_list_and_set_font.html
-(set-fontset-font
- t '(#x1f300 . #x1fad0)
- (cond
-  ((member "Noto Color Emoji" (font-family-list)) "Noto Color Emoji")
-  ((member "Noto Emoji" (font-family-list)) "Noto Emoji")
-  ((member "Segoe UI Emoji" (font-family-list)) "Segoe UI Emoji")
-  ((member "Symbola" (font-family-list)) "Symbola")
-  ((member "Apple Color Emoji" (font-family-list)) "Apple Color Emoji")))
-;;; init.el ends here
+-;;; init.el ends here
