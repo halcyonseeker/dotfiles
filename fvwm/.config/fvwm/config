@@ -21,6 +21,7 @@ Style * FPGrabFocus
 
 # Prevent Xterm and Emacs from leaving gaps
 Style * ResizeHintOverride
+Style "emacs" NoResizeOverride
 
 # Transfer focus when switching pages
 DestroyFunc MoveFocus
