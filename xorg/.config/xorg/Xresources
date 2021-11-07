@@ -40,3 +40,8 @@ XClock*background: #93a1a1
 !!!!!!!!!! Emacs
 Emacs*iconName: Emacs
 Emacs.default.attributeHeight: 94
+
+!!!!!!!!!! Rofi
+rofi.modi: window,run,drun,file-browser
+rofi.show-icons: true
+rofi.theme: /usr/local/share/rofi/themes/gruvbox-dark-soft.rasi
