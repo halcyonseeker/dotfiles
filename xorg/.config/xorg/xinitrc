@@ -34,4 +34,12 @@ xrdb -merge ~/.config/xorg/gruvbox-dark.xres
 setxkbmap -option caps:swapescape
 setxkbmap -option compose:ralt
 
+# Set GUI variables
+export FVWM_USERDIR="$XDG_CONFIG_HOME/fvwm"
+export FVWM_DATADIR="$XDG_DATA_HOME/fvwm"
+export GTK2_RC_FILES="$XDG_CONFIG_HOME/gtk-2.0/gtkrc-2.0"
+export GTK_THEME="Raleigh-Reloaded"
+export GTK_OVERLAY_SCROLLING=0
+export QT_QPA_PLATFORMTHEME="qt5ct"
+
 exec fvwm -f ~/.config/fvwm/config

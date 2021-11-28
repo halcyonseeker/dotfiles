@@ -60,17 +60,8 @@ export XAUTHORITY="$XDG_RUNTIME_DIR/xauthority"
 export ICEAUTHORITY="$XDG_CACHE_HOME/ICEauthority"
 export GOPATH="$HOME/.local/go"
 export MPV_HOME="$XDG_CONFIG_HOME/mpv"
-export FVWM_USERDIR="$XDG_CONFIG_HOME/fvwm"
-export FVWM_DATADIR="$XDG_DATA_HOME/fvwm"
 export XINITRC="$XDG_CONFIG_HOME/xorg/xinitrc"
-export GTK2_RC_FILES="$XDG_CONFIG_HOME/gtk-2.0/gtkrc-2.0"
-
 export PATH="$HOME/.local/bin:$GOPATH/bin:$PATH"
-
-# Customize GTK and QT
-export GTK_THEME="Raleigh-Reloaded"
-export GTK_OVERLAY_SCROLLING=0
-export QT_QPA_PLATFORMTHEME="qt5ct"
 
 # Basic history settings. Zsh will override this.
 export HISTFILE="$XDG_CACHE_HOME/sh_history"
