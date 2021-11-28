@@ -33,8 +33,6 @@ export ALTERNATE_EDITOR=""
 # Set word-delimiters for cutting text with ^W
 export WORDCHARS='*?_[]~=&;!#$%^(){}'
 
-export PATH="$HOME/.local/bin:$GOPATH/bin:$PATH"
-
 # Set a stupid-simple prompt. Ksh, Zsh, and Bash will override this.
 if [ -n "$SSH_CONNECTION" ] ; then
 	case "$UID" in
@@ -66,6 +64,8 @@ export FVWM_USERDIR="$XDG_CONFIG_HOME/fvwm"
 export FVWM_DATADIR="$XDG_DATA_HOME/fvwm"
 export XINITRC="$XDG_CONFIG_HOME/xorg/xinitrc"
 export GTK2_RC_FILES="$XDG_CONFIG_HOME/gtk-2.0/gtkrc-2.0"
+
+export PATH="$HOME/.local/bin:$GOPATH/bin:$PATH"
 
 # Customize GTK and QT
 export GTK_THEME="Raleigh-Reloaded"
