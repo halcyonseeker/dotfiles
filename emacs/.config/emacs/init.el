@@ -29,6 +29,15 @@
               indent-tabs-mode t)
 (setq sh-basic-offset tab-width)
 
+;; Break lines at 72 columns when writing prose and code comments
+(add-hook 'TeX-mode-hook 'auto-fill-mode)
+(add-hook 'text-mode-hook 'auto-fill-mode)
+(add-hook 'org-mode-hook 'auto-fill-mode)
+(add-hook 'prog-mode-hook
+	  (lambda ()
+	    (setq-local comment-auto-fill-only-comments t)
+	    (auto-fill-mode t)))
+
 ;; Make scroll behavior less jarring
 (setq mouse-wheel-scroll-amount '(1 ((shift) . 1)))
 (setq scroll-step 1)
@@ -95,7 +104,6 @@
               (yank)))))
 
 ;; Org Mode
-(add-hook 'org-mode-hook 'auto-fill-mode)
 (setq org-publish-timestamp-directory "~/.config/emacs/org-timestamps/"
       org-directory "~/org")
 (setq org-startup-folded t)
@@ -178,7 +186,6 @@
 (use-package tex
   :ensure auctex
   :config
-  (add-hook 'TeX-mode-hook 'auto-fill-mode)
   (setq TeX-view-program-selection
 	'(((output-dvi has-no-display-manager) "dvi2tty")
           ((output-pdf has-no-display-manager) "fbpdf")
