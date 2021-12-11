@@ -171,7 +171,11 @@
         evil-disable-insert-state-bindings t)
   :config
   (evil-mode 1)
-  (evil-set-toggle-key "C-M-z"))        ; Let me suspend the frame
+  (evil-set-toggle-key "C-M-z")		; Let me suspend the frame
+  (add-hook 'org-mode-hook
+	    (lambda ()	; Fix paragraph motions in org mode
+	      (defalias 'evil-forward-paragraph 'org-forward-paragraph)
+	      (defalias 'evil-backward-paragraph 'org-backward-paragraph))))
 (use-package evil-collection
   :after evil
   :init (setq evil-want-keybinding nil)
