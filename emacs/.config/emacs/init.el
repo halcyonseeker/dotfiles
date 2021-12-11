@@ -285,4 +285,4 @@ lots of EWW buffers open at one time. Used by `eww-after-render-hook'"
                   (plist-get eww-data :url)
                 (plist-get eww-data :title))))
     (rename-buffer (format "*eww: %s*" name) t)))
--;;; init.el ends here
+;;; init.el ends here
