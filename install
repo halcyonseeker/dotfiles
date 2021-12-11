@@ -71,9 +71,6 @@ print_package_info() {
         fvwm)
             print_deps "fvwm2, conky"
         ;;
-        sxhkd)
-            print_deps "sxhkd, slock, dmenu, pass, python, scrot"
-        ;;
         sxiv)
             print_deps "sxiv, feh"
         ;;
