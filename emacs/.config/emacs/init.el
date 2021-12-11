@@ -120,12 +120,6 @@
 (setq doc-view-continuous t)
 (add-hook 'doc-view-mode-hook 'auto-revert-mode)
 
-;; Emacs IRC Client
-(setq erc-default-server "irc.libera.chat"
-      erc-nick "ymir"
-      erc-full-name "T W")
-(global-set-key (kbd "C-x i") 'erc-tls)
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Install and Configure Packages
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -153,14 +147,6 @@
                '("View In Browser" . mu4e-action-view-in-browser) t)
   (when (file-exists-p "~/.local/mail/accounts.el")
     (load "~/.local/mail/accounts.el")))
-
-;; Elfeed RSS Reader
-(use-package elfeed
-  :defer t
-  :init (when (file-exists-p "~/documents/elfeed.el")
-          (load "~/documents/elfeed.el"))
-  :bind ("C-x r" . elfeed)
-  :config (setq elfeed-db-directory "~/.config/emacs/elfeed"))
 
 ;; Evil Mode - A better text editor for Emacs
 (use-package evil
@@ -211,38 +197,10 @@
   (global-set-key (kbd "C-x C-f") 'counsel-find-file))
 (use-package counsel :after ivy)
 
-;; Ranger-style previews and Git info in dired
-(use-package dired-git-info)
-(use-package peep-dired
-  :config
-  (evil-define-key 'normal dired-mode-map (kbd "p") 'peep-dired)
-  (evil-define-key 'normal peep-dired-mode-map
-    (kbd "k") 'peep-dired-prev-file
-    (kbd "j") 'peep-dired-next-file)
-    (add-hook 'peep-dired-hook 'evil-normalize-keymaps))
-
-;; A nice dictionary
-(use-package dictionary
-  :config
-  (setq dictionary-server "localhost"))
-
 ;; Writeroom mode for a distraction-free environment
 (use-package writeroom-mode
   :config
   (global-set-key (kbd "C-x w") 'writeroom-mode))
-
-;; Control MPD from within Emacs
-(use-package emms
-  :config
-  (require 'emms-setup)
-  (require 'emms-player-mpd)
-  (emms-all)
-  (emms-default-players)
-  (setq emms-player-mpd-server-name "localhost"
-        emms-player-mpd-server-port "6600")
-  (add-to-list 'emms-info-functions 'emms-info-mpd)
-  (add-to-list 'emms-player-list 'emms-player-mpd)
-  (global-set-key (kbd "C-x p") 'emms-play-file))
 
 ;; Magit -- Make Git way faster and easier to use
 (use-package magit
