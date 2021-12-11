@@ -59,9 +59,6 @@ print_package_info() {
         emacs)
             print_deps "emacs, isync, protonmail-bridge, mu, texlive, biber, gpg, pass, imagemagick"
         ;;
-        mpd)
-            print_deps "mpd"
-        ;;
         ranger)
             print_deps "ranger"
         ;;
@@ -80,8 +77,6 @@ print_package_info() {
         sxiv)
             print_deps "sxiv, feh"
         ;;
-        newsboat)
-            print_deps "newsboat, mpv"
     esac
 }
 
