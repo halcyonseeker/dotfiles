@@ -166,6 +166,9 @@
   :after evil
   :init (setq evil-want-keybinding nil)
   :config (evil-collection-init))
+(use-package evil-terminal-cursor-changer
+  :config (unless (display-graphic-p)
+	    (evil-terminal-cursor-changer-activate)))
 (use-package undo-tree
   :after evil
   :diminish
