@@ -1,0 +1,61 @@
+#!/bin/sh
+# Automate the process of creating a new jail
+
+[ -n "$1" ] || {
+        printf "Create a new jail.  Usage: add-jail.sh [jailname]\n"
+        exit 1
+}
+
+[ "$(uname)" = "FreeBSD" ] || {
+        printf "This script is FreeBSD-specific.\n"
+        exit 1
+}
+
+[ "$(whoami)" = "root" ] || {
+        printf "This script must be run as root.\n"
+        exit 1
+}
+
+df | grep ^zroot >/dev/null || {
+        printf "This script assumes your root parition uses ZFS.\n"
+        exit 1
+}
+
+jail="$1"
+file=ftp.freebsd.org/pub/FreeBSD/releases/"$(uname -p)"/"$(uname -r)"/base.txz
+
+# If this script is being run on my server, use the storage/jails dataset,
+# otherwise use zroot/jails, creating it if it doesn't exist.
+if [ "$(hostname)" = "monolith" ]; then
+        dataset="storage/jails/$jail"
+        mountpt="/storage/jails/$jail"
+else
+        zfs list | grep ^zroot/jails >/dev/null || zfs create zroot/jails
+        dataset="zroot/jails/$jail"
+        mountpt="/jails/$jail"
+fi
+
+zfs create "$dataset"
+fetch "$file" -o - | tar -xf - -C "$mountpt"
+freebsd-update -b "$mountpt" IDS
+
+# Jails don't have home directories for some reason
+mkdir -v "$mountpt"/usr/home/
+ln -vs "$mountpt"/usr/home /storage/jails/"$jail"/home
+
+# Copy some stuff over
+cp -vf /etc/localtime "$mountpt"/etc/localtime
+cp -vf /etc/csh.cshrc "$mountpt"/root/.cshrc
+
+cat <<- EOF
+======> Completed
+  If freebsd-update detected errors, remove the $dataset
+  dataset and try again. Otherwise you should now:
+    [ ] Add the $jail entry to /etc/jail.conf
+    [ ] Add a table to /etc/hosts
+    [ ] Add rules to /etc/pf.conf or /usr/local/etc/haproxy.conf
+    [ ] Append $jail to jail_list in /etc/rc.conf
+    [ ] Restart the jail service
+    [ ] Set a root password
+EOF
+
