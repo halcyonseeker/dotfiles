@@ -93,15 +93,15 @@
 (global-set-key (kbd "C-w") 'backward-kill-word)
 
 ;; Use C-l to clear scrollback in eshell
-(bind-keys
- ("C-l" . (lambda ()
-            (interactive)
-            (when (string= major-mode "eshell-mode")
-              (goto-char (point-max))
-              (eshell-kill-input)
-              (insert "clear-scrollback")
-              (eshell-send-input)
-              (yank)))))
+(eval-after-load 'esh-mode
+  '(define-key eshell-mode-map (kbd "C-l")
+     (lambda ()
+       (interactive)
+       (goto-char (point-max))
+       (eshell-kill-input)
+       (insert "clear-scrollback")
+       (eshell-send-input)
+       (yank))))
 
 ;; Org Mode
 (add-hook 'org-mode-hook 'org-indent-mode)
