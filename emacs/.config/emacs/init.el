@@ -55,10 +55,6 @@
 (setq vc-follow-symlinks t)
 (defalias 'yes-or-no-p 'y-or-n-p)
 
-;; Use melpa repositories
-(package-initialize)
-(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
-
 ;; Put all backup files in a single place
 (setq backup-by-copying t
       backup-directory-alist '((".*" . "~/.config/emacs/backup")))
@@ -67,12 +63,6 @@
 (setq custom-file "~/.config/emacs/custom.el")
 (when (file-exists-p "~/.config/emacs/custom.el")
   (load-file custom-file))
-
-;; Don't suspend graphical frames
-(global-set-key (kbd "C-z")
-		(lambda ()
-		  (interactive)
-		  (when (not (display-graphic-p)) (suspend-frame))))
 
 ;; Set the frame title to something more meaningful
 (setq-default frame-title-format
@@ -124,6 +114,8 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Install and Configure Packages
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Initialize use-package
+(package-initialize)
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
 (when (not (package-installed-p 'use-package))
   (package-refresh-contents)
   (package-install 'use-package))
@@ -181,17 +173,8 @@
   :ensure auctex
   :config
   (setq TeX-view-program-selection
-	'(((output-dvi has-no-display-manager) "dvi2tty")
-          ((output-pdf has-no-display-manager) "fbpdf")
-          ((output-html has-no-display-manager) "lynx")
-          (output-dvi "xdg-open")
-          (output-pdf "xdg-open")
+	'((output-pdf "xdg-open")
           (output-html "xdg-open"))))
-
-;; Markdown editing mode
-(use-package markdown-mode
-  :config
-  (add-hook 'markdown-mode-hook 'auto-fill-mode))
 
 ;; Ivy and counsel for nicer minibuffer behavior
 (use-package ivy
@@ -202,8 +185,7 @@
 
 ;; Writeroom mode for a distraction-free environment
 (use-package writeroom-mode
-  :config
-  (global-set-key (kbd "C-x w") 'writeroom-mode))
+  :config (global-set-key (kbd "C-x w") 'writeroom-mode))
 
 ;; Magit -- Make Git way faster and easier to use
 (use-package magit
@@ -220,6 +202,8 @@
 (use-package rust-mode)
 (use-package go-mode
   :config (add-hook 'before-save-hook 'gofmt-before-save))
+(use-package markdown-mode
+  :config (add-hook 'markdown-mode-hook 'auto-fill-mode))
 
 ;; Miscellaneous Useful Packages
 (use-package htmlize)
