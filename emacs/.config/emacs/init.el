@@ -212,11 +212,16 @@
 (use-package slime
   :config
   (setq inferior-lisp-program "sbcl")
-  (setq slime-repl-history-file "~/.config/emacs/slime/slime-history.eld"))
+  (setq slime-repl-history-file "~/.config/emacs/slime-history.eld"))
+
+;; Add modes for languages and formats not supported OoB
+(use-package bison-mode)
+(use-package fvwm-mode)
+(use-package rust-mode)
+(use-package go-mode
+  :config (add-hook 'before-save-hook 'gofmt-before-save))
 
 ;; Miscellaneous Useful Packages
-(use-package fvwm-mode)
-(use-package go-mode)
 (use-package htmlize)
 (use-package ereader)
 (use-package elpher)
@@ -247,3 +252,4 @@ lots of EWW buffers open at one time. Used by `eww-after-render-hook'"
                 (plist-get eww-data :title))))
     (rename-buffer (format "*eww: %s*" name) t)))
 ;;; init.el ends here
+
