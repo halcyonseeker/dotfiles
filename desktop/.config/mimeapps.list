@@ -1,0 +1,34 @@
+# -*-conf-desktop-*-
+
+[Default Applications]
+inode/directory=pcmanfm.desktop;
+
+x-scheme-handler/http=qutebrowser-3.8.desktop;
+x-scheme-handler/https=qutebrowser-3.8.desktop;
+x-scheme-handler/magnet=torrent-handler.desktop;
+x-scheme-handler/mailto=emacsmail.desktop;
+x-scheme-handler/tg=telegramdesktop.desktop;
+
+application/x-bittorrent=torrent-handler.desktop;
+application/pdf=org.pwmt.zathura.desktop;
+
+application/x-desktop=nvim.desktop;
+application/x-tex=nvim.desktop;
+application/x-latex=nvim.desktop;
+application/octet-stream=nvim.desktop;
+
+image/png=sxiv.desktop;
+image/webp=sxiv.desktop;
+image/jpg=sxiv.desktop;
+image/jpeg=sxiv.desktop;
+image/gif=gif-mpv.desktop;
+
+text/html=qutebrowser-3.8.desktop;
+text/plain=nvim.desktop;
+text/markdown=nvim.desktop;
+text/x-c++src=nvim.desktop;
+text/x-c=nvim.desktop;
+text/x-python=nvim.desktop;
+text/x-asm=nvim.desktop;
+
+audio/mpeg=mpv.desktop;
