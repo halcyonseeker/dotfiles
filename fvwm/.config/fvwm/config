@@ -121,13 +121,18 @@ MenuStyle * HilightBack SlateBlue, ActiveFore White, TrianglesUseFore, Triangles
 DestroyMenu RootMenu
 AddToMenu   RootMenu "Root Menu" Title
 + "Terminal"           Exec $TERMINAL
-+ "Emacsclient"        Exec emacsclient -c
-+ "IRC Client"         Exec emacsclient -c -e '(erc-tls)'
-+ "XMPP Client"        Exec alacritty -t Profanity -e profanity
-+ "E-Mail"             Exec emacsclient -c -e '(mu4e)'
-+ "Calendar"           Exec emacsclient -c -e '(progn (calendar) (diary-view-entries))'
-+ "Notes"              Exec emacsclient -c ~/org/notes.org
++ "Text Editor"        Exec emacsclient -c
++ "File Manager"       Exec $FILE
++ "WWW Browser"        Exec qutebrowser
++ "E-Mail Client"      Exec emacsclient -c -e '(mu4e)'
++ ""	   	       Nop
++ "Syncthing"          Exec syncthing && qutebrowser http://127.0.0.1:8384/
 + "Display Settings"   Exec arandr
++ ""	   	       Nop
++ "Org Files"          Exec emacsclient -c ~/org/
++ "Notes"              Exec emacsclient -c ~/org/notes.org
++ "Deep Memory"        Exec emacsclient -c ~/org/remember.org
++ "Projects"           Exec emacsclient -c ~/org/projects.org
 + ""                   Nop
 + "FVWM Console"       Module FvwmConsole -terminal xterm
 + "Refresh Fvwm"       Refresh
