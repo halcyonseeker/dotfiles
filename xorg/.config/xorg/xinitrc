@@ -28,7 +28,6 @@ find ~/.local/share/dotfiles/ -name "*.png" \
 
 # Load Xresources
 xrdb -merge ~/.config/xorg/Xresources
-xrdb -merge ~/.config/xorg/gruvbox-dark.xres
 
 # Customize keyboard
 setxkbmap -option caps:swapescape

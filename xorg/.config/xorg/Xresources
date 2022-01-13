@@ -1,47 +1,60 @@
-! Root XResources file
-! Color themes are loaded seperately in ~/.xprofile
-! $X_RES_COLOR is set to contain the current color scheme
-
-!!!!!!!!!! ST
-! Transparency (0-1)
-st.alpha: 0.9
-! Font
-st.font: Monospace:size=10
+! Settings for old-fashioned Xorg programs
 
 !!!!!!!!!! XTerm
-XTerm.termName: xterm-256color
-XTerm*faceName: DejaVu Sans Mono
-XTerm*faceSize: 8.5
-XTerm*saveLines: 16384
-XTerm*highlightSelection: true
-XTerm*activeIcon: false
+XTerm.termName:              xterm-256color
+XTerm*faceName:              DejaVu Sans Mono
+XTerm*faceSize:              8.5
+XTerm*saveLines:             16384
+XTerm*highlightSelection:    true
+XTerm*activeIcon: 	     false
 ! Allow Xterms to be properly iconified in FVWM
 XTerm.vt100.metaSendsEscape: true
 ! Fix C-h in Emacs
-XTerm.vt100.backarrowKey: false
-XTerm.ttyModes: erase ^?
+XTerm.vt100.backarrowKey:    false
+XTerm.ttyModes:              erase ^?
 ! Use VT 340 emulation for better sixel graphics
-XTerm*decTerminalID: vt340
+XTerm*decTerminalID:         vt340
 ! Double click to select urls
-XTerm*charClass: 33:48,36-47:48,58-59:48,61:48,63-64:48,95:48,126:48
-! Keybindings
-XTerm.vt100.translations: #override \n\
-    Ctrl Shift <Key>C: copy-selection(CLIPBOARD) \n\
-    Ctrl Shift <Key>V: insert-selection(CLIPBOARD) \n\
-    Ctrl Shift <Key>K: clear-saved-lines() \n\
-    Ctrl <Key>+: larger-vt-font() \n\
-    Ctrl <Key>-: smaller-vt-font() \n\
-    <Key>F11: fullscreen(toggle)
+XTerm*charClass:	     33:48,36-47:48,58-59:48,61:48,63-64:48,95:48,126:48
+XTerm.vt100.translations:    #override \n\
+    			     Ctrl Shift <Key>C: copy-selection(CLIPBOARD) \n\
+    			     Ctrl Shift <Key>V: insert-selection(CLIPBOARD) \n\
+    			     Ctrl Shift <Key>K: clear-saved-lines() \n\
+    			     Ctrl <Key>+: larger-vt-font() \n\
+    			     Ctrl <Key>-: smaller-vt-font() \n\
+    			     <Key>F11: fullscreen(toggle)
 
 !!!!!!!!!! XClock
 XClock*foreground: #141c21
 XClock*background: #93a1a1
 
 !!!!!!!!!! Emacs
-Emacs*iconName: Emacs
 Emacs.default.attributeHeight: 94
+Emacs.pane.*.foreground:       #141c21
 
 !!!!!!!!!! Rofi
-rofi.modi: window,run,drun,file-browser
 rofi.show-icons: true
-rofi.theme: /usr/local/share/rofi/themes/gruvbox-dark-soft.rasi
+rofi.modi:       window,run,drun,file-browser
+rofi.theme:      /usr/local/share/rofi/themes/gruvbox-dark-soft.rasi
+
+!!!!!!!!!! Dark Gruvbox
+! https://github.com/morhetz/gruvbox-generalized
+*background:  #282828
+*foreground:  #ebdbb2
+*cursorColor: #eeeeee
+*color0:      #282828 ! Black + DarkGrey
+*color8:      #928374
+*color1:      #cc241d ! DarkRed + Red
+*color9:      #fb4934
+*color2:      #98971a ! DarkGreen + Green
+*color10:     #b8bb26
+*color3:      #d79921 ! DarkYellow + Yellow
+*color11:     #fabd2f
+*color4:      #458588 ! DarkBlue + Blue
+*color12:     #83a598
+*color5:      #b16286 ! DarkMagenta + Magenta
+*color13:     #d3869b
+*color6:      #689d6a ! DarkCyan + Cyan
+*color14:     #8ec07c
+*color7:      #a89984 ! LightGrey + White
+*color15:     #ebdbb2
