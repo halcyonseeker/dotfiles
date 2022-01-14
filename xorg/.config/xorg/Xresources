@@ -42,19 +42,27 @@ rofi.theme:      /usr/local/share/rofi/themes/gruvbox-dark-soft.rasi
 *background:  #282828
 *foreground:  #ebdbb2
 *cursorColor: #eeeeee
-*color0:      #282828 ! Black + DarkGrey
+! Black + DarkGrey
+*color0:      #282828
 *color8:      #928374
-*color1:      #cc241d ! DarkRed + Red
+! DarkRed + Red
+*color1:      #cc241d
 *color9:      #fb4934
-*color2:      #98971a ! DarkGreen + Green
+! DarkGreen + Green
+*color2:      #98971a
 *color10:     #b8bb26
-*color3:      #d79921 ! DarkYellow + Yellow
+! DarkYellow + Yellow
+*color3:      #d79921
 *color11:     #fabd2f
-*color4:      #458588 ! DarkBlue + Blue
+! DarkBlue + Blue
+*color4:      #458588
 *color12:     #83a598
-*color5:      #b16286 ! DarkMagenta + Magenta
+! DarkMagenta + Magenta
+*color5:      #b16286
 *color13:     #d3869b
-*color6:      #689d6a ! DarkCyan + Cyan
+! DarkCyan + Cyan
+*color6:      #689d6a
 *color14:     #8ec07c
-*color7:      #a89984 ! LightGrey + White
+! LightGrey + White
+*color7:      #a89984
 *color15:     #ebdbb2
