@@ -199,7 +199,8 @@
 ;; Add modes for languages and formats not supported OoB
 (use-package bison-mode)
 (use-package fvwm-mode)
-(use-package rust-mode)
+(use-package rust-mode
+  :config (add-hook 'rust-mode-hook (lambda () (setq indent-tabs-mode nil))))
 (use-package go-mode
   :config (add-hook 'before-save-hook 'gofmt-before-save))
 (use-package markdown-mode
