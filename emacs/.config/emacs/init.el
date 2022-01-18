@@ -197,6 +197,7 @@
   (setq slime-repl-history-file "~/.config/emacs/slime-history.eld"))
 
 ;; Add modes for languages and formats not supported OoB
+(use-package haskell-mode)
 (use-package bison-mode)
 (use-package fvwm-mode)
 (use-package rust-mode
