@@ -41,11 +41,14 @@ freebsd-update -b "$mountpt" IDS
 
 # Jails don't have home directories for some reason
 mkdir -v "$mountpt"/usr/home/
-ln -vs "$mountpt"/usr/home /storage/jails/"$jail"/home
+ln -vs /usr/home /storage/jails/"$jail"/home
 
 # Copy some stuff over
 cp -vf /etc/localtime "$mountpt"/etc/localtime
 cp -vf /etc/csh.cshrc "$mountpt"/root/.cshrc
+
+# We don't need sendmail running
+echo 'sendmail_enable="NONE"' >"$mountpt"/etc/rc.conf
 
 cat <<- EOF
 ======> Completed
