@@ -210,6 +210,7 @@
 ;; Miscellaneous Useful Packages
 (use-package htmlize)
 (use-package ereader)
+(use-package telega)
 (use-package elpher)
 (use-package nov :after ereader)
 
