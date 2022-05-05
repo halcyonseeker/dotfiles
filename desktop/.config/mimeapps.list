@@ -16,12 +16,15 @@ application/x-desktop=nvim.desktop;
 application/x-tex=nvim.desktop;
 application/x-latex=nvim.desktop;
 application/octet-stream=nvim.desktop;
+application/json=nvim.desktop;
 
 image/png=sxiv.desktop;
 image/webp=sxiv.desktop;
 image/jpg=sxiv.desktop;
 image/jpeg=sxiv.desktop;
 image/gif=gif-mpv.desktop;
+
+video/webm=mpv.desktop;
 
 text/html=qutebrowser-3.8.desktop;
 text/plain=nvim.desktop;
@@ -32,3 +35,5 @@ text/x-python=nvim.desktop;
 text/x-asm=nvim.desktop;
 
 audio/mpeg=mpv.desktop;
+audio/ogg=mpv.desktop;
+audio/flac=mpv.desktop;
