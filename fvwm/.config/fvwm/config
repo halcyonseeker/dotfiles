@@ -73,7 +73,7 @@ Key Down A MC Scroll +0 +100
 Key Up A MC Scroll +0 -100
 
 # Control + Meta + f/m/i/s to fullscreen/maximize/iconify/stick the window
-Key f A MC Maximize Fullscreen
+Key F11 A A Maximize Fullscreen
 Key m A MC Maximize 100 100
 Key i A MC Iconify
 Key s A MC Stick
@@ -101,12 +101,14 @@ Key Print A A Exec scrot '$a_%y-%m-%d_%s.jpg' -e 'mv $f ~/images/screenshots && 
 Key XF86AudioPlay A A Exec mpc toggle
 
 # Application keys
-Key Return A CM Exec $TERMINAL
+Key T A CM Exec $TERMINAL
+Key E A CM Exec emacsclient -c
+Key F A CM Exec pcmanfm
+key O A CM Exec rofi -show file-browser
 Key Space A 4 Exec rofi -show run
 Key y A 4 Exec $FVWM_USERDIR/scripts/rofi-url.sh
 Key u A 4 Exec $FVWM_USERDIR/scripts/emojipicker.sh
 Key a A 4 Exec $FVWM_USERDIR/scripts/passmenu.sh
-key z A 4 Exec $FILE
 key c A 4 Exec $TERMINAL -e python
 key F1 A 4 Exec $FVWM_USERDIR/scripts/lang-toggle.sh
 
