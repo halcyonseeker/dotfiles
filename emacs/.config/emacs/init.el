@@ -126,15 +126,14 @@
            (require 'smtpmail nil 'noerror))
   (setq mu4e-attachment-dir "~/temporary"
         mail-user-agent 'mu4e-user-agent
-        message-send-mail-function 'smtpmail-send-it
         mu4e-completing-read-function 'ivy-completing-read
         mu4e-get-mail-command "mbsync -c ~/.local/mail/mbsyncrc -a"
         message-kill-buffer-on-exit t
         mu4e-headers-skip-duplicates t
         mu4e-change-filenames-when-moving t
         mu4e-view-show-images nil
-        auth-sources '(password-store))
-  (auth-source-pass-enable)
+	sendmail-program "/usr/local/bin/msmtp"
+	message-send-mail-function 'message-send-mail-with-sendmail)
   (add-to-list 'mu4e-view-actions
                '("View In Browser" . mu4e-action-view-in-browser) t)
   (when (file-exists-p "~/.local/mail/accounts.el")
