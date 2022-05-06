@@ -36,6 +36,7 @@ export XAUTHORITY="$XDG_RUNTIME_DIR/xauthority"
 export ICEAUTHORITY="$XDG_CACHE_HOME/ICEauthority"
 export GOPATH="$HOME/.local/go"
 export MPV_HOME="$XDG_CONFIG_HOME/mpv"
+export SQLITE_HISTORY="$XDG_CACHE_HOME/sqlite_history"
 export XINITRC="$XDG_CONFIG_HOME/xorg/xinitrc"
 export CARGO_HOME="$XDG_DATA_HOME"/cargo
 export RUSTUP_HOME="$XDG_DATA_HOME"/rustup
