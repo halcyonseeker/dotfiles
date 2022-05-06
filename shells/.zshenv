@@ -68,12 +68,13 @@ set -o emacs
 # Keep zsh-specific stuff here just in case this file is being loaded
 # by ksh, bash, or /bin/sh
 if [ "$0" = "zsh" ] || [ "$0" = "-zsh" ]; then
-	zstyle :compinstall filename '$HOME/.config/shrc'
+	mkdir -p "$XDG_CACHE_HOME/zsh"
+	zstyle :compinstall filename "$HOME/.zshenv"
 	autoload -Uz compinit
-	compinit -d $XDG_CACHE_HOME/zsh/zcompdump-$ZSH_VERSION
+	compinit -d "$XDG_CACHE_HOME/zsh/zcompdump-$ZSH_VERSION"
 
 	# History behavior
-	HISTFILE="$HOME"/.cache/zsh_histfile
+	HISTFILE="$XDG_CACHE_HOME/zsh/histfile"
 	HISTSIZE=5000
 	SAVEHIST=5000
 	setopt appendhistory
