@@ -159,7 +159,10 @@
   (add-hook 'org-mode-hook
 	    (lambda ()	; Fix paragraph motions in org mode
 	      (defalias 'evil-forward-paragraph 'org-forward-paragraph)
-	      (defalias 'evil-backward-paragraph 'org-backward-paragraph))))
+	      (defalias 'evil-backward-paragraph 'org-backward-paragraph)))
+  ;; Emacs' default paragraph motions are nicer
+  (defalias 'evil-forward-paragraph 'forward-paragraph)
+  (defalias 'evil-backward-paragraph 'backward-paragraph))
 (use-package evil-collection
   :after evil
   :init (setq evil-want-keybinding nil)
