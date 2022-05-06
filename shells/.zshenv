@@ -71,6 +71,7 @@ if [ "$0" = "zsh" ] || [ "$0" = "-zsh" ]; then
 	mkdir -p "$XDG_CACHE_HOME/zsh"
 	zstyle :compinstall filename "$HOME/.zshenv"
 	autoload -Uz compinit
+	autoload -Uz add-zsh-hook
 	autoload -Uz edit-command-line
 	compinit -d "$XDG_CACHE_HOME/zsh/zcompdump-$ZSH_VERSION"
 
@@ -114,4 +115,9 @@ if [ "$0" = "zsh" ] || [ "$0" = "-zsh" ]; then
 		esac
 	fi
 
+	# Set a simple window title
+	function xterm_title_precmd  () { print -Pn -- '\e]2;zsh\a' }
+	function xterm_title_preexec () { print -Pn -- '\e]2;' && print -n -- "${(q)1}\a" }
+	add-zsh-hook -Uz precmd  xterm_title_precmd
+	add-zsh-hook -Uz preexec xterm_title_preexec
 fi
