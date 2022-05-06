@@ -217,6 +217,10 @@
   :config (add-hook 'before-save-hook 'gofmt-before-save))
 (use-package markdown-mode
   :config (add-hook 'markdown-mode-hook 'auto-fill-mode))
+(use-package alchemist
+  :config (add-hook 'elixir-mode-hook (lambda () (setq indent-tabs-mode nil))))
+(use-package erlang
+  :config (add-hook 'erlang-mode-hook (lambda () (setq indent-tabs-mode nil))))
 
 ;; Miscellaneous Useful Packages
 (use-package htmlize)
