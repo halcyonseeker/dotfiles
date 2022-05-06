@@ -27,7 +27,14 @@
 (setq-default c-basic-offset 'set-from-style
               tab-width 8
               indent-tabs-mode t)
+(setq js-indent-level tab-width)
 (setq sh-basic-offset tab-width)
+
+;; Prefer C-style comments in JS
+(add-hook 'js-mode-hook
+	  (lambda ()
+	    (setq comment-start "/* ")
+	    (setq comment-end " */")))
 
 ;; Break lines at 72 columns when writing prose and code comments
 (add-hook 'TeX-mode-hook 'auto-fill-mode)
