@@ -82,6 +82,8 @@ if [ "$0" = "zsh" ] || [ "$0" = "-zsh" ]; then
 	zsyntaxhl="zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
 	if [ -f /usr/share/zsh/plugins/"$zsyntaxhl" ]; then
 		source /usr/share/zsh/plugins/"$zsyntaxhl"
+	elif [ -f /usr/share/"$zsyntaxhl" ]; then
+		source /usr/share/"$zsyntaxhl"
 	elif [ -f /usr/local/share/"$zsyntaxhl" ] ; then
 		source /usr/local/share/"$zsyntaxhl"
 	fi
