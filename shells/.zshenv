@@ -71,6 +71,7 @@ if [ "$0" = "zsh" ] || [ "$0" = "-zsh" ]; then
 	mkdir -p "$XDG_CACHE_HOME/zsh"
 	zstyle :compinstall filename "$HOME/.zshenv"
 	autoload -Uz compinit
+	autoload -Uz edit-command-line
 	compinit -d "$XDG_CACHE_HOME/zsh/zcompdump-$ZSH_VERSION"
 
 	# History behavior
@@ -95,6 +96,10 @@ if [ "$0" = "zsh" ] || [ "$0" = "-zsh" ]; then
 	bindkey '^[[6~' down-line-or-history
 	bindkey '^[[H' beginning-of-line
 	bindkey '^[[F' end-of-line
+
+	# Edit the current command in $EDITOR
+	zle -N edit-command-line
+	bindkey '^X^E' edit-command-line
 
 	# Set nice prompt
 	if [ -n "$SSH_CONNECTION" ] ; then
