@@ -76,9 +76,21 @@ FreeBSD this means:
 
     sudo pkg install `pkg rquery %dn emacs` isync msmtp gnupg imagemagick7
 	git clone https://git.savannah.gnu.org/git/emacs.git && cd emacs
+	./autogen.sh
 	./configure --with-x-toolkit=lucid --without-libgmp
 	make && sudo make install
-	
+
+Ubuntu, and presumably Debian and its other derivatives, ship an
+ancient version of Emacs; on these systems its dependencies can be
+installed with:
+
+    sudo apt-get install -y aspell aspell-en build-essential zlib1g-dev \
+        lib{acl1,gnutls28,gpm,ncurses5,ncursesw5,xml2}-dev \
+        lib{jpeg,png,gif,tiff}-dev
+
+This, of course, is in addition to the other external programs
+mentioned above.
+
 ## neo(vim)
 I prefer neovim to vim, but this configuration works fine with plain
 old vim provided that ~/.profile exists with `$VIMINIT` set to the
