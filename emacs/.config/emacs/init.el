@@ -200,10 +200,12 @@
 (use-package magit
   :bind ("C-x g" . magit-status))
 
-(use-package slime
+(use-package sly
   :config
   (setq inferior-lisp-program "sbcl")
-  (setq slime-repl-history-file "~/.config/emacs/slime-history.eld"))
+  (setq sly-mrepl-history-file-name "~/.config/emacs/sly-mrepl-history")
+  (add-hook 'lisp-mode-hook (lambda () (setq indent-tabs-mode nil)))
+  (add-hook 'lisp-mode-hook 'rainbow-delimiters-mode))
 
 ;; Add modes for languages and formats not supported OoB
 (use-package haskell-mode)
