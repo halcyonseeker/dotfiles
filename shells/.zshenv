@@ -37,9 +37,9 @@ export ICEAUTHORITY="$XDG_CACHE_HOME/ICEauthority"
 export GOPATH="$HOME/.local/go"
 export MPV_HOME="$XDG_CONFIG_HOME/mpv"
 export XINITRC="$XDG_CONFIG_HOME/xorg/xinitrc"
-export PATH="$HOME/.local/bin:$GOPATH/bin:$PATH"
 export CARGO_HOME="$XDG_DATA_HOME"/cargo
 export RUSTUP_HOME="$XDG_DATA_HOME"/rustup
+export PATH="$HOME/.local/bin:$GOPATH/bin:$CARGO_HOME/bin:$PATH"
 
 # General aliases
 alias mv="mv -iv"
