@@ -1,0 +1,16 @@
+[user]
+	email = ymir@ulthar.xyz
+	name = T W
+	signingkey = 11C2EE8C6A3E3E78
+[init]
+	defaultBranch = master
+[sendemail]
+ 	smtpserver = /bin/msmtp
+	smtpserveroption = -C
+	smtpserveroption = /home/thalia/.local/mail/msmtprc
+	smtpserveroption = -a
+	smtpserveroption = personal
+[commit]
+	gpgSign = true
+[gpg]
+	program = gpg2
