@@ -174,6 +174,9 @@
   :after evil
   :diminish
   :config
+  (setq undo-tree-auto-save-history t)
+  (setq undo-tree-history-directory-alist
+	'(("." . "~/.config/emacs/undo-tree/")))
   (evil-set-undo-system 'undo-tree)
   (global-undo-tree-mode 1))
 
