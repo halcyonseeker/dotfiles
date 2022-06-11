@@ -16,6 +16,8 @@
 (setq gc-cons-threshold (* 50 1000 1000))
 (setq gc-cons-percentage 0.6)
 
+(setq frame-resize-pixelwise t)
+
 ;; Fix general appearance and behavior
 (tool-bar-mode 0)
 (menu-bar-mode 0)
