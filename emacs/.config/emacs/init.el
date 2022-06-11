@@ -141,7 +141,7 @@
         mu4e-headers-skip-duplicates t
         mu4e-change-filenames-when-moving t
         mu4e-view-show-images nil
-	sendmail-program "/usr/local/bin/msmtp"
+	sendmail-program (executable-find "msmtp")
 	message-send-mail-function 'message-send-mail-with-sendmail)
   (add-to-list 'mu4e-view-actions
                '("View In Browser" . mu4e-action-view-in-browser) t)
