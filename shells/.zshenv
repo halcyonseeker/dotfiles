@@ -67,7 +67,7 @@ set -o emacs
 
 # Keep zsh-specific stuff here just in case this file is being loaded
 # by ksh, bash, or /bin/sh
-if [ "$0" = "zsh" ] || [ "$0" = "-zsh" ]; then
+if [ "$0" = "zsh" ] || [ "$0" = "-zsh" ] || [ "$(basename $0)" = "zsh" ]; then
 	mkdir -p "$XDG_CACHE_HOME/zsh"
 	zstyle :compinstall filename "$HOME/.zshenv"
 	autoload -Uz compinit
