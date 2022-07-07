@@ -7,6 +7,8 @@ XTerm*faceSize:              8.5
 XTerm*saveLines:             16384
 XTerm*highlightSelection:    true
 XTerm*activeIcon: 	     false
+! Prevent Xterm from leaving an ugly gap in certain window managers
+XTerm*resizeByPixel:         true
 ! Allow Xterms to be properly iconified in FVWM
 XTerm.vt100.metaSendsEscape: true
 ! Fix C-h in Emacs
