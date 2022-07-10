@@ -213,6 +213,10 @@
 (use-package magit
   :bind ("C-x g" . magit-status))
 
+;; Display docstrings and other information in the minibuffer
+(use-package marginalia
+  :init (marginalia-mode))
+
 (use-package sly
   :config
   (setq inferior-lisp-program "sbcl")
@@ -241,6 +245,7 @@
 (use-package telega)
 (use-package elpher)
 (use-package nov :after ereader)
+(use-package rainbow-delimiters)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Some Functions
