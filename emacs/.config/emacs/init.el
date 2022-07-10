@@ -132,6 +132,13 @@
 (setq use-package-always-ensure t)
 
 ;; Mu4e Mail Client
+(add-hook 'message-header-setup-hook 'message-add-openpgp-header)
+(setq message-openpgp-header
+      (list "0870AC115CE741A8DCD93F4D11C2EE8C6A3E3E78"
+	    (concat "https://keys.openpgp.org/vks/v1/by-fingerprint/"
+		    "0870AC115CE741A8DCD93F4D11C2EE8C6A3E3E78")
+	    "signencrypt"))
+(setq mml-secure-openpgp-encrypt-to-self t)
 (when (and (require 'mu4e nil 'noerror)
            (require 'smtpmail nil 'noerror))
   (setq mu4e-attachment-dir "~/temporary"
