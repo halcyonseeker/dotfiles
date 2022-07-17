@@ -70,6 +70,7 @@ set -o emacs
 if [ "$0" = "zsh" ] || [ "$0" = "-zsh" ] || [ "$(basename $0)" = "zsh" ]; then
 	mkdir -p "$XDG_CACHE_HOME/zsh"
 	zstyle :compinstall filename "$HOME/.zshenv"
+	zstyle ':completion:*' menu select
 	autoload -Uz compinit
 	autoload -Uz add-zsh-hook
 	autoload -Uz edit-command-line
