@@ -1,0 +1,15 @@
+;; -*- lisp -*-
+
+(let ((quicklisp-init (merge-pathnames ".local/quicklisp/setup.lisp"
+				       (user-homedir-pathname))))
+  (when (probe-file quicklisp-init)
+    (load quicklisp-init)))
+
+(setf sb-impl::*default-external-format* :utf-8)
+
+;; Tell asdf and quicklisp about stuff I wrote, stored where I like
+(require 'asdf)
+(loop for d in (uiop:subdirectories #p"~/code")
+      when (let ((extensions (mapcar #'pathname-type (uiop:directory-files d))))
+             (member "asd" extensions :test #'equal))
+        do (push d asdf:*central-registry*))
