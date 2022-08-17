@@ -41,6 +41,10 @@ export XINITRC="$XDG_CONFIG_HOME/xorg/xinitrc"
 export CARGO_HOME="$XDG_DATA_HOME"/cargo
 export RUSTUP_HOME="$XDG_DATA_HOME"/rustup
 export PATH="$HOME/.local/bin:$GOPATH/bin:$CARGO_HOME/bin:$PATH"
+export KDEHOME="$XDG_CONFIG_HOME/kde"
+
+# Almost 20 years and still no thumbnail view in the GTK file picker…
+export GTK_USE_PORTAL=1
 
 # General aliases
 alias mv="mv -iv"
