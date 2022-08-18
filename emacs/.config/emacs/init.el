@@ -227,6 +227,16 @@
   (add-hook 'lisp-mode-hook (lambda () (setq indent-tabs-mode nil)))
   (add-hook 'lisp-mode-hook 'rainbow-delimiters-mode))
 
+;; Play multimedia with emms
+(use-package emms
+  :config
+  (require 'emms-setup)
+  (emms-all)
+  (emms-default-players)
+  (setq emms-player-list (list 'emms-player-mpv))
+  (setq emms-source-file-default-directory "~/media/music")
+  (add-to-list 'emms-player-mpv-parameters "--vo=null"))
+
 ;; Add modes for languages and formats not supported OoB
 (use-package haskell-mode)
 (use-package bison-mode)
