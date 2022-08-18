@@ -59,6 +59,9 @@
 (save-place-mode 1)
 (goto-address-mode 1)
 
+;; Human-readable file sizes in dired
+(setq dired-listing-switches "-alh")
+
 ;; Suppress annoying things
 (setq inhibit-startup-message t)
 (setq vc-follow-symlinks t)
