@@ -16,13 +16,26 @@
 (setq gc-cons-threshold (* 50 1000 1000))
 (setq gc-cons-percentage 0.6)
 
-(setq frame-resize-pixelwise t)
-
-;; Fix general appearance and behavior
+;; Change some irritating defaults
 (tool-bar-mode 0)
 (menu-bar-mode 0)
 (scroll-bar-mode 0)
 (xterm-mouse-mode 1)
+(setq frame-resize-pixelwise t)
+(setq mouse-wheel-scroll-amount '(1 ((shift) . 1)))
+(setq scroll-step 1)
+(setq dired-listing-switches "-alh")
+(setq inhibit-startup-message t)
+(setq vc-follow-symlinks t)
+(defalias 'yes-or-no-p 'y-or-n-p)
+
+;; Put all backup files in a single place
+(setq backup-by-copying t)
+(setq backup-directory-alist '((".*" . "~/.config/emacs/backup")))
+
+;; Move custom stuff into a seperate file
+(setq custom-file "~/.config/emacs/custom.el")
+(when (file-exists-p "~/.config/emacs/custom.el") (load-file custom-file))
 
 ;; Prefer BSD style
 (setq c-default-style "bsd")
@@ -47,10 +60,6 @@
 	    (setq-local comment-auto-fill-only-comments t)
 	    (auto-fill-mode t)))
 
-;; Make scroll behavior less jarring
-(setq mouse-wheel-scroll-amount '(1 ((shift) . 1)))
-(setq scroll-step 1)
-
 ;; Add nice things
 (display-battery-mode 1)
 (display-time-mode 1)
@@ -58,23 +67,6 @@
 (line-number-mode 1)
 (save-place-mode 1)
 (goto-address-mode 1)
-
-;; Human-readable file sizes in dired
-(setq dired-listing-switches "-alh")
-
-;; Suppress annoying things
-(setq inhibit-startup-message t)
-(setq vc-follow-symlinks t)
-(defalias 'yes-or-no-p 'y-or-n-p)
-
-;; Put all backup files in a single place
-(setq backup-by-copying t
-      backup-directory-alist '((".*" . "~/.config/emacs/backup")))
-
-;; Move custom stuff into a seperate file
-(setq custom-file "~/.config/emacs/custom.el")
-(when (file-exists-p "~/.config/emacs/custom.el")
-  (load-file custom-file))
 
 ;; Set the frame title to something more meaningful
 (setq-default frame-title-format
