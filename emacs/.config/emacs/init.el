@@ -27,6 +27,7 @@
 (setq dired-listing-switches "-alh")
 (setq inhibit-startup-message t)
 (setq vc-follow-symlinks t)
+(setq c-default-style "bsd")
 (defalias 'yes-or-no-p 'y-or-n-p)
 
 ;; Put all backup files in a single place
@@ -37,12 +38,13 @@
 (setq custom-file "~/.config/emacs/custom.el")
 (when (file-exists-p "~/.config/emacs/custom.el") (load-file custom-file))
 
-;; Prefer BSD style
-(setq c-default-style "bsd")
-(setq-default c-basic-offset 'set-from-style
-              tab-width 8
-              indent-tabs-mode t)
-(setq js-indent-level tab-width)
+;; Selectively enable tab indentation only where it makes sense
+(setq-default indent-tabs-mode nil)
+(defun indent-with-tabs () (setq indent-tabs-mode t))
+(add-hook 'c-mode-hook #'indent-with-tabs)
+(add-hook 'c++-mode-hook #'indent-with-tabs)
+(add-hook 'awk-mode-hook #'indent-with-tabs)
+(add-hook 'sh-mode-hook #'indent-with-tabs)
 (setq sh-basic-offset tab-width)
 
 ;; Prefer C-style comments in JS
@@ -216,7 +218,6 @@
   :config
   (setq inferior-lisp-program "sbcl")
   (setq sly-mrepl-history-file-name "~/.config/emacs/sly-mrepl-history")
-  (add-hook 'lisp-mode-hook (lambda () (setq indent-tabs-mode nil)))
   (add-hook 'lisp-mode-hook 'rainbow-delimiters-mode))
 
 ;; Play multimedia with emms
@@ -233,16 +234,13 @@
 (use-package haskell-mode)
 (use-package bison-mode)
 (use-package fvwm-mode)
-(use-package rust-mode
-  :config (add-hook 'rust-mode-hook (lambda () (setq indent-tabs-mode nil))))
+(use-package rust-mode)
 (use-package go-mode
   :config (add-hook 'before-save-hook 'gofmt-before-save))
 (use-package markdown-mode
   :config (add-hook 'markdown-mode-hook 'auto-fill-mode))
-(use-package alchemist
-  :config (add-hook 'elixir-mode-hook (lambda () (setq indent-tabs-mode nil))))
-(use-package erlang
-  :config (add-hook 'erlang-mode-hook (lambda () (setq indent-tabs-mode nil))))
+(use-package alchemist)
+(use-package erlang)
 
 ;; Miscellaneous Useful Packages
 (use-package htmlize)
