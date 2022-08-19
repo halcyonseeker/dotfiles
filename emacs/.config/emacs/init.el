@@ -94,7 +94,7 @@
 
 ;; Use C-l to clear scrollback in eshell
 (eval-after-load 'esh-mode
-  '(define-key eshell-mode-map (kbd "C-l")
+  '(define-key eshell-mode-map (kbd "C-c M-o")
      (lambda ()
        (interactive)
        (goto-char (point-max))
