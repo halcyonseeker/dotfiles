@@ -206,7 +206,6 @@
 
 ;; A fantastic IDE for the best programming language
 (use-package sly
-  :hook (lisp-mode . rainbow-delimiters-mode)
   :config
   (setq inferior-lisp-program "sbcl")
   (setq sly-mrepl-history-file-name "~/.config/emacs/sly-mrepl-history"))
@@ -237,7 +236,7 @@
 (use-package telega)
 (use-package elpher)
 (use-package nov :after ereader)
-(use-package rainbow-delimiters)
+(use-package rainbow-delimiters :hook (prog-mode . rainbow-delimiters-mode))
 (use-package writeroom-mode :bind ("C-x w" . 'writeroom-mode))
 (use-package magit :bind ("C-x g" . magit-status))
 (use-package marginalia :init (marginalia-mode))
