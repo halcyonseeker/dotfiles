@@ -179,8 +179,7 @@
   :init (setq evil-want-keybinding nil)
   :config (evil-collection-init))
 (use-package evil-terminal-cursor-changer
-  :config (unless (display-graphic-p)
-            (evil-terminal-cursor-changer-activate)))
+  :config (unless (display-graphic-p) (evil-terminal-cursor-changer-activate)))
 (use-package undo-tree
   :after evil
   :diminish
@@ -201,28 +200,16 @@
 
 ;; Ivy and counsel for nicer minibuffer behavior
 (use-package ivy
-  :config
-  (ivy-mode 1)
-  (global-set-key (kbd "C-x C-f") 'counsel-find-file))
+  :config (ivy-mode 1)
+  :bind ("C-x C-f" . 'counsel-find-file))
 (use-package counsel :after ivy)
 
-;; Writeroom mode for a distraction-free environment
-(use-package writeroom-mode
-  :config (global-set-key (kbd "C-x w") 'writeroom-mode))
-
-;; Magit -- Make Git way faster and easier to use
-(use-package magit
-  :bind ("C-x g" . magit-status))
-
-;; Display docstrings and other information in the minibuffer
-(use-package marginalia
-  :init (marginalia-mode))
-
+;; A fantastic IDE for the best programming language
 (use-package sly
+  :hook (lisp-mode . rainbow-delimiters-mode)
   :config
   (setq inferior-lisp-program "sbcl")
-  (setq sly-mrepl-history-file-name "~/.config/emacs/sly-mrepl-history")
-  (add-hook 'lisp-mode-hook 'rainbow-delimiters-mode))
+  (setq sly-mrepl-history-file-name "~/.config/emacs/sly-mrepl-history"))
 
 ;; Play multimedia with emms
 (use-package emms
@@ -239,10 +226,8 @@
 (use-package bison-mode)
 (use-package fvwm-mode)
 (use-package rust-mode)
-(use-package go-mode
-  :config (add-hook 'before-save-hook 'gofmt-before-save))
-(use-package markdown-mode
-  :config (add-hook 'markdown-mode-hook 'auto-fill-mode))
+(use-package go-mode :hook (before-save . gofmt-before-save))
+(use-package markdown-mode :hook (markdown-mode . auto-fill-mode))
 (use-package alchemist)
 (use-package erlang)
 
@@ -253,6 +238,9 @@
 (use-package elpher)
 (use-package nov :after ereader)
 (use-package rainbow-delimiters)
+(use-package writeroom-mode :bind ("C-x w" . 'writeroom-mode))
+(use-package magit :bind ("C-x g" . magit-status))
+(use-package marginalia :init (marginalia-mode))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Some Functions
