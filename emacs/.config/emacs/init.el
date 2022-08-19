@@ -70,6 +70,10 @@
 (save-place-mode 1)
 (goto-address-mode 1)
 
+;; Enable tab completion in editing buffers, mostly for elisp and sly
+(setq tab-always-indent 'complete)
+(add-to-list 'completion-styles 'initials t)
+
 ;; Set the frame title to something more meaningful
 (setq-default frame-title-format
               '(:eval
