@@ -49,18 +49,18 @@
 
 ;; Prefer C-style comments in JS
 (add-hook 'js-mode-hook
-	  (lambda ()
-	    (setq comment-start "/* ")
-	    (setq comment-end " */")))
+          (lambda ()
+            (setq comment-start "/* ")
+            (setq comment-end " */")))
 
 ;; Break lines at 72 columns when writing prose and code comments
 (add-hook 'TeX-mode-hook 'auto-fill-mode)
 (add-hook 'text-mode-hook 'auto-fill-mode)
 (add-hook 'org-mode-hook 'auto-fill-mode)
 (add-hook 'prog-mode-hook
-	  (lambda ()
-	    (setq-local comment-auto-fill-only-comments t)
-	    (auto-fill-mode t)))
+          (lambda ()
+            (setq-local comment-auto-fill-only-comments t)
+            (auto-fill-mode t)))
 
 ;; Add nice things
 (display-battery-mode 1)
@@ -75,11 +75,11 @@
               '(:eval
                 (cond (dired-directory
                        (format "%s" (abbreviate-file-name
-				     (expand-file-name dired-directory))))
+                                     (expand-file-name dired-directory))))
                       ((and buffer-file-truename
                             (not (string= major-mode "mu4e-compose-mode")))
                        (format "%s %s" (buffer-name) (file-name-directory
-						      buffer-file-truename)))
+                                                      buffer-file-truename)))
                       (t (format "%s" (buffer-name))))))
 
 ;; Use C-\ to toggle between US qwerty and Russian Typewriter
@@ -132,9 +132,9 @@
 (add-hook 'message-header-setup-hook 'message-add-openpgp-header)
 (setq message-openpgp-header
       (list "0870AC115CE741A8DCD93F4D11C2EE8C6A3E3E78"
-	    (concat "https://keys.openpgp.org/vks/v1/by-fingerprint/"
-		    "0870AC115CE741A8DCD93F4D11C2EE8C6A3E3E78")
-	    "signencrypt"))
+            (concat "https://keys.openpgp.org/vks/v1/by-fingerprint/"
+                    "0870AC115CE741A8DCD93F4D11C2EE8C6A3E3E78")
+            "signencrypt"))
 (setq mml-secure-openpgp-encrypt-to-self t)
 (when (and (require 'mu4e nil 'noerror)
            (require 'smtpmail nil 'noerror))
@@ -146,8 +146,8 @@
         mu4e-headers-skip-duplicates t
         mu4e-change-filenames-when-moving t
         mu4e-view-show-images nil
-	sendmail-program (executable-find "msmtp")
-	message-send-mail-function 'message-send-mail-with-sendmail)
+        sendmail-program (executable-find "msmtp")
+        message-send-mail-function 'message-send-mail-with-sendmail)
   (add-to-list 'mu4e-view-actions
                '("View In Browser" . mu4e-action-view-in-browser) t)
   (when (file-exists-p "~/.local/mail/accounts.el")
@@ -162,11 +162,11 @@
         evil-disable-insert-state-bindings t)
   :config
   (evil-mode 1)
-  (evil-set-toggle-key "C-M-z")		; Let me suspend the frame
+  (evil-set-toggle-key "C-M-z")         ; Let me suspend the frame
   (add-hook 'org-mode-hook
-	    (lambda ()	; Fix paragraph motions in org mode
-	      (defalias 'evil-forward-paragraph 'org-forward-paragraph)
-	      (defalias 'evil-backward-paragraph 'org-backward-paragraph)))
+            (lambda ()  ; Fix paragraph motions in org mode
+              (defalias 'evil-forward-paragraph 'org-forward-paragraph)
+              (defalias 'evil-backward-paragraph 'org-backward-paragraph)))
   ;; Emacs' default paragraph motions are nicer
   (defalias 'evil-forward-paragraph 'forward-paragraph)
   (defalias 'evil-backward-paragraph 'backward-paragraph))
@@ -176,14 +176,14 @@
   :config (evil-collection-init))
 (use-package evil-terminal-cursor-changer
   :config (unless (display-graphic-p)
-	    (evil-terminal-cursor-changer-activate)))
+            (evil-terminal-cursor-changer-activate)))
 (use-package undo-tree
   :after evil
   :diminish
   :config
   (setq undo-tree-auto-save-history t)
   (setq undo-tree-history-directory-alist
-	'(("." . "~/.config/emacs/undo-tree/")))
+        '(("." . "~/.config/emacs/undo-tree/")))
   (evil-set-undo-system 'undo-tree)
   (global-undo-tree-mode 1))
 
@@ -192,7 +192,7 @@
   :ensure auctex
   :config
   (setq TeX-view-program-selection
-	'((output-pdf "xdg-open")
+        '((output-pdf "xdg-open")
           (output-html "xdg-open"))))
 
 ;; Ivy and counsel for nicer minibuffer behavior
