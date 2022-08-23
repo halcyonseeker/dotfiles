@@ -3,20 +3,20 @@
 . ./mk
 
 remove_parents() {
-        dir="$1"
-        [ -n "$(ls -A "$dir")" ] && return 0
-        rmdir "$dir"
-        remove_parents "$(dirname "$dir")"
+	dir="$1"
+	[ -n "$(ls -A "$dir")" ] && return 0
+	rmdir "$dir"
+	remove_parents "$(dirname "$dir")"
 }
 
 uninstall_file() {
-        file="$1"
-        trgt="$2"
-        link="$3"
-        [ -L "$link" ] && [ "$(realpath "$link")" = "$trgt" ] || return 0
-        echo "  Removing link ~/$file..."
-        rm -f "$link"
-        remove_parents "$(dirname "$link")"
+	file="$1"
+	trgt="$2"
+	link="$3"
+	[ -L "$link" ] && [ "$(realpath "$link")" = "$trgt" ] || return 0
+	echo "  Removing link ~/$file..."
+	rm -f "$link"
+	remove_parents "$(dirname "$link")"
 }
 
 action="uninstall_file" main "$@"
