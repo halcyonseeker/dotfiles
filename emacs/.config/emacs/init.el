@@ -86,6 +86,15 @@
                                                       buffer-file-truename)))
                       (t (format "%s" (buffer-name))))))
 
+;; Only show the stuff I really need in the mode line
+(setq-default mode-line-format '("%e" mode-line-front-space mode-line-mule-info
+                                 mode-line-client mode-line-modified
+                                 mode-line-remote mode-line-frame-identification
+                                 mode-line-buffer-identification "   "
+                                 mode-line-position evil-mode-line-tag
+                                 (vc-mode vc-mode) "  " mode-line-misc-info
+                                 mode-line-end-spaces "%-"))
+
 ;; Use C-\ to toggle between US qwerty and Russian Typewriter
 (setq default-input-method "russian-computer")
 
