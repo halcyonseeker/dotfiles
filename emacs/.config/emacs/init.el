@@ -97,8 +97,13 @@
                                  (vc-mode vc-mode) "  " mode-line-misc-info
                                  mode-line-end-spaces "%-"))
 
-;; Use C-\ to toggle between US qwerty and Russian Typewriter
+;; Use C-\ to toggle between US qwerty and Russian Typewriter,
+;; switching the ispell dictionary as well.
 (setq default-input-method "russian-computer")
+(add-hook 'input-method-activate-hook
+          (lambda () (ispell-change-dictionary "ru")))
+(add-hook 'input-method-deactivate-hook
+          (lambda () (ispell-change-dictionary "english")))
 
 ;; I want this to work in the mini-buffer
 (global-set-key (kbd "C-w") 'backward-kill-word)
