@@ -235,7 +235,19 @@
   (emms-default-players)
   (setq emms-player-list (list 'emms-player-mpv))
   (setq emms-source-file-default-directory "~/media/music")
-  (add-to-list 'emms-player-mpv-parameters "--vo=null"))
+  (add-to-list 'emms-player-mpv-parameters "--vo=null")
+  (defalias #'emms-mode-line-playlist-current
+    #'local-format-emms-song-in-mode-line))
+(defun local-format-emms-song-in-mode-line ()
+  "Override `emms-mode-line-playlist-current' to display just the file
+name of the currently playing song."
+  (let ((original-value (emms-track-description
+                         (emms-playlist-current-selected-track))))
+    (format emms-mode-line-format (if (file-exists-p original-value)
+                                      (url-file-extension original-value t)
+                                    ;; Just in case this is ever
+                                    ;; not the file being played.
+                                    original-value))))
 
 ;; Add modes for languages and formats not supported OoB
 (use-package haskell-mode)
