@@ -228,6 +228,7 @@
 
 ;; Play multimedia with emms
 (use-package emms
+  :bind ("C-x !" . #'emms-play-file)
   :config
   (require 'emms-setup)
   (emms-all)
