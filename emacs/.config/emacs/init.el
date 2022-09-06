@@ -108,7 +108,7 @@
 ;; I want this to work in the mini-buffer
 (global-set-key (kbd "C-w") 'backward-kill-word)
 
-;; Use C-l to clear scrollback in eshell
+;; Use C-c M-o to clear scrollback in eshell, just like in Lisp repls
 (eval-after-load 'esh-mode
   '(define-key eshell-mode-map (kbd "C-c M-o")
      (lambda ()
