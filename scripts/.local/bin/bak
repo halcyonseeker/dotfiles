@@ -1,0 +1,48 @@
+#!/bin/sh
+# Create archives of portions of my home directory and back up the
+# whole thing to external drives.  Depends on rsync, borg, and very
+# specific drives mounted to very specific directories in /backup.
+# FIXME: add backup_remote to my server
+# FIXME: look into whether using rsync in batch mode would make sense
+# FIXME: use borg to make differential archives of important things
+
+# % sudo mkdir -p /backup/backup{1,2}
+# % sudo chown -R thalia /backup
+# % pass machines/storage-luks | xclip -selection clipboard
+# % sudo cryptsetup open /dev/sd{b,c}1 backup{1,2}
+# % sudo mount /dev/mapper/backup{1,2} /backup/backup{1,2}
+# % bak
+# % sudo umount /backup/*
+# % sudo cryptsetup close backup{1,2}
+
+set -e
+
+backup_dests="/backup/backup1 /backup/backup2"
+exclude_dirs=".cache .config .local .mozilla"
+
+die() { printf "FATAL: %s\n" "$1" >&2; exit 1; }
+say() { printf "==========> %s\n" "$1"; }
+cmd() { rsync -ax --info=progress2 --delete-after "$@"; }
+
+archive_dirs() {
+	mkdir -p "$HOME"/archive/org "$HOME"/archive/secrets
+	say "Archiving ~/org:"
+	cmd "$HOME"/org/ "$HOME"/archive/org
+	say "Archiving ~/secrets:"
+	cmd "$HOME"/secrets/ "$HOME"/archive/secrets
+}
+
+backup_local() {
+	command -v rsync >/dev/null || die "Rsync not installed in PATH"
+	for d in $backup_dests; do
+		[ -w "$d" ] || die "Directory $d must exist and be writable"
+		mount | grep "$d" >/dev/null || die "A disk must be mounted on $d"
+		say "Syncing home directory to $(basename "$d"):"
+		echo "$exclude_dirs" \
+			| sed 's/ /\n/g' \
+			| cmd --exclude-from - "$HOME"/ "$d"
+	done
+}
+
+archive_dirs
+backup_local
