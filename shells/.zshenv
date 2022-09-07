@@ -29,7 +29,7 @@ export ALTERNATE_EDITOR=""
 export WORDCHARS='*?_[]~=&;!#$%^(){}'
 
 # Clean home directory
-export PASSWORD_STORE_DIR="$HOME/.local/password-store"
+export PASSWORD_STORE_DIR="$HOME/secrets/password-store"
 export LESSHISTFILE="-"
 export VIMINIT=":source $XDG_CONFIG_HOME/nvim/init.vim"
 export XAUTHORITY="$XDG_RUNTIME_DIR/xauthority"
