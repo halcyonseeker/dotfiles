@@ -161,7 +161,7 @@
   (setq mu4e-attachment-dir "~/temporary"
         mail-user-agent 'mu4e-user-agent
         mu4e-completing-read-function 'ivy-completing-read
-        mu4e-get-mail-command "mbsync -c ~/.local/mail/mbsyncrc -a"
+        mu4e-get-mail-command "mbsync -c ~/secrets/mail/mbsyncrc -a"
         message-kill-buffer-on-exit t
         mu4e-headers-skip-duplicates t
         mu4e-change-filenames-when-moving t
@@ -170,8 +170,8 @@
         message-send-mail-function 'message-send-mail-with-sendmail)
   (add-to-list 'mu4e-view-actions
                '("View In Browser" . mu4e-action-view-in-browser) t)
-  (when (file-exists-p "~/.local/mail/accounts.el")
-    (load "~/.local/mail/accounts.el")))
+  (when (file-exists-p "~/secrets/mail/accounts.el")
+    (load "~/secrets/mail/accounts.el")))
 
 ;; Evil Mode - A better text editor for Emacs
 (use-package evil

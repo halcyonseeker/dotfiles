@@ -7,7 +7,7 @@
 [sendemail]
  	smtpserver = /bin/msmtp
 	smtpserveroption = -C
-	smtpserveroption = /home/thalia/.local/mail/msmtprc
+	smtpserveroption = /home/thalia/secrets/mail/msmtprc
 	smtpserveroption = -a
 	smtpserveroption = personal
 [commit]
