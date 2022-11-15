@@ -1,0 +1,9 @@
+#!/bin/sh
+# Search my files
+
+[ "$#" -eq 2 ] || {
+	printf "Search file names; Usage: sf [path] [regex]\n" 2>&1
+	exit 1
+}
+
+find "$(realpath $1)" -name "*" | grep -i "$2"
