@@ -1,0 +1,45 @@
+#!/bin/sh
+# Configure xfce using xfceconf-query
+
+bindkey() {
+	xfconf-query -c xfce4-keyboard-shortcuts -p "$1" -n -t string -s "$2"
+}
+
+# Don't move windows to the next workspace when I drag them to the edge
+xfconf-query -c xfwm4 -p /general/wrap_windows -n -t bool -s false
+
+# Unbind C-l
+xfconf-query -c xfce4-keyboard-shortcuts \
+	-p '/xfwm4/custom/<Primary><Alt>l' -n -t string -s ''
+
+# Preserve default workspace navigation bindings
+bindkey '/xfwm4/custom/<Primary><Alt>Left' left_workspace_key
+bindkey '/xfwm4/custom/<Primary><Alt>Right' right_workspace_key
+bindkey '/xfwm4/custom/<Primary><Alt><Shift>Left' move_window_prev_workspace_key
+bindkey '/xfwm4/custom/<Primary><Alt><Shift>Right' move_window_next_workspace_key
+
+# Additional vi-like keys for moving between workspaces
+bindkey '/xfwm4/custom/<Primary><Alt>h' left_workspace_key
+bindkey '/xfwm4/custom/<Primary><Alt>l' right_workspace_key
+bindkey '/xfwm4/custom/<Primary><Alt><Shift>h' move_window_prev_workspace_key
+bindkey '/xfwm4/custom/<Primary><Alt><Shift>l' move_window_next_workspace_key
+
+# Application keybindings
+bindkey '/xfwm4/custom/<Primary><Alt>f' thunar
+bindkey '/xfwm4/custom/<Primary><Alt>e' 'emacsclient -c'
+bindkey '/xfwm4/custom/<Super>a' ~/.config/fvwm/scripts/passmenu.sh
+bindkey '/xfwm4/custom/<Super>u' ~/.config/fvwm/scripts/emojipicker.sh
+bindkey '/xfwm4/custom/<Super>y' ~/.config/fvwm/scripts/rofi-url.sh
+
+# Hide window border and title when maximized
+xfconf-query -c xfwm4 -p /general/borderless_maximize -n -t bool -s true
+xfconf-query -c xfwm4 -p /general/titleless_maximize  -n -t bool -s true
+
+# focus follows mouse, click doesn't raise windows
+xfconf-query -c xfwm4 -p /general/click_to_focus -n -t bool -s false
+xfconf-query -c xfwm4 -p /general/raise_on_focus -n -t bool -s false
+xfconf-query -c xfwm4 -p /general/raise_on_click -n -t bool -s false
+
+# Use Xterm as a default terminal
+mkdir -p ~/.config/xfce4/
+echo 'TerminalEmulator=xterm' >> ~/.config/xfce4/helpers.rc
