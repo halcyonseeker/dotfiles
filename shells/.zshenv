@@ -56,6 +56,9 @@ alias mdkir="mkdir"
 alias ec="emacsclient -nw -c"
 alias se="sudoedit"
 alias xo="xdg-open"
+alias yta="yt-dlp -x --audio-format opus --audio-quality 0 --embed-metadata --embed-thumbnail --sponsorblock-mark all"
+alias ytv="yt-dlp --merge-output-format mkv --audio-quality 0 --embed-metadata --embed-thumbnail --embed-subs --convert-thumbnails jpg --sponsorblock-mark all"
+
 
 # Colorful aliases
 if [ -x /usr/bin/dircolors ] ; then
