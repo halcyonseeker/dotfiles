@@ -25,11 +25,11 @@ say() { printf "==========> %s\n" "$1"; }
 cmd() { rsync -ax --info=progress2 --delete-after "$@"; }
 
 archive_dirs() {
-	mkdir -p "$HOME"/archive/org "$HOME"/archive/secrets
+	mkdir -p "$HOME"/archive/org_archive "$HOME"/archive/secrets_archive
 	say "Archiving ~/org:"
-	cmd "$HOME"/org/ "$HOME"/archive/org
+	cmd "$HOME"/org/ "$HOME"/archive/org_archive
 	say "Archiving ~/secrets:"
-	cmd "$HOME"/secrets/ "$HOME"/archive/secrets
+	cmd "$HOME"/secrets/ "$HOME"/archive/secrets_archive
 }
 
 backup_local() {
