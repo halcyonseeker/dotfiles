@@ -28,6 +28,9 @@ export ALTERNATE_EDITOR=""
 # Set word-delimiters for cutting text with ^W
 export WORDCHARS='*?_[]~=&;!#$%^(){}'
 
+# Tell audible-dl to keep everything in one place
+export AUDIBLE_DL_ROOT="$HOME/media/audiobooks/audible"
+
 # Clean home directory
 export PASSWORD_STORE_DIR="$HOME/secrets/password-store"
 export LESSHISTFILE="-"
