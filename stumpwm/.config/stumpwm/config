@@ -1,0 +1,69 @@
+;; -*- lisp -*-
+;; On Arch, the AUR package stumpwm-git must be used in order to use quicklisp
+
+;; https://git.sr.ht/~nyx_land/gackrc/blob/master/stumpwm/stumpwmrc.lisp
+
+(load "~/.sbclrc")
+
+(in-package :stumpwm-user)
+
+(ql:quickload '(:slynk :bordeaux-threads))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Internal utilities
+
+(defun sh (&rest args)
+  (apply #'run-shell-command args))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Commands
+
+(defcommand start-slynk (port) ((:string "Port number: "))
+  (bt:make-thread
+   (lambda () (slynk:create-server :port (parse-integer port) :dont-close t))
+   :name "Slynk via Stumpwm"))
+
+(defcommand emacsclient () ()
+  (sh "emacsclient -c"))
+
+(defcommand rofi-desktop-menu () ()
+  (sh "rofi -theme /usr/share/rofi/themes/gruvbox-dark.rasi -show drun"))
+
+(defcommand rofi-window-menu () ()
+  (sh "rofi -theme /usr/share/rofi/themes/gruvbox-dark.rasi -show window"))
+
+;; (stumptwm:defcommand start-slynk (&optional (port 4008))
+;;   ((:number "Enter a port (default 4008): "))
+;;   ;; FIXME: check first
+;;   (slynk:create-server :dont-close t :port port)
+;;   (message (format nil "Slynk running on ~A" port)))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Keybinds
+
+(set-prefix-key (kbd "s-x"))
+
+(define-key *root-map* (kbd "e") "emacsclient")
+(define-key *root-map* (kbd "SPC") "rofi-desktop-menu")
+(define-key *root-map* (kbd "/") "rofi-window-menu")
+
+;; (define-key *root-map* (kbd "XF86MonBrightnessDown" "brightness-down")
+;; (define-key *root-map* (kbd "XF86MonBrightnessUp" "brightness-up")
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Startup actions
+
+(defun warm-screen ()
+  (sh "redshift -r -o -l 0:0"))
+
+(defun ensure-xsession-loaded ()
+  (sh ". ~/.xsession"))
+
+(defun startup-actions ()
+  (ensure-xsession-loaded)
+  (warm-screen)
+  ;; (start-slynk) <--
+  )
+
+(add-hook *start-hook* 'startup-actions)
