@@ -65,6 +65,7 @@ alias ytv="yt-dlp --merge-output-format mkv --audio-quality 0 --embed-metadata -
 if [ -x /usr/bin/dircolors ] ; then
 	alias ls="ls -F --color=auto"
 	alias grep="grep --color=auto"
+	alias egrep="egrep --color=auto"
 	alias diff="diff --color=auto"
 elif [ -x /usr/local/bin/colorls ] ; then
 	alias ls="colorls -GF"
