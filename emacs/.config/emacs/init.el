@@ -294,5 +294,24 @@ lots of EWW buffers open at one time. Used by `eww-after-render-hook'"
                   (plist-get eww-data :url)
                 (plist-get eww-data :title))))
     (rename-buffer (format "*eww: %s*" name) t)))
-;;; init.el ends here
 
+(defun make-cover-letter ()
+  "A handy shorthand to make writing cover letters easier.  It
+Inserts ~/.local/share/dotfiles/cl.tmplt.tex into the current
+buffer, expanding relevant private data."
+  (interactive)
+  (let* ((title (read-string "Title of this Cover Letter: "))
+         (rplce '(("USER-MAIL-ADDRESS" . user-mail-address)
+                  ("UGLY-USER-PHONE-NUMBER" . (replace-regexp-in-string
+                                               "[ |\(|\)|-]" "" user-phone-number))
+                  ("USER-PHONE-NUMBER" . user-phone-number)
+                  ("USER-FULL-NAME" . user-full-name)
+                  ("LETTER-TITLE" . title))))
+    (insert-file-contents "~/.local/share/dotfiles/cl.tmplt.tex")
+    (cl-loop for (pattern . replace) in rplce
+             do (save-excursion
+                  (while (search-forward pattern nil t)
+                    (replace-match (eval replace) t)))))
+  (line-move 33))
+
+;;; init.el ends here
