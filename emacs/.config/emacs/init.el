@@ -249,6 +249,7 @@
   (add-to-list 'emms-player-mpv-parameters "--vo=null")
   (defalias #'emms-mode-line-playlist-current
     #'local-format-emms-song-in-mode-line))
+
 (defun local-format-emms-song-in-mode-line ()
   "Override `emms-mode-line-playlist-current' to display just the file
 name of the currently playing song."
