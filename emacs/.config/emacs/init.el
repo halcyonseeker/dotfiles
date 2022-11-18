@@ -30,6 +30,9 @@
 (setq c-default-style "bsd")
 (defalias 'yes-or-no-p 'y-or-n-p)
 
+;; Tell the help system where to find sources for C functions
+(setq find-function-C-source-directory "~/.local/src/emacs/src")
+
 ;; Put all backup files in a single place
 (setq backup-by-copying t)
 (setq backup-directory-alist '((".*" . "~/.config/emacs/backup")))
