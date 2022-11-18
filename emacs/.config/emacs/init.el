@@ -260,6 +260,12 @@ name of the currently playing song."
                                     ;; not the file being played.
                                     original-value))))
 
+;; A Telegram chat client
+(use-package telega
+  :config
+  (setq telega-database-dir "~/.config/emacs/telega")
+  (setq telega-temp-dir "~/.config/emacs/telega/temp"))
+
 ;; Add modes for languages and formats not supported OoB
 (use-package haskell-mode)
 (use-package bison-mode)
@@ -273,7 +279,6 @@ name of the currently playing song."
 ;; Miscellaneous Useful Packages
 (use-package htmlize)
 (use-package ereader)
-(use-package telega)
 (use-package elpher)
 (use-package nov :after ereader)
 (use-package rainbow-delimiters :hook (prog-mode . rainbow-delimiters-mode))
