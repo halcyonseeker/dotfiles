@@ -66,6 +66,7 @@
             (auto-fill-mode t)))
 
 ;; Add nice things
+(desktop-save-mode 1)
 (display-battery-mode 1)
 (setq display-time-default-load-average nil)
 (setq display-time-format "%H:%M")
