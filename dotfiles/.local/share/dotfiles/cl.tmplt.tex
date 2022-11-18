@@ -1,0 +1,36 @@
+% cl.tex -- Cover letter template, in Emacs call `make-cover-letter'
+\documentclass[12pt]{article}
+
+\usepackage[margin=1.25in]{geometry} % Adjusted margins
+\usepackage[colorlinks]{hyperref}    % Clickable urls
+\usepackage{changepage}              % Wider title margins
+\usepackage{titling}                 % \maketitle formatting
+
+% Change \maketitle formatting
+\renewcommand{\maketitle}{
+  \begin{adjustwidth}{-35pt}{-35pt}
+    \begin{center}
+      {\Large\bfseries\thetitle} \\
+      \vspace{0.75em}
+      {\large\bfseries\theauthor} \\
+      \vspace{0.75em}
+      \large{
+        \href{mailto:USER-MAIL-ADDRESS}{\tt USER-MAIL-ADDRESS}
+        ---
+        \href{tel:UGLY-USER-PHONE-NUMBER}{\tt USER-PHONE-NUMBER}
+      }
+    \end{center}
+  \end{adjustwidth}
+}
+
+% Globally remove paragraph indentation
+\setlength{\parindent}{0pt}
+
+\begin{document}
+\title{Cover Letter: LETTER-TITLE}
+\author{USER-FULL-NAME}
+\maketitle
+
+
+
+\end{document}
