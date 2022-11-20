@@ -18,7 +18,6 @@
 
 ;; Change some irritating defaults
 (tool-bar-mode 0)
-(menu-bar-mode 0)
 (scroll-bar-mode 0)
 (xterm-mouse-mode 1)
 (setq frame-resize-pixelwise t)
