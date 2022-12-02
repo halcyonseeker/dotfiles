@@ -6,19 +6,16 @@
 # FIXME: look into whether using rsync in batch mode would make sense
 # FIXME: use borg to make differential archives of important things
 
-# % sudo mkdir -p /backup/backup{1,2}
-# % sudo chown -R thalia /backup
-# % pass machines/storage-luks | xclip -selection clipboard
-# % sudo cryptsetup open /dev/sd{b,c}1 backup{1,2}
-# % sudo mount /dev/mapper/backup{1,2} /backup/backup{1,2}
-# % bak
-# % sudo umount /backup/*
-# % sudo cryptsetup close backup{1,2}
+# sudo mkdir -p /backup/backup{1,2} && sudo chown -R `whoami` /backup
+# pass machines/storage-luks | tr -d '\n' | xclip -selection clipboard
+# sudo cryptsetup open /dev/sdb1 backup1 && sudo mount /dev/mapper/backup1 /backup/backup1
+# sudo cryptsetup open /dev/sdc1 backup2 && sudo mount /dev/mapper/backup2 /backup/backup2
+# ssh ashur@walden.ulthar.xyz sudo zfs load-key storage/crypt
+# bak
 
 set -e
 
-backup_dests="/backup/backup1 /backup/backup2"
-exclude_dirs=".cache .config .local .mozilla"
+exclude_dirs=".local/go .local/quicklisp .local/share/Trash .cache/paru"
 
 die() { printf "FATAL: %s\n" "$1" >&2; exit 1; }
 say() { printf "==========> %s\n" "$1"; }
@@ -33,16 +30,25 @@ archive_dirs() {
 }
 
 backup_local() {
-	command -v rsync >/dev/null || die "Rsync not installed in PATH"
-	for d in $backup_dests; do
-		[ -w "$d" ] || die "Directory $d must exist and be writable"
-		mount | grep "$d" >/dev/null || die "A disk must be mounted on $d"
-		say "Syncing home directory to $(basename "$d"):"
-		echo "$exclude_dirs" \
-			| sed 's/ /\n/g' \
-			| cmd --exclude-from - "$HOME"/ "$d"
-	done
+	say "Syncing home directory to $(basename "$1"):"
+	[ -w "$1" ] || die "Directory $1 must exist and be writable"
+	mount | grep "$1" >/dev/null || {
+		echo "Disk not mounted on $1, skipping";
+		return;
+	}
+	echo "$exclude_dirs" \
+		| sed 's/ /\n/g' \
+		| cmd --exclude-from - "$HOME"/ "$1"
+}
+
+backup_server() {
+	say "Syncing home directory to walden:"
+	echo "$exclude_dirs media vms isos" \
+		| sed 's/ /\n/g' \
+		| cmd --exclude-from - "$HOME"/ ashur@walden.ulthar.xyz:/storage/crypt/laptop_backup
 }
 
 archive_dirs
-backup_local
+backup_local "/backup/backup1"
+backup_local "/backup/backup2"
+backup_server
