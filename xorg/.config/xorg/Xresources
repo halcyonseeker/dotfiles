@@ -34,11 +34,6 @@ XClock*background: #93a1a1
 Emacs.default.attributeHeight: 94
 Emacs.pane.*.foreground:       #141c21
 
-!!!!!!!!!! Rofi
-rofi.show-icons: true
-rofi.modi:       window,run,drun,file-browser
-rofi.theme:      /usr/local/share/rofi/themes/gruvbox-dark-soft.rasi
-
 !!!!!!!!!! Dark Gruvbox
 ! https://github.com/morhetz/gruvbox-generalized
 *background:  #282828
