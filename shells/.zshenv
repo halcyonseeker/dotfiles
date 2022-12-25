@@ -113,6 +113,13 @@ if [ "$0" = "zsh" ] || [ "$0" = "-zsh" ] || [ "$(basename $0)" = "zsh" ]; then
 	zle -N edit-command-line
 	bindkey '^X^E' edit-command-line
 
+	yank-to-x-clipboard() {
+		zle copy-region-as-kill
+		print -Rn $CUTBUFFER | xclip -selection clipboard
+	}
+	zle -N yank-to-x-clipboard
+	bindkey '^X^Y' yank-to-x-clipboard
+
 	# Set nice prompt
 	if [ -n "$SSH_CONNECTION" ] ; then
 		case "$EUID" in
