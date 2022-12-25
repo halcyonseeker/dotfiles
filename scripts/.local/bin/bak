@@ -15,7 +15,7 @@
 
 set -e
 
-exclude_dirs=".local/go .local/quicklisp .local/share/Trash .cache/paru"
+exclude_dirs=".local/go .local/quicklisp .local/share/Trash .cache/doc .cache/gvfs .cache/gvfsd .cache/dconf .cache/common-lisp"
 
 die() { printf "FATAL: %s\n" "$1" >&2; exit 1; }
 say() { printf "==========> %s\n" "$1"; }
