@@ -1,0 +1,14 @@
+#!/bin/sh
+# Given a flac file on $1 convert it to an opus file without losing
+# any metadata; deleting the original.
+
+[ -z "$1" ] && {
+	printf "Convert a flac to an opus.  Usage: flac2opus [file.flac]\n"
+	exit 1
+}
+
+target="${1%%.flac}.opus"
+[ ! -f "$target" ] && {
+	ffmpeg -i "$1" -f flac - | opusenc - "$target"
+	rm -f "$1"
+}
