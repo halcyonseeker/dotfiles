@@ -111,16 +111,12 @@
 ;; I want this to work in the mini-buffer
 (global-set-key (kbd "C-w") 'backward-kill-word)
 
-;; Use C-c M-o to clear scrollback in eshell, just like in Lisp repls
+;; The Emacs shell
+(setq eshell-history-size nil)
+(add-hook 'eshell-mode-hook #'my-eshell-rename-buffer)
+(add-hook 'eshell-directory-change-hook #'my-eshell-rename-buffer)
 (eval-after-load 'esh-mode
-  '(define-key eshell-mode-map (kbd "C-c M-o")
-     (lambda ()
-       (interactive)
-       (goto-char (point-max))
-       (eshell-kill-input)
-       (insert "clear-scrollback")
-       (eshell-send-input)
-       (yank))))
+  '(define-key eshell-mode-map (kbd "C-c M-o") #'my-eshell-clear-buffer))
 
 ;; Org Mode
 (add-hook 'org-mode-hook 'org-indent-mode)
@@ -310,6 +306,25 @@ lots of EWW buffers open at one time. Used by `eww-after-render-hook'"
                   (plist-get eww-data :url)
                 (plist-get eww-data :title))))
     (rename-buffer (format "*eww: %s*" name) t)))
+
+(defun my-eshell-rename-buffer ()
+  "Upon creation, rename each eshell buffer to the current working
+directory.  This should allow me to have multiple eshell
+buffers."
+  (let ((name (abbreviate-file-name (eshell/pwd))))
+    (rename-buffer (format "*eshell: %s*" name) t)))
+
+(defun my-eshell-clear-buffer ()
+  "Clear the eshell buffer in the same was as ^L in a normal shell."
+  (interactive)
+  (let ((saved-history eshell-history-ring))
+    (setq eshell-history-ring (make-ring eshell-history-size))
+    (goto-char (point-max))
+    (eshell-kill-input)
+    (insert "clear-scrollback")
+    (eshell-send-input)
+    (yank)
+    (setq eshell-history-ring saved-history)))
 
 (defun make-cover-letter ()
   "A handy shorthand to make writing cover letters easier.  It
