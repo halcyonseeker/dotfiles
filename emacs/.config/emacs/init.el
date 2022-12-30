@@ -230,13 +230,6 @@
   (setq inferior-lisp-program "sbcl")
   (setq sly-mrepl-history-file-name "~/.config/emacs/sly-mrepl-history"))
 
-;; RSS Feeds
-(use-package elfeed
-  :bind ("C-x ~" . #'elfeed)
-  :config
-  (elfeed-load-opml "~/secrets/feeds.opml")
-  (setq elfeed-db-directory "~/.config/emacs/elfeed-db"))
-
 ;; Play multimedia with emms
 (use-package emms
   :bind ("C-x !" . #'emms-play-file)
