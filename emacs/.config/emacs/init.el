@@ -124,8 +124,8 @@
 
 ;; Org Mode
 (add-hook 'org-mode-hook 'org-indent-mode)
-(setq org-publish-timestamp-directory "~/.config/emacs/org-timestamps/"
-      org-directory "~/org")
+(setq org-publish-timestamp-directory "~/.config/emacs/org-timestamps/")
+(setq org-directory "~/org")
 (setq org-startup-folded t)
 (global-set-key (kbd "C-c a") 'org-agenda)
 
