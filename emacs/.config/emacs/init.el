@@ -28,6 +28,7 @@
 (setq vc-follow-symlinks t)
 (setq c-default-style "bsd")
 (defalias 'yes-or-no-p 'y-or-n-p)
+(defalias 'perl-mode 'cperl-mode)
 
 ;; Tell the help system where to find sources for C functions
 (setq find-function-C-source-directory "~/.local/src/emacs/src")
@@ -47,7 +48,9 @@
 (add-hook 'c++-mode-hook #'indent-with-tabs)
 (add-hook 'awk-mode-hook #'indent-with-tabs)
 (add-hook 'sh-mode-hook #'indent-with-tabs)
+(add-hook 'cperl-mode-hook #'indent-with-tabs)
 (setq sh-basic-offset tab-width)
+(setq cperl-indent-level 8)
 
 ;; Prefer C-style comments in JS
 (add-hook 'js-mode-hook
