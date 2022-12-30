@@ -127,7 +127,7 @@
 (setq org-publish-timestamp-directory "~/.config/emacs/org-timestamps/")
 (setq org-directory "~/org")
 (setq org-startup-folded t)
-(global-set-key (kbd "C-c a") 'org-agenda)
+(global-set-key (kbd "C-c l") #'org-store-link)
 
 ;; Emacs Web Wowser
 (setq browse-url-browser-function 'eww-browse-url
