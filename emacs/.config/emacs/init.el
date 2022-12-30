@@ -120,6 +120,7 @@
 (add-hook 'eshell-directory-change-hook #'my-eshell-rename-buffer)
 (eval-after-load 'esh-mode
   '(define-key eshell-mode-map (kbd "C-c M-o") #'my-eshell-clear-buffer))
+(defun eshell/ec (f) (find-file-other-window f))
 
 ;; Org Mode
 (add-hook 'org-mode-hook 'org-indent-mode)
