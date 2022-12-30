@@ -176,9 +176,19 @@
   (when (file-exists-p "~/secrets/mail/accounts.el")
     (load "~/secrets/mail/accounts.el")))
 
+;; Time machine!!!
+(use-package undo-tree
+  :diminish
+  :config
+  (setq undo-tree-auto-save-history t)
+  (setq undo-tree-history-directory-alist
+        '(("." . "~/.config/emacs/undo-tree/")))
+  (global-undo-tree-mode 1))
+
 ;; Evil Mode - A better text editor for Emacs
 (use-package evil
   :demand t
+  :after undo-tree
   :init
   (setq evil-want-C-i-jump nil          ; Fix TAB in -nw frames
         evil-want-keybinding nil
@@ -199,15 +209,6 @@
   :config (evil-collection-init))
 (use-package evil-terminal-cursor-changer
   :config (unless (display-graphic-p) (evil-terminal-cursor-changer-activate)))
-(use-package undo-tree
-  :after evil
-  :diminish
-  :config
-  (setq undo-tree-auto-save-history t)
-  (setq undo-tree-history-directory-alist
-        '(("." . "~/.config/emacs/undo-tree/")))
-  (evil-set-undo-system 'undo-tree)
-  (global-undo-tree-mode 1))
 
 ;; AucTeX for a better TeX and LaTeX experience
 (use-package tex
