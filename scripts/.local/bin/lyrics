@@ -1,0 +1,55 @@
+#!/usr/bin/env python3
+# Print the lyrics of a song by scraping genius.com.  This is primarily
+# intended to be used to embed lyrics in music downloaded from
+# YouTube.
+
+import re
+import sys
+import requests
+import json
+from bs4 import BeautifulSoup
+from urllib.parse import quote
+
+lg = "https://genius.com"
+
+def get_lyrics_url(term):
+    # We could use this JSON to get considerably more metadata...
+    data = json.loads(requests.get(lg + "/api/search?q=" + quote(term)).text)
+    try:
+        return lg + data["response"]["hits"][0]["result"]["path"]
+    except:
+        return None
+
+def get_lyrics(url):
+    soup = BeautifulSoup(requests.get(url).text, "html.parser")
+    containers = soup.find_all(attrs={"data-lyrics-container": "true"})
+    return "".join([pretty_lyrics(c) + "\n" for c in containers]).rstrip("\n")
+
+def pretty_lyrics(html):
+    text = ""
+    for elem in html:
+        if elem.name == None:
+            text += elem.string
+        elif elem.name == "br":
+            text += "\n"
+        elif elem.name == "span" or elem.name == "a":
+            text += pretty_lyrics(elem)
+        else:
+            try:
+                text += elem.string
+            except:
+                text += "\n"
+    return text
+
+if __name__ == "__main__":
+    if len(sys.argv) != 2:
+        print("Usage: lyrics 'some search term'", file=sys.stderr)
+        sys.exit(1)
+    else:
+        url = get_lyrics_url(sys.argv[1])
+        if url is None:
+            print("No lyrics found", file=sys.stderr)
+            sys.exit(1)
+        else:
+            print(get_lyrics(url))
+
