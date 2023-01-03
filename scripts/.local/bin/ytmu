@@ -1,7 +1,7 @@
 #!/bin/sh
 # Download music from YouTube and embed extra metadata fetched from
 # genius.com.
-# Dependencies: yt-dlp, ffmpeg, lyrics (in this repo)
+# Dependencies: yt-dlp, opuscomment, lyrics (in this repo)
 
 set -e
 
@@ -16,12 +16,11 @@ file_name_format='%(track_number)s. %(artist)s - %(album)s - %(track)s.%(ext)s'
 for url in "$@"; do
 	yt_dlp_outfile="$(mktemp ytmu_yt_dlp_tmp.XXX.txt)"
 	lyrics_outfile="$(mktemp ytmu_lyrics_tmp.XXX.txt)"
-	ffmpeg_infile="$(mktemp ytmu_ffmpeg_tmp.XXX.opus)"
 	yt-dlp \
 		--extract-audio \
 		--audio-format opus \
 		--audio-quality 0\
-		--embed-metadata \
+		--add-metadata \
 		--embed-thumbnail \
 		--sponsorblock-mark all \
 		--output "$file_name_format" \
@@ -32,12 +31,7 @@ for url in "$@"; do
 	echo "Fetching lyrics for $term..."
 	lyrics "$term" > "$lyrics_outfile" && {
 		echo "Adding lyrics to $file..."
-		lyrics="$(cat "$lyrics_outfile")"
-		mv "$file" "$ffmpeg_infile"
-		# Fuck me we're re-encoding here which is slow as
-		# balls and loses the cover art because ffmpeg's opus
-		# encoder doesn't support cover art yet
-		ffmpeg -i "$ffmpeg_infile" -metadata "lyrics=$lyrics" "$file"
+		opuscomment -t "lyrics=$(cat "$lyrics_outfile")" -a "$file"
 	}
-	rm -iv "$yt_dlp_outfile" "$lyrics_outfile" "$ffmpeg_infile"
+	rm "$yt_dlp_outfile" "$lyrics_outfile"
 done
