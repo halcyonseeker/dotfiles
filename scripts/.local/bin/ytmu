@@ -20,7 +20,7 @@ for url in "$@"; do
 		--add-metadata \
 		--embed-thumbnail \
 		--sponsorblock-mark all \
-		--output '%(artist)s - %(track)s.%(ext)s' \
+		--output '%(artist,uploader)s - %(track,title)s.%(ext)s' \
 		--exec "echo {} >$yt_dlp_outfile" \
 		"$url"
 	file="$(basename "$(cat "$yt_dlp_outfile")")"
