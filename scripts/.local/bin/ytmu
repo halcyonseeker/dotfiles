@@ -5,9 +5,6 @@
 
 set -e
 
-# This needs some work...
-file_name_format='%(track_number)s. %(artist)s - %(album)s - %(track)s.%(ext)s'
-
 [ -z "$1" ] && {
 	echo "Download audio with youtube-dl.  Usage: ytmu [urls...]" >&2
 	exit 1
@@ -23,7 +20,7 @@ for url in "$@"; do
 		--add-metadata \
 		--embed-thumbnail \
 		--sponsorblock-mark all \
-		--output "$file_name_format" \
+		--output '%(artist)s - %(track)s.%(ext)s' \
 		--exec "echo {} >$yt_dlp_outfile" \
 		"$url"
 	file="$(basename "$(cat "$yt_dlp_outfile")")"
