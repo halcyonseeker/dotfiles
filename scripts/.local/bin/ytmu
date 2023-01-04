@@ -10,6 +10,10 @@ set -e
 	exit 1
 }
 
+too_long_for_opuscomment() {
+	test "$(wc -c "$1" | cut -d' ' -f1)" -ge 131066; return $?
+}
+
 for url in "$@"; do
 	yt_dlp_outfile="$(mktemp ytmu_yt_dlp_tmp.XXX.txt)"
 	lyrics_outfile="$(mktemp ytmu_lyrics_tmp.XXX.txt)"
@@ -21,14 +25,22 @@ for url in "$@"; do
 		--embed-thumbnail \
 		--sponsorblock-mark all \
 		--output '%(artist,uploader)s - %(track,title)s.%(ext)s' \
-		--exec "echo {} >$yt_dlp_outfile" \
+		--exec "echo {} >>$yt_dlp_outfile" \
 		"$url"
-	file="$(basename "$(cat "$yt_dlp_outfile")")"
-	term="${file%%.opus}"
-	echo "Fetching lyrics for $term..."
-	lyrics "$term" > "$lyrics_outfile" && {
-		echo "Adding lyrics to $file..."
-		opuscomment -t "lyrics=$(cat "$lyrics_outfile")" -a "$file"
-	}
+	while read -r line; do
+		file="$(basename "$line")"
+		term="${file%%.opus}"
+		echo "Fetching lyrics for $term..."
+		if lyrics "$term" > "$lyrics_outfile"; then
+			if too_long_for_opuscomment "$lyrics_outfile"; then
+				echo "Lyrics file too long for opuscomment" >&2
+			else
+				echo "Adding lyrics to $file..."
+				opuscomment \
+					-t "lyrics=$(cat "$lyrics_outfile")" \
+					-a "$file"
+			fi
+		fi
+	done < "$yt_dlp_outfile"
 	rm "$yt_dlp_outfile" "$lyrics_outfile"
 done
