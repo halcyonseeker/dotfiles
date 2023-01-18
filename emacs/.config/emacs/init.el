@@ -111,9 +111,6 @@
 (add-hook 'input-method-deactivate-hook
           (lambda () (ispell-change-dictionary "english")))
 
-;; I want this to work in the mini-buffer
-(global-set-key (kbd "C-w") 'backward-kill-word)
-
 ;; The Emacs shell
 (setq eshell-history-size nil)
 (add-hook 'eshell-mode-hook #'my-eshell-rename-buffer)
