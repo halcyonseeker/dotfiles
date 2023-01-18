@@ -127,10 +127,11 @@
 (global-set-key (kbd "C-c l") #'org-store-link)
 
 ;; Emacs Web Wowser
-(setq browse-url-browser-function 'eww-browse-url
-      shr-use-colors nil
-      eww-download-directory "~/temporary"
-      eww-browse-secondary-browser-function '(shell-command "xdg-open"))
+(setq browse-url-browser-function 'eww-browse-url)
+(setq shr-use-colors nil)
+(setq shr-max-width 72)
+(setq eww-download-directory "~/temporary")
+(setq eww-browse-secondary-browser-function '(shell-command "xdg-open"))
 (add-hook 'eww-after-render-hook #'local-eww--rename-buffer)
 
 ;; Doc View
