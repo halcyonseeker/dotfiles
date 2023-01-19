@@ -7,7 +7,7 @@ xset b off
 xinput disable "$(xinput list | awk '/TouchPad/{sub(/id=/, "", $6); print $6}')"
 
 # Make trackpoint move faster
-xinput set-prop "$(xinput list | awk '/TrackPoint/{sub(/id=/, "", $6); print $6}')" 'libinput Accel Speed' 0.8
+xinput set-prop "$(xinput list | awk '/TrackPoint/{sub(/id=/, "", $6); print $6}')" 'libinput Accel Speed' 0.5
 
 # Scroll with ThinkPad middle button in OpenBSD
 [ "$(uname)" = "OpenBSD" ] && {
