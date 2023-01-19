@@ -1,15 +1,19 @@
 ;; -*- lisp -*-
 
-(let ((quicklisp-init (merge-pathnames ".local/quicklisp/setup.lisp"
-				       (user-homedir-pathname))))
-  (when (probe-file quicklisp-init)
-    (load quicklisp-init)))
+(require 'asdf)
 
+(load #p"~/.local/quicklisp/setup.lisp")
+
+#+sbcl
 (setf sb-impl::*default-external-format* :utf-8)
 
-;; Tell asdf and quicklisp about stuff I wrote, stored where I like
-(require 'asdf)
-(loop for d in (uiop:subdirectories #p"~/code")
-      when (let ((extensions (mapcar #'pathname-type (uiop:directory-files d))))
-             (member "asd" extensions :test #'equal))
-        do (push d asdf:*central-registry*))
+(defun register-discovered-systems (dir)
+  "Tell asdf and thus quicklisp about systems stored in directories
+other than quicklisp/local-projects/."
+  (check-type dir (or string pathname))
+  (loop for dir in (uiop:subdirectories dir)
+        for exts = (mapcar #'pathname-type (uiop:directory-files dir))
+        when (member "asd" exts :test #'equal)
+          do (push dir asdf:*central-registry*)))
+
+(register-discovered-systems #p"~/code/")
