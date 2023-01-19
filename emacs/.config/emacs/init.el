@@ -253,6 +253,15 @@ name of the currently playing song."
                                     ;; not the file being played.
                                     original-value))))
 
+;; Read ebooks
+(use-package ereader)
+(use-package nov
+  :after ereader
+  :config
+  (add-to-list 'auto-mode-alist '("\\.epub\\'" . nov-mode))
+  (setq nov-text-width 72)
+  (setq nov-variable-pitch nil))
+
 ;; Add modes for languages and formats not supported OoB
 (use-package haskell-mode)
 (use-package bison-mode)
@@ -265,9 +274,7 @@ name of the currently playing song."
 
 ;; Miscellaneous Useful Packages
 (use-package htmlize)
-(use-package ereader)
 (use-package elpher)
-(use-package nov :after ereader)
 (use-package rainbow-delimiters :hook (prog-mode . rainbow-delimiters-mode))
 (use-package writeroom-mode :bind ("C-x w" . 'writeroom-mode))
 (use-package magit :bind ("C-x g" . magit-status))
