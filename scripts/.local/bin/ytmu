@@ -26,6 +26,7 @@ for url in "$@"; do
 		--sponsorblock-mark all \
 		--output '%(artist,uploader)s - %(track,title)s.%(ext)s' \
 		--exec "echo {} >>$yt_dlp_outfile" \
+		$YTMU_YTDLP_EXTRA_OPTS \
 		"$url"
 	while read -r line; do
 		file="$(basename "$line")"
