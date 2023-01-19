@@ -45,7 +45,7 @@ backup_server() {
 	say "Syncing home directory to walden:"
 	echo "$exclude_dirs media vms isos" \
 		| sed 's/ /\n/g' \
-		| cmd --exclude-from - "$HOME"/ ashur@walden.ulthar.xyz:/storage/crypt/laptop_backup
+		| cmd --exclude-from - "$HOME"/ ashur@walden.ulthar.xyz:/tank/laptop_backup
 }
 
 archive_dirs
