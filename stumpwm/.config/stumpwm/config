@@ -1,5 +1,4 @@
 ;; -*- lisp -*-
-;; On Arch, the AUR package stumpwm-git must be used in order to use quicklisp
 
 ;; https://git.sr.ht/~nyx_land/gackrc/blob/master/stumpwm/stumpwmrc.lisp
 
@@ -32,6 +31,24 @@
 (defcommand rofi-window-menu () ()
   (sh "rofi -theme /usr/share/rofi/themes/gruvbox-dark.rasi -show window"))
 
+;; (defcommand volume-mute () ()
+;;   (sh "amixer set Master toggle"))
+
+;; (defcommand volume-down () ()
+;;   (sh "amixer set Master 10%-"))
+
+;; (defcommand volume-up () ()
+;;   (sh "amixer set Master 10%+"))
+
+;; (defcommand warm-screen () ()
+;;   (sh "redshift -r -o -l 0:0"))
+
+;; (defcommand brightness-up () ()
+;;   (sh))
+
+;; (defcommand brightness-down () ()
+;;   (sh))
+
 ;; (stumptwm:defcommand start-slynk (&optional (port 4008))
 ;;   ((:number "Enter a port (default 4008): "))
 ;;   ;; FIXME: check first
@@ -41,7 +58,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Keybinds
 
-(set-prefix-key (kbd "s-x"))
+;; (set-prefix-key (kbd "s-x"))
 
 (define-key *root-map* (kbd "e") "emacsclient")
 (define-key *root-map* (kbd "SPC") "rofi-desktop-menu")
@@ -50,20 +67,21 @@
 ;; (define-key *root-map* (kbd "XF86MonBrightnessDown" "brightness-down")
 ;; (define-key *root-map* (kbd "XF86MonBrightnessUp" "brightness-up")
 
+;; (define-key *root-map* (kbd "XF86AudioMute") "volume-mute")
+;; (define-key *root-map* (kbd "XF86AudioLowerVolume") "volume-down")
+;; (define-key *root-map* (kbd "XF86AudioRaiseVolume") "volume-up")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Startup actions
-
-(defun warm-screen ()
-  (sh "redshift -r -o -l 0:0"))
 
 (defun ensure-xsession-loaded ()
   (sh ". ~/.xsession"))
 
 (defun startup-actions ()
   (ensure-xsession-loaded)
-  (warm-screen)
-  ;; (start-slynk) <--
+  ;; (warm-screen)
+  ;; (toggle-mode-line (current-screen) (current-head))
+  ;; (start-slynk)
   )
 
 (add-hook *start-hook* 'startup-actions)
