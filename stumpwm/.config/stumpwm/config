@@ -2,11 +2,11 @@
 
 ;; https://git.sr.ht/~nyx_land/gackrc/blob/master/stumpwm/stumpwmrc.lisp
 
-(load "~/.sbclrc")
-
 (in-package :stumpwm-user)
 
 (ql:quickload '(:slynk :bordeaux-threads))
+
+;; (load-module "ttf-fonts")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Internal utilities
@@ -31,23 +31,13 @@
 (defcommand rofi-window-menu () ()
   (sh "rofi -theme /usr/share/rofi/themes/gruvbox-dark.rasi -show window"))
 
-;; (defcommand volume-mute () ()
-;;   (sh "amixer set Master toggle"))
-
-;; (defcommand volume-down () ()
-;;   (sh "amixer set Master 10%-"))
-
-;; (defcommand volume-up () ()
-;;   (sh "amixer set Master 10%+"))
-
-;; (defcommand warm-screen () ()
-;;   (sh "redshift -r -o -l 0:0"))
-
-;; (defcommand brightness-up () ()
-;;   (sh))
-
-;; (defcommand brightness-down () ()
-;;   (sh))
+;; (defcommand iosevka () ()
+;;   (push (namestring (merge-pathnames  ".stumpwm.d/iosevka-slab/"
+;;                                       (user-homedir-pathname)))
+;;         xft:*font-dirs*)
+;;   (xft:cache-fonts)
+;;   (set-font (make-instance 'xft:font :family "Iosevka Slab" :subfamily "Regular"
+;;                                      :size 11)))
 
 ;; (stumptwm:defcommand start-slynk (&optional (port 4008))
 ;;   ((:number "Enter a port (default 4008): "))
@@ -58,30 +48,18 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Keybinds
 
-;; (set-prefix-key (kbd "s-x"))
+(set-prefix-key (kbd "s-x"))
 
 (define-key *root-map* (kbd "e") "emacsclient")
 (define-key *root-map* (kbd "SPC") "rofi-desktop-menu")
 (define-key *root-map* (kbd "/") "rofi-window-menu")
 
-;; (define-key *root-map* (kbd "XF86MonBrightnessDown" "brightness-down")
-;; (define-key *root-map* (kbd "XF86MonBrightnessUp" "brightness-up")
-
-;; (define-key *root-map* (kbd "XF86AudioMute") "volume-mute")
-;; (define-key *root-map* (kbd "XF86AudioLowerVolume") "volume-down")
-;; (define-key *root-map* (kbd "XF86AudioRaiseVolume") "volume-up")
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Startup actions
 
-(defun ensure-xsession-loaded ()
-  (sh ". ~/.xsession"))
 
 (defun startup-actions ()
-  (ensure-xsession-loaded)
-  ;; (warm-screen)
-  ;; (toggle-mode-line (current-screen) (current-head))
-  ;; (start-slynk)
-  )
+  (sh ". ~/.xsession")
+  (toggle-mode-line (current-screen) (current-head)))
 
 (add-hook *start-hook* 'startup-actions)
