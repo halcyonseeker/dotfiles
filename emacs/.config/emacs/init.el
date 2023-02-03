@@ -49,6 +49,8 @@
 (add-hook 'awk-mode-hook #'indent-with-tabs)
 (add-hook 'sh-mode-hook #'indent-with-tabs)
 (add-hook 'cperl-mode-hook #'indent-with-tabs)
+(add-hook 'css-mode-hook #'indent-with-tabs)
+(setq css-indent-offset tab-width)
 (setq sh-basic-offset tab-width)
 (setq cperl-indent-level 8)
 
