@@ -213,9 +213,7 @@
 (use-package tex
   :ensure auctex
   :config
-  (setq TeX-view-program-selection
-        '((output-pdf "xdg-open")
-          (output-html "xdg-open"))))
+  (setq TeX-view-program-selection '((output-pdf "xdg-open"))))
 
 ;; Ivy and counsel for nicer minibuffer behavior
 (use-package ivy
