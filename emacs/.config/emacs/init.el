@@ -267,7 +267,7 @@ name of the currently playing song."
 (use-package bison-mode)
 (use-package fvwm-mode)
 (use-package rust-mode)
-(use-package go-mode :hook (before-save . gofmt-before-save))
+(use-package go-mode)
 (use-package markdown-mode :hook (markdown-mode . auto-fill-mode))
 (use-package alchemist)
 (use-package erlang)
