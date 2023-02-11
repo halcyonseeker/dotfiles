@@ -81,8 +81,8 @@
 (goto-address-mode 1)
 
 ;; Enable tab completion in editing buffers, mostly for elisp and sly
-(setq tab-always-indent 'complete)
-(add-to-list 'completion-styles 'initials t)
+;; (setq tab-always-indent 'complete)
+;; (add-to-list 'completion-styles 'initials t)
 
 ;; Set the frame title to something more meaningful
 (setq-default frame-title-format
@@ -275,6 +275,7 @@ name of the currently playing song."
 ;; Miscellaneous Useful Packages
 (use-package htmlize)
 (use-package elpher)
+(use-package company :config (global-company-mode))
 (use-package rainbow-delimiters :hook (prog-mode . rainbow-delimiters-mode))
 (use-package writeroom-mode :bind ("C-x w" . 'writeroom-mode))
 (use-package magit :bind ("C-x g" . magit-status))
