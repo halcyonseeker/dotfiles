@@ -33,6 +33,7 @@ XClock*background: #93a1a1
 !!!!!!!!!! Emacs
 Emacs.default.attributeHeight: 94
 Emacs.pane.*.foreground:       #141c21
+Emacs.font: Iosevka\ Slab
 
 !!!!!!!!!! Dark Gruvbox
 ! https://github.com/morhetz/gruvbox-generalized
