@@ -231,7 +231,7 @@
 
 ;; Play multimedia with emms
 (use-package emms
-  :bind ("C-x !" . #'emms-play-file)
+  :bind ("C-c p" . #'emms-play-file)
   :config
   (require 'emms-setup)
   (emms-all)
@@ -277,8 +277,8 @@ name of the currently playing song."
 (use-package elpher)
 (use-package company :config (global-company-mode))
 (use-package rainbow-delimiters :hook (prog-mode . rainbow-delimiters-mode))
-(use-package writeroom-mode :bind ("C-x w" . 'writeroom-mode))
-(use-package magit :bind ("C-x g" . magit-status))
+(use-package writeroom-mode :bind ("C-c w" . 'writeroom-mode))
+(use-package magit :bind ("C-c g" . magit-status))
 (use-package marginalia :init (marginalia-mode))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
