@@ -325,6 +325,18 @@ buffers."
     (yank)
     (setq eshell-history-ring saved-history)))
 
+(defun morbo ()
+  "Given a Perl file attached to the current buffer, run it in the
+background with morbo(1), a program designed to let you
+hot-reload Perl web applications."
+  (interactive)
+  (let ((file (buffer-name)))
+    (cond ((string-match ".+.pl$" file)
+           (compile (format "morbo %s" file))
+           (with-current-buffer "*compilation*"
+             (rename-buffer (format "*morbo: %s*" file))))
+          (t (message "Current buffer isn't attached to a Perl file.")))))
+
 (defun make-cover-letter ()
   "A handy shorthand to make writing cover letters easier.  It
 Inserts ~/.local/share/dotfiles/cl.tmplt.tex into the current
