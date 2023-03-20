@@ -1,0 +1,19 @@
+#!/bin/sh
+# This script does most of my data hoarding
+
+set -e
+
+# Music from YouTube
+sed '/^[[:space:]]*$/d; /^#.*/d' ~/secrets/youtube_music.txt | while read -r line; do
+	url="${line%	*}"
+	dir="$HOME/media/music/${line#*	}"
+	mkdir -p "$dir"
+	(
+		cd "$dir"
+		YTMU_YTDLP_EXTRA_OPTS="--download-archive archived.txt" ytmu "$url"
+	)
+done
+
+# Art
+# sed '/^[[:space:]]*$/d; /^#.*/d' ~/secrets/art_archive.txt | while read -r line; do
+# done
