@@ -1,0 +1,24 @@
+#!/bin/sh
+# Sometimes the album tag doesn't get set properly when downloading
+# music from YouTube, this script remedies that.  Given a directory,
+# full or opus files, it sets their album tags to that dir's basename.
+
+set -e
+
+[ -z "$1" ] && {
+	echo "Set opus album field.  Usage: setalbum [dirs...]" >&2
+	exit 1
+}
+
+for dir in "$@"; do
+	(
+		cd "$dir"
+		album="$(basename "$(pwd)")"
+		# FIXME: -maxdepth is a gnu-ism
+		find . -maxdepth 1 -name '*.opus' | while read -r opus; do
+			echo "Setting album to '$album' for '$opus'"
+			opuscomment -a -d album -t "album=$album" "$opus"
+		done
+	)
+	shift
+done
