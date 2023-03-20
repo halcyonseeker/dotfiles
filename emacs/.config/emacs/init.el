@@ -280,6 +280,7 @@ name of the currently playing song."
 (use-package writeroom-mode :bind ("C-c w" . 'writeroom-mode))
 (use-package magit :bind ("C-c g" . magit-status))
 (use-package marginalia :init (marginalia-mode))
+(use-package yasnippet :config (yas-global-mode 1))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Some Functions
