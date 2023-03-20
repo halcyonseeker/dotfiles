@@ -1,4 +1,7 @@
-% cl.tex -- Cover letter template, in Emacs call `make-cover-letter'
+# -*- mode: snippet -*-
+# name: a latex document for writing cover letters
+# key: latex_cover_letter
+# --
 \documentclass[12pt]{article}
 
 \usepackage[margin=1.25in]{geometry} % Adjusted margins
@@ -15,9 +18,9 @@
       {\large\bfseries\theauthor} \\
       \vspace{0.75em}
       \large{
-        \href{mailto:USER-MAIL-ADDRESS}{\tt USER-MAIL-ADDRESS}
+        \href{mailto:$1}{\tt $2}
         ---
-        \href{tel:UGLY-USER-PHONE-NUMBER}{\tt USER-PHONE-NUMBER}
+        \href{tel:$3}{\tt $4}
       }
     \end{center}
   \end{adjustwidth}
@@ -28,10 +31,10 @@
 \setlength{\parskip}{5pt}
 
 \begin{document}
-\title{Cover Letter: LETTER-TITLE}
-\author{USER-FULL-NAME}
+\title{Cover Letter: $5}
+\author{$6}
 \maketitle
 
-
+$0
 
 \end{document}
