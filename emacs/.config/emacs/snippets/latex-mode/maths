@@ -1,0 +1,60 @@
+# -*- mode: snippet -*-
+# name: a latex document for writing maths
+# key: latex_math
+# --
+\documentclass[12pt]{article}
+
+\usepackage[margin=1.25in]{geometry}
+\usepackage[colorlinks]{hyperref}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{mdframed}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{5pt}
+
+\newenvironment{theorem}{
+  \par
+  \begin{mdframed}
+    \textbf{Theorem}
+    \par
+}{
+  \end{mdframed}
+}
+
+\newenvironment{proof}{
+  \par
+  \begin{mdframed}
+    \textbf{Proof}
+    \par
+}{
+  \end{mdframed}
+}
+
+\newenvironment{example}{
+  \par
+  \begin{mdframed}
+    \textbf{Example}
+    \par
+}{
+  \end{mdframed}
+}
+
+\newenvironment{solution}{
+  \par
+  \begin{mdframed}
+    \textbf{Solution}
+    \par
+}{
+  \end{mdframed}
+}
+
+\title{$1}
+\author{$2}
+
+\begin{document}
+\maketitle
+$0
+
+\end{document}
