@@ -229,6 +229,9 @@
   (setq inferior-lisp-program "sbcl")
   (setq sly-mrepl-history-file-name "~/.config/emacs/sly-mrepl-history"))
 
+;; A usable IDE for less awesome programming languages
+(use-package eglot)
+
 ;; Play multimedia with emms
 (use-package emms
   :bind ("C-c p" . #'emms-play-file)
