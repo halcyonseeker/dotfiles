@@ -5,7 +5,9 @@
 (load #p"~/.local/quicklisp/setup.lisp")
 
 #+sbcl
-(setf sb-impl::*default-external-format* :utf-8)
+(progn
+  (setf sb-impl::*default-external-format* :utf-8)
+  (sb-ext:set-sbcl-source-location #p"~/.local/src/sbcl/"))
 
 (defun register-discovered-systems (dir)
   "Tell asdf and thus quicklisp about systems stored in directories
