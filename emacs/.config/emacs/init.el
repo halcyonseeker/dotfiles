@@ -102,7 +102,7 @@
                                  mode-line-client mode-line-modified
                                  mode-line-remote mode-line-frame-identification
                                  mode-line-buffer-identification "   "
-                                 mode-line-position evil-mode-line-tag
+                                 mode-line-position
                                  (vc-mode vc-mode) "  " mode-line-misc-info
                                  mode-line-end-spaces "%-"))
 
@@ -186,32 +186,6 @@
         '(("." . "~/.config/emacs/undo-tree/")))
   (global-undo-tree-mode 1))
 
-;; Evil Mode - A better text editor for Emacs
-(use-package evil
-  :demand t
-  :after undo-tree
-  :init
-  (setq evil-want-C-i-jump nil          ; Fix TAB in -nw frames
-        evil-want-keybinding nil
-        evil-disable-insert-state-bindings t)
-  :config
-  (evil-mode 1)
-  (evil-set-toggle-key "C-M-z")         ; Let me suspend the frame
-  (add-hook 'org-mode-hook
-            (lambda ()  ; Fix paragraph motions in org mode
-              (defalias 'evil-forward-paragraph 'org-forward-paragraph)
-              (defalias 'evil-backward-paragraph 'org-backward-paragraph)))
-  ;; Emacs' default paragraph motions are nicer
-  (defalias 'evil-forward-paragraph 'forward-paragraph)
-  (defalias 'evil-backward-paragraph 'backward-paragraph)
-  (evil-set-undo-system 'undo-tree))
-(use-package evil-collection
-  :after evil
-  :init (setq evil-want-keybinding nil)
-  :config (evil-collection-init))
-(use-package evil-terminal-cursor-changer
-  :config (unless (display-graphic-p) (evil-terminal-cursor-changer-activate)))
-
 ;; AucTeX for a better TeX and LaTeX experience
 (use-package tex
   :ensure auctex
@@ -232,30 +206,6 @@
 
 ;; A usable IDE for less awesome programming languages
 (use-package eglot)
-
-;; Play multimedia with emms
-(use-package emms
-  :bind ("C-c p" . #'emms-play-file)
-  :config
-  (require 'emms-setup)
-  (emms-all)
-  (emms-default-players)
-  (setq emms-player-list (list 'emms-player-mpv))
-  (setq emms-source-file-default-directory "~/media/music")
-  (add-to-list 'emms-player-mpv-parameters "--vo=null")
-  (defalias #'emms-mode-line-playlist-current
-    #'local-format-emms-song-in-mode-line))
-
-(defun local-format-emms-song-in-mode-line ()
-  "Override `emms-mode-line-playlist-current' to display just the file
-name of the currently playing song."
-  (let ((original-value (emms-track-description
-                         (emms-playlist-current-selected-track))))
-    (format emms-mode-line-format (if (file-exists-p original-value)
-                                      (url-file-extension original-value t)
-                                    ;; Just in case this is ever
-                                    ;; not the file being played.
-                                    original-value))))
 
 ;; Read ebooks
 (use-package ereader)
