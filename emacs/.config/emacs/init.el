@@ -18,6 +18,7 @@
 
 ;; Change some irritating defaults
 (tool-bar-mode 0)
+(menu-bar-mode 0)
 (scroll-bar-mode 0)
 (xterm-mouse-mode 1)
 (setq frame-resize-pixelwise t)
@@ -71,7 +72,6 @@
             (auto-fill-mode t)))
 
 ;; Add nice things
-(desktop-save-mode 1)
 (display-battery-mode 1)
 (setq display-time-default-load-average nil)
 (setq display-time-format "%H:%M")
@@ -120,6 +120,7 @@
 (add-hook 'eshell-directory-change-hook #'my-eshell-rename-buffer)
 (eval-after-load 'esh-mode
   '(define-key eshell-mode-map (kbd "C-c M-o") #'my-eshell-clear-buffer))
+(global-set-key (kbd "C-c e") #'eshell)
 (defun eshell/ec (f) (find-file-other-window f))
 
 ;; Org Mode
@@ -159,6 +160,7 @@
             (concat "https://keys.openpgp.org/vks/v1/by-fingerprint/"
                     "0870AC115CE741A8DCD93F4D11C2EE8C6A3E3E78")
             "signencrypt"))
+(setq mml-secure-smime-encrypt-to-self t)
 (setq mml-secure-openpgp-encrypt-to-self t)
 (when (and (require 'mu4e nil 'noerror)
            (require 'smtpmail nil 'noerror))
@@ -201,6 +203,7 @@
 ;; A fantastic IDE for the best programming language
 (use-package sly
   :config
+  (setq sly-scratch-file "~/secrets/sly-scratch")
   (setq inferior-lisp-program "sbcl")
   (setq sly-mrepl-history-file-name "~/.config/emacs/sly-mrepl-history"))
 
