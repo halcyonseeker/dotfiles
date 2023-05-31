@@ -33,6 +33,8 @@ export AUDIBLE_DL_ROOT="$HOME/media/audiobooks/audible"
 
 # Clean home directory
 export PASSWORD_STORE_DIR="$HOME/secrets/password-store"
+export PASSWORD_STORE_ENABLE_EXTENSIONS=true
+export PASSWORD_STORE_EXTENSIONS_DIR="$PASSWORD_STORE_DIR/.extensions"
 export LESSHISTFILE="-"
 export ICEAUTHORITY="$XDG_CACHE_HOME/ICEauthority"
 export GOPATH="$HOME/.local/go"
