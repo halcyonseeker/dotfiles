@@ -50,6 +50,7 @@
 (add-hook 'sh-mode-hook #'indent-with-tabs)
 (add-hook 'cperl-mode-hook #'indent-with-tabs)
 (add-hook 'css-mode-hook #'indent-with-tabs)
+(add-hook 'lua-mode-hook #'indent-with-tabs)
 (setq css-indent-offset tab-width)
 (setq sh-basic-offset tab-width)
 (setq cperl-indent-level 8)
@@ -274,6 +275,7 @@ name of the currently playing song."
 (use-package markdown-mode :hook (markdown-mode . auto-fill-mode))
 (use-package alchemist)
 (use-package erlang)
+(use-package lua-mode :config (setq lua-indent-level tab-width))
 
 ;; Miscellaneous Useful Packages
 (use-package htmlize)
