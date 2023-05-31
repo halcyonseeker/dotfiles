@@ -1,5 +1,7 @@
 ! Settings for old-fashioned Xorg programs
 
+Xcursor.theme: Adwaita
+
 !!!!!!!!!! XTerm
 XTerm.termName:              xterm-256color
 XTerm*faceName:              DejaVu Sans Mono
