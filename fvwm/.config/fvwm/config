@@ -110,7 +110,7 @@ Key y A 4 Exec $FVWM_USERDIR/scripts/rofi-url.sh
 Key u A 4 Exec $FVWM_USERDIR/scripts/emojipicker.sh
 Key a A 4 Exec $FVWM_USERDIR/scripts/passmenu.sh
 key c A 4 Exec $TERMINAL -e python
-key F1 A 4 Exec $FVWM_USERDIR/scripts/lang-toggle.sh
+key F1 A 4 Exec kbdtoggle
 
 #########################################################################
 ################################################################### Menus
