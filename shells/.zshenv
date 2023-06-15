@@ -46,7 +46,7 @@ export PATH="$HOME/.local/bin:$GOPATH/bin:$CARGO_HOME/bin:$PATH"
 export GTK2_RC_FILES="$XDG_CONFIG_HOME/gtk-2.0/gtkrc"
 
 # Almost 20 years and still no thumbnail view in the GTK file picker…
-export GTK_USE_PORTAL=1
+# export GTK_USE_PORTAL=1
 
 # General aliases
 alias mv="mv -iv"
