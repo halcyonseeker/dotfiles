@@ -240,6 +240,7 @@
 (use-package marginalia :init (marginalia-mode))
 (use-package yasnippet :config (yas-global-mode 1))
 (use-package pdf-tools :config (pdf-loader-install))
+(use-package multiple-cursors :bind ("C-c c" . #'mc/edit-lines))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Some Functions
