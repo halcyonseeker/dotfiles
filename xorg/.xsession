@@ -22,3 +22,5 @@ xrdb -merge ~/.config/xorg/Xresources
 # Swap caps lock and escape and set a compose key
 setxkbmap -option caps:swapescape
 setxkbmap -option compose:ralt
+
+exec i3
