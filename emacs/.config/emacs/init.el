@@ -229,6 +229,7 @@
 (use-package alchemist)
 (use-package erlang)
 (use-package lua-mode :config (setq lua-indent-level tab-width))
+(use-package nix-mode)
 
 ;; Miscellaneous Useful Packages
 (use-package htmlize)
