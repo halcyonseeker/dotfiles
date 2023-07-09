@@ -1,0 +1,20 @@
+#!/bin/sh
+# Stream a video in MPV from a URL in the clipboard
+
+set -eu
+
+url="$(xclip -o -selection clipboard)"
+
+if [ "$url" = "${url#http}" ] && [ "$url" = "${url#gopher}" ]; then
+	notify-send "📺 Play URL" "Clipboard doesn't contain a known URL\n$url"
+	exit 1
+else
+	# Assume it's a video
+	echo "$url" | rofi -dmenu -p "Play Video?" >/dev/null && {
+		notify-send "📺 Play URL" "Streaming Video...\n$url"
+		mpv "$url" || {
+			notify-send "📺 Play Url" "Failed to play video."
+			exit 1
+		}
+	}
+fi
