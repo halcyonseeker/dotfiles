@@ -31,6 +31,12 @@
 (defalias 'yes-or-no-p 'y-or-n-p)
 (defalias 'perl-mode 'cperl-mode)
 
+;; The "disabled command" shit in novice.el is incredibly
+;; condescending and yet another example of the Emacs developers (and
+;; GNU project more broadly) being completely out of touch with
+;; reality.
+(setq disabled-command-function nil)
+
 ;; Tell the help system where to find sources for C functions
 (setq find-function-C-source-directory "~/.local/src/emacs/src")
 
