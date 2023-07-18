@@ -37,32 +37,63 @@ Emacs.default.attributeHeight: 94
 Emacs.pane.*.foreground:       #141c21
 Emacs.font: Iosevka\ Slab
 
-!!!!!!!!!! Dark Gruvbox
-! https://github.com/morhetz/gruvbox-generalized
-*background:  #282828
-*foreground:  #ebdbb2
-*cursorColor: #eeeeee
-! Black + DarkGrey
-*color0:      #282828
-*color8:      #928374
-! DarkRed + Red
-*color1:      #cc241d
-*color9:      #fb4934
-! DarkGreen + Green
-*color2:      #98971a
-*color10:     #b8bb26
-! DarkYellow + Yellow
-*color3:      #d79921
-*color11:     #fabd2f
-! DarkBlue + Blue
-*color4:      #458588
-*color12:     #83a598
-! DarkMagenta + Magenta
-*color5:      #b16286
-*color13:     #d3869b
-! DarkCyan + Cyan
-*color6:      #689d6a
-*color14:     #8ec07c
-! LightGrey + White
-*color7:      #a89984
+! !!!!!!!!!! Dark Gruvbox
+! ! https://github.com/morhetz/gruvbox-generalized
+! *background:  #282828
+! *foreground:  #ebdbb2
+! *cursorColor: #eeeeee
+! ! Black + DarkGrey
+! *color0:      #282828
+! *color8:      #928374
+! ! DarkRed + Red
+! *color1:      #cc241d
+! *color9:      #fb4934
+! ! DarkGreen + Green
+! *color2:      #98971a
+! *color10:     #b8bb26
+! ! DarkYellow + Yellow
+! *color3:      #d79921
+! *color11:     #fabd2f
+! ! DarkBlue + Blue
+! *color4:      #458588
+! *color12:     #83a598
+! ! DarkMagenta + Magenta
+! *color5:      #b16286
+! *color13:     #d3869b
+! ! DarkCyan + Cyan
+! *color6:      #689d6a
+! *color14:     #8ec07c
+! ! LightGrey + White
+! *color7:      #a89984
 *color15:     #ebdbb2
+
+! Modus Operandi Xresources theme
+! https://github.com/modus-themes/xresources
+! Foreground, background & cursor color
+*.foreground:   #000000
+*.background:   #ffffff
+*.cursorColor:  #000000
+! white
+*.color0:       #ffffff
+*.color8:       #5C6370
+! red
+*.color1:       #A60000
+*.color9:       #A60000
+! green
+*.color2:       #005E00
+*.color10:      #005E00
+! yellow
+*.color3:       #813E00
+*.color11:      #813E00
+! blue
+*.color4:       #0031A9
+*.color12:      #0031A9
+! magenta
+*.color5:       #721045
+*.color13:      #721045
+! cyan
+*.color6:       #00538B
+*.color14:      #00538B
+! black
+*.color7:       #ffffff
+*.color15:      #ffffff
