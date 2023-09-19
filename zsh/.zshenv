@@ -37,12 +37,13 @@ export PASSWORD_STORE_ENABLE_EXTENSIONS=true
 export PASSWORD_STORE_EXTENSIONS_DIR="$PASSWORD_STORE_DIR/.extensions"
 export LESSHISTFILE="-"
 export ICEAUTHORITY="$XDG_CACHE_HOME/ICEauthority"
-export GOPATH="$HOME/.local/go"
+export GOPATH="$XDG_DATA_HOME/go"
 export MPV_HOME="$XDG_CONFIG_HOME/mpv"
 export SQLITE_HISTORY="$XDG_CACHE_HOME/sqlite_history"
-export CARGO_HOME="$XDG_DATA_HOME"/cargo
-export RUSTUP_HOME="$XDG_DATA_HOME"/rustup
-export PATH="$HOME/.local/bin:$GOPATH/bin:$CARGO_HOME/bin:$PATH"
+export CARGO_HOME="$XDG_DATA_HOME/cargo"
+export RUSTUP_HOME="$XDG_DATA_HOME/rustup"
+export MIX_HOME="$XDG_DATA_HOME/mix"
+export PATH="$HOME/.local/lib/python3.11/bin:$HOME/.local/bin:$GOPATH/bin:$CARGO_HOME/bin:$PATH"
 export GTK2_RC_FILES="$XDG_CONFIG_HOME/gtk-2.0/gtkrc"
 
 # Almost 20 years and still no thumbnail view in the GTK file picker…
@@ -84,13 +85,20 @@ if [ "$0" = "zsh" ] || [ "$0" = "-zsh" ] || [ "$(basename $0)" = "zsh" ]; then
 	autoload -Uz compinit
 	autoload -Uz add-zsh-hook
 	autoload -Uz edit-command-line
-	compinit -d "$XDG_CACHE_HOME/zsh/zcompdump-$ZSH_VERSION"
+	compinit -d "$XDG_CACHE_HOME/zsh/zcompdump"
 
 	# History behavior
-	HISTFILE="$XDG_CACHE_HOME/zsh/histfile"
-	HISTSIZE=5000
-	SAVEHIST=5000
+	export HISTFILE="$XDG_CACHE_HOME/zsh/zsh_history"
+	export HISTSIZE=5000
+	export SAVEHIST=5000
 	setopt appendhistory
+
+	# FIXME: some settings like history and compdump directories
+	# are not being respected on OpenSuse as a result of the fact
+	# that /etc/zshrc is read after $ZDOTDIR/.zshenv, and the
+	# version of the file that ships with the OpenSuse zsh package
+	# overrides my configuration.  Submit a bug report or figure
+	# out if it's possible to disable loading /etc/zshrc
 
 	# Load plugins
 	zsyntaxhl="zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
