@@ -1,54 +1,63 @@
 #!/bin/sh
 # Create archives of portions of my home directory and back up the
-# whole thing to external drives.  Depends on rsync, borg, and very
-# specific drives mounted to very specific directories in /backup.
-# FIXME: add backup_remote to my server
-# FIXME: look into whether using rsync in batch mode would make sense
-# FIXME: use borg to make differential archives of important things
-
-# sudo mkdir -p /backup/backup{1,2} && sudo chown -R `whoami` /backup
-# pass machines/storage-luks | tr -d '\n' | xclip -selection clipboard
-# sudo cryptsetup open /dev/sdb1 backup1 && sudo mount /dev/mapper/backup1 /backup/backup1
-# sudo cryptsetup open /dev/sdc1 backup2 && sudo mount /dev/mapper/backup2 /backup/backup2
-# ssh ashur@walden.ulthar.xyz sudo zfs load-key storage/crypt
-# bak
+# whole thing to external drives.  Depends on restic and rsync.
 
 set -e
 
-exclude_dirs=".local/go .local/quicklisp .local/share/Trash .cache/doc .cache/gvfs .cache/gvfsd .cache/dconf .cache/common-lisp"
+say() { printf "\033[1m==========> %s\033[m\n" "$1"; }
 
-die() { printf "FATAL: %s\n" "$1" >&2; exit 1; }
-say() { printf "==========> %s\n" "$1"; }
-cmd() { rsync -ax --info=progress2 --delete-after "$@"; }
-
-archive_dirs() {
-	mkdir -p "$HOME"/archive/org_archive "$HOME"/archive/secrets_archive
-	say "Archiving ~/org:"
-	cmd "$HOME"/org/ "$HOME"/archive/org_archive
-	say "Archiving ~/secrets:"
-	cmd "$HOME"/secrets/ "$HOME"/archive/secrets_archive
+directory_is_accessible() {
+	if test "${1#*sftp:}" = "$1"; then
+		[ -w "$1" ] || {
+			echo "Directory $1 doesn't exist or isn't writable, skipping"
+			return 1
+		}
+		mount | grep "$1" >/dev/null || {
+			echo "Disk not mounted on $1, skipping"
+			return 1
+		}
+	fi
+	return 0
 }
 
-backup_local() {
-	say "Syncing home directory to $(basename "$1"):"
-	[ -w "$1" ] || die "Directory $1 must exist and be writable"
-	mount | grep "$1" >/dev/null || {
-		echo "Disk not mounted on $1, skipping";
-		return;
-	}
-	echo "$exclude_dirs" \
-		| sed 's/ /\n/g' \
-		| cmd --exclude-from - "$HOME"/ "$1"
+copy_important_dir() {
+	trgt="$HOME/archive/$(basename "$1")_archive"
+	mkdir -p "$trgt"
+	say "Archiving $1"
+	rsync -axv --delete-after "$1/" "$trgt/"
 }
 
-backup_server() {
-	say "Syncing home directory to walden:"
-	echo "$exclude_dirs media vms isos" \
-		| sed 's/ /\n/g' \
-		| cmd --exclude-from - "$HOME"/ ash@walden.ulthar.xyz:/tank/laptop_backup
+backup_home_to() {
+	say "Backing up home directory to $1:"
+	if (directory_is_accessible "$1"); then
+		restic -r "$1" \
+		       --password-command "pass machines/backup_disks" \
+		       backup "$HOME" \
+		       --exclude-caches \
+		       --exclude "$HOME/.local/go" \
+		       --exclude "$HOME/.local/quicklisp" \
+		       --exclude "$HOME/.local/share/Trash" \
+		       --exclude "$HOME/.cache" \
+		       --exclude "$HOME/vms" \
+		       --exclude "$HOME/pragnanz*" \
+		       --exclude "$HOME/media/piracy"
+	else
+		return 0
+	fi
 }
 
-archive_dirs
-backup_local "/backup/backup1"
-backup_local "/backup/backup2"
-backup_server
+# FIXME: it would also be nice to automatically copy music over to my
+# phone's sdcard and back up some files from there, however it's
+# formatted with exfat and when mounted all files are set to be owned
+# by root instead of inheriting the owner of the mount point.
+# Additionally, I had thought that passing `-rlt` to rysnc should get
+# archive-ish functionality to the exfat partition without spitting
+# errors about nonexistent file permission support, however somewhere
+# along the way the file mod times get clobbered so we end up draining
+# the card's limited write lifetime with slow, redundant transfers 🤦‍♀️
+
+copy_important_dir "$HOME/org"
+copy_important_dir "$HOME/secrets"
+backup_home_to "/backup/backup1"
+backup_home_to "/backup/backup2"
+backup_home_to "sftp:ash@walden.ulthar.xyz:/tank/laptop_backup"
