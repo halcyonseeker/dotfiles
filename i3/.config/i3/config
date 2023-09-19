@@ -34,6 +34,10 @@ tiling_drag modifier titlebar
 exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock -nfi ~/images/wallpapers/wgmountains.png
 exec --no-startup-id nm-applet
 exec --no-startup-id blueman-applet
+exec --no-startup-id qsyncthingtray
+exec --no-startup-id transmission-qt
+exec --no-startup-id nheko
+exec --no-startup-id emacsclient -c
 exec --no-startup-id redshift -P -O 4000
 exec --no-startup-id nitrogen --restore
 exec --no-startup-id xsettingsd -c ~/.config/xsettingsd/xsettingsd.conf
