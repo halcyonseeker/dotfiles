@@ -6,4 +6,4 @@
 	exit 1
 }
 
-find "$(realpath $1)" -name "*" | grep -i "$2"
+find "$(realpath "$1")" -name "*" | grep -i "$2"
