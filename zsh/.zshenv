@@ -1,11 +1,14 @@
 #
-# In its capacity as ~/.zshenv this file is source by zsh on both
+# In its capacity as ~/.zshenv this file is sourcedn by zsh on both
 # login and non-login shells and defines my entire environment.  I've
 # done my best to keep the zsh-specific configs gated behind a
 # conditional so that it might also be sourced by any shell that loads
 # ~/.profile on login.
 #
-
+# Note that zsh reads /etc/zshrc AFTER ~/.zshenv so some settings may
+# be overwritten requiring manual intervention.  This comment brought
+# to you by the maintainer of OpenSuse's zsh package >_<
+#
 
 # These aren't always set by default
 export XDG_CONFIG_HOME="$HOME/.config"
@@ -13,10 +16,14 @@ export XDG_CACHE_HOME="$HOME/.cache"
 export XDG_DATA_HOME="$HOME/.local/share"
 [ -z "$XDG_RUNTIME_DIR" ] && export XDG_RUNTIME_DIR="$XDG_CACHE_HOME"
 
-# Set preferred applications for use in scripts.
+# Set preferred applications for use in scripts
 EDITOR="vi"
+command -v mg >/dev/null && EDITOR="mg"
 command -v vim >/dev/null && EDITOR="vim"
 command -v nvim >/dev/null && EDITOR="nvim"
+command -v emacsclient >/dev/null \
+	&& ps -Af | grep '[e]macs --daemon' >/dev/null\
+	&& EDITOR="emacsclient -c -nw"
 export EDITOR
 export VISUAL="$EDITOR"
 export TERMINAL="xterm"
@@ -46,9 +53,6 @@ export MIX_HOME="$XDG_DATA_HOME/mix"
 export PATH="$HOME/.local/lib/python3.11/bin:$HOME/.local/bin:$GOPATH/bin:$CARGO_HOME/bin:$PATH"
 export GTK2_RC_FILES="$XDG_CONFIG_HOME/gtk-2.0/gtkrc"
 
-# Almost 20 years and still no thumbnail view in the GTK file picker…
-# export GTK_USE_PORTAL=1
-
 # General aliases
 alias mv="mv -iv"
 alias cp="cp -riv"
@@ -61,7 +65,6 @@ alias xo="xdg-open"
 alias yta="yt-dlp -x --audio-format opus --audio-quality 0 --embed-metadata --embed-thumbnail --sponsorblock-mark all"
 alias ytv="yt-dlp --merge-output-format mkv --audio-quality 0 --embed-metadata --embed-thumbnail --embed-subs --convert-thumbnails jpg --sponsorblock-mark all"
 alias texclean="rm -fv *.aux *.log *.nav *.out *.snm *.toc"
-
 
 # Colorful aliases
 if [ -x /usr/bin/dircolors ] ; then
@@ -82,24 +85,23 @@ set -o emacs
 if [ "$0" = "zsh" ] || [ "$0" = "-zsh" ] || [ "$(basename $0)" = "zsh" ]; then
 	mkdir -p "$XDG_CACHE_HOME/zsh"
 	zstyle :compinstall filename "$HOME/.zshenv"
-	zstyle ':completion:*' menu select
 	autoload -Uz compinit
 	autoload -Uz add-zsh-hook
 	autoload -Uz edit-command-line
 	compinit -d "$XDG_CACHE_HOME/zsh/zcompdump"
+
+	# Completion styles
+	zstyle ':completion:*:default' list-colors ''
+	zstyle ':completion:*' menu select
+
+	# Print time stats for commands that run longer than 5 seconds
+	REPORTTIME=5
 
 	# History behavior
 	export HISTFILE="$XDG_CACHE_HOME/zsh/zsh_history"
 	export HISTSIZE=5000
 	export SAVEHIST=5000
 	setopt appendhistory
-
-	# FIXME: some settings like history and compdump directories
-	# are not being respected on OpenSuse as a result of the fact
-	# that /etc/zshrc is read after $ZDOTDIR/.zshenv, and the
-	# version of the file that ships with the OpenSuse zsh package
-	# overrides my configuration.  Submit a bug report or figure
-	# out if it's possible to disable loading /etc/zshrc
 
 	# Load plugins
 	zsyntaxhl="zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
@@ -117,17 +119,11 @@ if [ "$0" = "zsh" ] || [ "$0" = "-zsh" ] || [ "$(basename $0)" = "zsh" ]; then
 	bindkey '^[[6~' down-line-or-history
 	bindkey '^[[H' beginning-of-line
 	bindkey '^[[F' end-of-line
+	bindkey "\e[Z" reverse-menu-complete
 
 	# Edit the current command in $EDITOR
 	zle -N edit-command-line
 	bindkey '^X^E' edit-command-line
-
-	yank-to-x-clipboard() {
-		zle copy-region-as-kill
-		print -Rn $CUTBUFFER | xclip -selection clipboard
-	}
-	zle -N yank-to-x-clipboard
-	bindkey '^X^Y' yank-to-x-clipboard
 
 	# Set nice prompt
 	if [ -n "$SSH_CONNECTION" ] ; then
