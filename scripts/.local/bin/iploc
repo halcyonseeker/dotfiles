@@ -1,0 +1,13 @@
+#!/bin/sh
+
+if [ "$#" = 0 ]; then
+	printf 'localhost '
+	curl --no-progress-meter https://ipinfo.io \
+		| jq -rj '"(", .ip, "): ", .city, ", ", .region, "\n"'
+else
+	dig "$1" +short | while read -r ip; do
+		printf '%s (%s): ' "$1" "$ip"
+		curl --no-progress-meter "https://ipinfo.io/$ip" \
+			| jq -rj '.city, ", ", .region, "\n"'
+	done
+fi
