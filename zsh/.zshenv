@@ -125,6 +125,28 @@ if [ "$0" = "zsh" ] || [ "$0" = "-zsh" ] || [ "$(basename $0)" = "zsh" ]; then
 	zle -N edit-command-line
 	bindkey '^X^E' edit-command-line
 
+	# X clipboard integration
+	[ -n "$DISPLAY" ] && {
+		x-copy-region-as-kill() {
+			zle copy-region-as-kill
+			print -rn $CUTBUFFER | xclip -sel clipboard
+		}
+		x-kill-region() {
+			zle kill-region
+			print -rn $CUTBUFFER | xclip -sel clipboard
+		}
+		x-yank() {
+			CUTBUFFER=$(xclip -o -sel clipboard </dev/null)
+			zle yank
+		}
+		zle -N x-copy-region-as-kill
+		zle -N x-kill-region
+		zle -N x-yank
+		bindkey -e '^[w' x-copy-region-as-kill
+		bindkey -e '^W' x-kill-region
+		bindkey -e '^Y' x-yank
+	}
+
 	# Set nice prompt
 	if [ -n "$SSH_CONNECTION" ] ; then
 		case "$EUID" in
