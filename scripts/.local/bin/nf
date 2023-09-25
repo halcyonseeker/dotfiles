@@ -1,0 +1,12 @@
+#!/bin/sh
+# Search my notes
+
+[ "$#" -eq 1 ] || {
+	printf "Search my notes; Usage: nf [regex]\n" 2>&1
+	exit 1
+}
+
+find "$HOME/org" \
+     -type f \
+     \( -name '*.org' -o -name '*.md' -o -name '*.txt' -o -name '*.myco' \) \
+     -exec grep -Hin --color=auto "$1" {} \;
