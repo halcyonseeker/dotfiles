@@ -1,5 +1,5 @@
 configuration {
-	modi: "window,run,drun,filebrowser";
+	modi: "window,run,drun,filebrowser,combi";
 	show-icons: true;
 }
 @theme "gruvbox-dark-soft"
