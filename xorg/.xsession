@@ -1,4 +1,4 @@
-# ~/.xsession -- Stuff I want to run whenever any WM or DE is started
+# Stuff I want to run whenever any WM or DE is started.
 
 # Don't beep at me
 xset b off
@@ -7,7 +7,7 @@ xset b off
 xinput disable "$(xinput list | awk '/TouchPad/{sub(/id=/, "", $6); print $6}')"
 
 # Make trackpoint move faster
-xinput set-prop "$(xinput list | awk '/TrackPoint/{sub(/id=/, "", $6); print $6}')" 'libinput Accel Speed' 0.5
+xinput set-prop "$(xinput list | awk '/TrackPoint/{sub(/id=/, "", $6); print $6}')" 'libinput Accel Speed' 1
 
 # Scroll with ThinkPad middle button in OpenBSD
 [ "$(uname)" = "OpenBSD" ] && {
@@ -23,4 +23,5 @@ xrdb -merge ~/.config/xorg/Xresources
 setxkbmap -option caps:swapescape
 setxkbmap -option compose:ralt
 
+# Remove this if using a display manager
 exec i3
