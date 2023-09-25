@@ -58,7 +58,7 @@
 (add-hook 'cperl-mode-hook #'indent-with-tabs)
 (add-hook 'css-mode-hook #'indent-with-tabs)
 (add-hook 'lua-mode-hook #'indent-with-tabs)
-(add-hook 'python-mode #'indent-with-tabs)
+(add-hook 'python-mode-hook #'indent-tabs-mode)
 (setq python-indent-offset tab-width)
 (setq css-indent-offset tab-width)
 (setq sh-basic-offset tab-width)
