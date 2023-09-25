@@ -65,35 +65,66 @@ Emacs.font: Iosevka\ Slab
 ! *color14:     #8ec07c
 ! ! LightGrey + White
 ! *color7:      #a89984
-*color15:     #ebdbb2
+! *color15:     #ebdbb2
 
-! Modus Operandi Xresources theme
+! Modus Operandi (light) Xresources theme
 ! https://github.com/modus-themes/xresources
 ! Foreground, background & cursor color
-*.foreground:   #000000
-*.background:   #ffffff
-*.cursorColor:  #000000
-! white
-*.color0:       #ffffff
+! *.foreground:   #000000
+! *.background:   #ffffff
+! *.cursorColor:  #000000
+! ! white
+! *.color0:       #ffffff
+! *.color8:       #5C6370
+! ! red
+! *.color1:       #A60000
+! *.color9:       #A60000
+! ! green
+! *.color2:       #005E00
+! *.color10:      #005E00
+! ! yellow
+! *.color3:       #813E00
+! *.color11:      #813E00
+! ! blue
+! *.color4:       #0031A9
+! *.color12:      #0031A9
+! ! magenta
+! *.color5:       #721045
+! *.color13:      #721045
+! ! cyan
+! *.color6:       #00538B
+! *.color14:      #00538B
+! ! black
+! *.color7:       #ffffff
+! *.color15:      #ffffff
+
+! Modus Vivendi (dark) Xresources theme
+! https://github.com/modus-themes/xresources
+! Foreground, background & cursor color
+*.foreground:   #ffffff
+*.background:   #000000
+*.cursorColor:  #ffffff
+! black
+*.color0:       #000000
 *.color8:       #5C6370
 ! red
-*.color1:       #A60000
-*.color9:       #A60000
+*.color1:       #FF8059
+*.color9:       #FF8059
 ! green
-*.color2:       #005E00
-*.color10:      #005E00
+*.color2:       #44BC44
+*.color10:      #44BC44
 ! yellow
-*.color3:       #813E00
-*.color11:      #813E00
+*.color3:       #D0BC00
+*.color11:      #D0BC00
 ! blue
-*.color4:       #0031A9
-*.color12:      #0031A9
+*.color4:       #2FAFFF
+*.color12:      #2FAFFF
 ! magenta
-*.color5:       #721045
-*.color13:      #721045
+*.color5:       #FEACD0
+*.color13:      #FEACD0
 ! cyan
-*.color6:       #00538B
-*.color14:      #00538B
-! black
+*.color6:       #00D3D0
+*.color14:      #00D3D0
+! white
 *.color7:       #ffffff
 *.color15:      #ffffff
