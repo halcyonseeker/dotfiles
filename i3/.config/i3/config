@@ -42,7 +42,7 @@ exec --no-startup-id redshift -P -O 4000
 exec --no-startup-id nitrogen --restore
 exec --no-startup-id xsettingsd -c ~/.config/xsettingsd/xsettingsd.conf
 exec --no-startup-id dunst
-exec --no-startup-id conky
+exec --no-startup-id conky -c ~/.config/i3/conky.conf
 
 # Nheko insists on storing secrets in a dbus keyring.
 # FIXME: Maybe figure out how to unlock this on login?
